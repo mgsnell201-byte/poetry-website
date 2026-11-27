@@ -52,50 +52,76 @@ def process_inbox() -> int:
     count = 0
     for stem, files in sorted(by_stem.items()):
         audio = files.get("audio")
-        visual = files.get("video") or files.get("image")
-        if not audio or not visual:
-            continue
+        video = files.get("video")
+        image = files.get("image")
 
         out_mp4 = TRACKS / f"{stem}.mp4"
         out_mp3 = TRACKS / f"{stem}.mp3"
-        has_video = visual.suffix.lower() in VIDEO_EXTS
 
-        print(f"Building {out_mp4.name} from {visual.name} + {audio.name}...")
-        if not has_video:
-            run_ffmpeg([
-                "-loop", "1",
-                "-i", str(visual),
-                "-i", str(audio),
-                "-c:v", "libx264",
-                "-tune", "stillimage",
-                "-c:a", "aac",
-                "-b:a", "192k",
-                "-pix_fmt", "yuv420p",
-                "-vf", "scale=trunc(iw/2)*2:trunc(ih/2)*2",
-                "-shortest",
-                str(out_mp4),
-            ])
-            shutil.copy2(visual, IMAGES / visual.name)
-        else:
-            run_ffmpeg([
-                "-stream_loop", "-1",
-                "-i", str(visual),
-                "-i", str(audio),
-                "-map", "0:v:0",
-                "-map", "1:a:0",
-                "-c:v", "libx264",
-                "-c:a", "aac",
-                "-b:a", "192k",
-                "-pix_fmt", "yuv420p",
-                "-vf", "scale=trunc(iw/2)*2:trunc(ih/2)*2",
-                "-shortest",
-                str(out_mp4),
-            ])
+        if video and not audio:
+            # Standalone MP4/video (e.g. YouTube download): no video re-encoding needed
+            has_video = True
+            print(f"Importing {video.name} directly (no video re-encode needed)...")
+            if video.suffix.lower() == ".mp4":
+                shutil.copy2(video, out_mp4)
+            else:
+                run_ffmpeg(["-i", str(video), "-c:v", "libx264", "-c:a", "aac", "-b:a", "192k", str(out_mp4)])
+            run_ffmpeg(["-i", str(video), "-vn", "-c:a", "libmp3lame", "-b:a", "192k", str(out_mp3)])
+            if image:
+                shutil.copy2(image, IMAGES / image.name)
+                shutil.move(str(image), str(PROCESSED / image.name))
+            else:
+                run_ffmpeg(["-i", str(video), "-ss", "00:00:01", "-vframes", "1", str(IMAGES / f"{stem}.jpg")])
+            shutil.move(str(video), str(PROCESSED / video.name))
+        elif audio and (video or image):
+            visual = video or image
+            has_video = visual.suffix.lower() in VIDEO_EXTS
+            print(f"Building {out_mp4.name} from {visual.name} + {audio.name}...")
+            if not has_video:
+                run_ffmpeg([
+                    "-loop", "1",
+                    "-i", str(visual),
+                    "-i", str(audio),
+                    "-c:v", "libx264",
+                    "-tune", "stillimage",
+                    "-c:a", "aac",
+                    "-b:a", "192k",
+                    "-pix_fmt", "yuv420p",
+                    "-vf", "scale=trunc(iw/2)*2:trunc(ih/2)*2",
+                    "-shortest",
+                    str(out_mp4),
+                ])
+                shutil.copy2(visual, IMAGES / visual.name)
+            else:
+                run_ffmpeg([
+                    "-stream_loop", "-1",
+                    "-i", str(visual),
+                    "-i", str(audio),
+                    "-map", "0:v:0",
+                    "-map", "1:a:0",
+                    "-c:v", "libx264",
+                    "-c:a", "aac",
+                    "-b:a", "192k",
+                    "-pix_fmt", "yuv420p",
+                    "-vf", "scale=trunc(iw/2)*2:trunc(ih/2)*2",
+                    "-shortest",
+                    str(out_mp4),
+                ])
+                if image:
+                    shutil.copy2(image, IMAGES / image.name)
+                    shutil.move(str(image), str(PROCESSED / image.name))
+                else:
+                    run_ffmpeg(["-i", str(visual), "-ss", "00:00:01", "-vframes", "1", str(IMAGES / f"{stem}.jpg")])
 
-        if audio.suffix.lower() == ".mp3":
-            shutil.copy2(audio, out_mp3)
+            if audio.suffix.lower() == ".mp3":
+                shutil.copy2(audio, out_mp3)
+            else:
+                run_ffmpeg(["-i", str(audio), "-c:a", "libmp3lame", "-b:a", "192k", str(out_mp3)])
+
+            shutil.move(str(audio), str(PROCESSED / audio.name))
+            shutil.move(str(visual), str(PROCESSED / visual.name))
         else:
-            run_ffmpeg(["-i", str(audio), "-c:a", "libmp3lame", "-b:a", "192k", str(out_mp3)])
+            continue
 
         (TRACKS / f"{stem}.json").write_text(
             json.dumps({"has_video": has_video, "added_at": time.time()}, indent=2), encoding="utf-8"
@@ -105,8 +131,6 @@ def process_inbox() -> int:
             shutil.copy2(files["lyrics"], TRACKS / f"{stem}.txt")
             shutil.move(str(files["lyrics"]), str(PROCESSED / files["lyrics"].name))
 
-        shutil.move(str(audio), str(PROCESSED / audio.name))
-        shutil.move(str(visual), str(PROCESSED / visual.name))
         count += 1
 
     return count
@@ -132,6 +156,7 @@ def track_has_video(stem: str, has_mp4: bool, has_cover: bool) -> bool:
 def write_track_pages() -> list[str]:
     mp4s = {p.stem: p for p in sorted(TRACKS.glob("*.mp4"))}
     mp3s = {p.stem: p for p in sorted(TRACKS.glob("*.mp3"))}
+
     def sort_key(stem: str) -> float:
         meta_path = TRACKS / f"{stem}.json"
         if meta_path.exists():
