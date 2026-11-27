@@ -440,6 +440,7 @@ a {
   font-family: var(--poem-serif);
   font-size: 1.14rem;
   line-height: 1.85;
+  text-wrap: pretty;
   color: var(--text);
   white-space: pre-line;
   max-width: 58ch;
@@ -596,6 +597,18 @@ a {
 }
 
 @media (max-width: 768px) {
+  .container {
+    padding: 0 16px;
+  }
+
+  .card {
+    padding: 20px 16px;
+  }
+
+  .poem-stanza {
+    font-size: 0.96rem;
+    line-height: 1.75;
+  }
   .hero-grid {
     grid-template-columns: 1fr;
   }
