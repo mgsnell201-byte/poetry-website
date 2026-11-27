@@ -157,7 +157,6 @@ def write_poem_pages() -> list[tuple[str, str]]:
 {audio_html}
         </div>
         <div>
-          <div class="card-meta">Poem &middot; No. {num:02d}</div>
           <h1 class="piece-title">{title_esc}</h1>
           <p class="poem-stanza">{body_esc}</p>
         </div>
@@ -246,8 +245,7 @@ def build_poem_cards(items: list[tuple[str, str]], prefix: str, href_prefix: str
         cards.append(
             f"""        <a class="media-card" href="{href_prefix}{stem}.html">{img_html}
           <div class="media-card-body">
-            <div class="card-meta">Poem &middot; No. {num:02d}</div>
-            <h3 class="media-card-title">{title_esc}</h3>
+              <h3 class="media-card-title">{title_esc}</h3>
           </div>
         </a>"""
         )
