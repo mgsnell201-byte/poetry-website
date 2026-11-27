@@ -31,6 +31,23 @@ Use **lowercase filenames with hyphens** (no spaces) and give matching files the
 
 ---
 
-## 3. Comments (Web3Forms)
+---
+
+## 3. How to Add an Image or Audio to an Existing Poem
+1. Find the poem's filename in `F:\Poetry Website\poetry\poems\` (for example, `spin.txt`).
+2. Drop the matching file into the right folder:
+   - **Cover image (`896 × 1120` `.png` or `.jpg`):** put `spin.png` into `F:\Poetry Website\assets\images\`
+   - **Audio reading (`.mp3`):** put `spin.mp3` into `F:\Poetry Website\poetry\poems\`
+3. Double-click **`publish-poetry.bat`**.
+
+---
+
+## 4. How to Remove a Poem
+1. Delete `poetry/poems/<poem-name>.txt`, `poetry/poems/<poem-name>.json`, and `poetry/<poem-name>.html`.
+2. Double-click **`publish-poetry.bat`** to rebuild the pages and update `https://marvinsnell.com`.
+
+---
+
+## 5. Comments (Web3Forms)
 - Every poem and song page has a **Leave a Note** form wired to your Web3Forms key (`38932bab-2025-40ac-b84e-f2ff021cd68f`).
 - Comments are emailed straight to the email address you used on Web3Forms, with the poem or song title in the email subject.
