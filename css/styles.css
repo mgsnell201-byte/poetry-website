@@ -631,15 +631,14 @@ a {
   }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 960px) {
   .piece-layout {
-    grid-template-columns: 1fr;
+    grid-template-columns: 210px 1fr;
+    gap: 24px;
   }
+}
 
-  .piece-media {
-    position: static;
-  }
-
+@media (max-width: 768px) {
   .form-row {
     grid-template-columns: 1fr;
   }
@@ -664,6 +663,16 @@ a {
 
   .nav-links.open {
     display: flex;
+  }
+}
+
+@media (max-width: 680px) {
+  .piece-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .piece-media {
+    position: static;
   }
 }
 
