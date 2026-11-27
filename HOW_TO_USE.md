@@ -45,7 +45,7 @@ Use **lowercase filenames with hyphens** (no spaces) and give matching files the
 
 ## 4. How to Remove a Poem
 1. Delete `poetry/poems/<poem-name>.txt`, `poetry/poems/<poem-name>.json`, and `poetry/<poem-name>.html`.
-2. Double-click **`publish-poetry.bat`** to rebuild the pages and update `https://marvinsnell.com`.
+2. Double-click **`publish-poetry.bat`** to rebuild the pages and update `https://osmoticpoet.com`.
 
 ---
 
