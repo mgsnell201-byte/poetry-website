@@ -1,11 +1,11 @@
-document.addEventListener('DOMContentLoaded', () => {
+const initHeroScene = () => {
   const canvas = document.getElementById('hero-canvas');
   const container = canvas?.parentElement;
   if (!canvas || !container || typeof THREE === 'undefined') return;
   const mode = canvas.dataset.mode || 'all';
 
   const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
 
   const scene = new THREE.Scene();
   const camera = new THREE.PerspectiveCamera(42, 1, 0.1, 100);
@@ -13,8 +13,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const syncVisualWidth = () => {
     const navLinks = document.querySelector('.nav-links');
-    if (window.innerWidth > 768 && navLinks && navLinks.offsetWidth > 0) {
-      container.style.width = `${navLinks.offsetWidth}px`;
+    if (window.innerWidth > 768 && navLinks) {
+      const w = navLinks.getBoundingClientRect().width;
+      if (w > 0) container.style.width = `${Math.round(w)}px`;
     } else {
       container.style.width = '';
     }
@@ -427,4 +428,14 @@ document.addEventListener('DOMContentLoaded', () => {
     renderer.render(scene, camera);
   };
   animate();
+};
+
+document.addEventListener('DOMContentLoaded', () => {
+  requestAnimationFrame(() => {
+    if ('requestIdleCallback' in window) {
+      requestIdleCallback(initHeroScene, { timeout: 1200 });
+    } else {
+      setTimeout(initHeroScene, 200);
+    }
+  });
 });
