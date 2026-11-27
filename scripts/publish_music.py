@@ -34,6 +34,23 @@ def title_from_stem(stem: str) -> str:
     )
 
 
+def detect_motion_in_video(video_path: Path) -> bool:
+    """Return True if the video has real motion, False if it is a still image."""
+    try:
+        cmd = [
+            FFMPEG, "-hide_banner", "-nostats",
+            "-i", str(video_path),
+            "-t", "6",
+            "-vf", "mpdecimate,showinfo",
+            "-f", "null", "-",
+        ]
+        res = subprocess.run(cmd, capture_output=True, text=True, timeout=20)
+        kept_frames = res.stderr.count("n:")
+        return kept_frames > 2
+    except Exception:
+        return True
+
+
 def run_ffmpeg(args: list[str]) -> None:
     cmd = [FFMPEG, "-y", "-hide_banner", "-loglevel", "error", *args]
     subprocess.run(cmd, check=True)
@@ -70,8 +87,8 @@ def process_inbox() -> int:
         out_mp3 = TRACKS / f"{stem}.mp3"
 
         if video and not audio:
-            # Standalone MP4/video (e.g. YouTube download): no video re-encoding needed
-            has_video = True
+            # Standalone MP4/video: auto-detect whether it has real motion or is a still image
+            has_video = detect_motion_in_video(video)
             print(f"Importing {video.name} directly (no video re-encode needed)...")
             if video.suffix.lower() == ".mp4":
                 shutil.copy2(video, out_mp4)
