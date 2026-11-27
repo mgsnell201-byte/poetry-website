@@ -224,6 +224,7 @@ def write_track_pages() -> list[str]:
         <li><a href="../poetry/index.html">Poetry</a></li>
         <li><a href="index.html" class="active">Music</a></li>
         <li><a href="../about/index.html">About</a></li>
+          <li><a href="../privacy.html">Privacy</a></li>
       </ul>
     </div>
   </header>
@@ -275,6 +276,7 @@ def write_track_pages() -> list[str]:
             <button class="btn btn-primary" type="submit">Send Comment</button>
             <span class="form-status" id="comment-status" aria-live="polite"></span>
           </div>
+          <p class="form-disclaimer">Your email is optional, used only to reply to your note, and never shared or added to any mailing list. <a href="../privacy.html">Privacy Policy</a></p>
         </form>
       </div>
     </section>

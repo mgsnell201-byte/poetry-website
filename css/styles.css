@@ -704,3 +704,21 @@ a {
   color: var(--text-muted);
   font-variant-numeric: tabular-nums;
 }
+
+
+.form-disclaimer {
+  margin: 4px 0 0;
+  font-size: 0.78rem;
+  color: var(--text-dim);
+  line-height: 1.5;
+}
+
+.form-disclaimer a {
+  color: var(--text-muted);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.form-disclaimer a:hover {
+  color: var(--accent);
+}

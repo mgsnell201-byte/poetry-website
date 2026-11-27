@@ -144,6 +144,7 @@ def write_poem_pages() -> list[tuple[str, str]]:
         <li><a href="index.html" class="active">Poetry</a></li>
         <li><a href="../music/index.html">Music</a></li>
         <li><a href="../about/index.html">About</a></li>
+          <li><a href="../privacy.html">Privacy</a></li>
       </ul>
     </div>
   </header>
@@ -194,6 +195,7 @@ def write_poem_pages() -> list[tuple[str, str]]:
             <button class="btn btn-primary" type="submit">Send Comment</button>
             <span class="form-status" id="comment-status" aria-live="polite"></span>
           </div>
+          <p class="form-disclaimer">Your email is optional, used only to reply to your note, and never shared or added to any mailing list. <a href="../privacy.html">Privacy Policy</a></p>
         </form>
       </div>
     </section>
