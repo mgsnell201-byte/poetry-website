@@ -62,7 +62,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     try {
       const formData = new FormData(form);
-      const res = await fetch('https://api.web3forms.com/submit', {
+      const res = await fetch('/api/note', {
         method: 'POST',
         body: formData,
       });
@@ -77,7 +77,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     } catch (_) {
       status.className = 'form-status is-error';
-      status.textContent = 'Could not reach Web3Forms (note: some browsers block form requests from file://; it will work once hosted).';
+      status.textContent = 'Could not send note. Please try again or email marvin@osmoticpoet.com.';
     } finally {
       submitBtn.disabled = false;
       submitBtn.textContent = originalLabel;

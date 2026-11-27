@@ -193,8 +193,7 @@ def write_poem_pages() -> list[tuple[str, str]]:
         <span class="section-link">Sent directly via email</span>
       </div>
       <div class="card">
-        <form class="comment-form" id="comment-form" action="https://api.web3forms.com/submit" method="POST">
-          <input type="hidden" name="access_key" value="38932bab-2025-40ac-b84e-f2ff021cd68f">
+        <form class="comment-form" id="comment-form" action="/api/note" method="POST">
           <input type="hidden" name="subject" value="Comment on Poem: {title_esc}">
           <input type="checkbox" name="botcheck" style="display: none;" tabindex="-1" autocomplete="off">
 
@@ -218,7 +217,7 @@ def write_poem_pages() -> list[tuple[str, str]]:
             <button class="btn btn-primary" type="submit">Send Comment</button>
             <span class="form-status" id="comment-status" aria-live="polite"></span>
           </div>
-          <p class="form-disclaimer">Your email is optional, used only to reply to your note, and never shared or added to any mailing list. Prefer not to use the form? Email <a href="mailto:mgsnell201@gmail.com">mgsnell201@gmail.com</a> directly. &middot; <a href="../privacy.html">Privacy Policy</a></p>
+          <p class="form-disclaimer">Your email is optional, used only to reply to your note, and never shared or added to any mailing list. Prefer not to use the form? Email <a href="mailto:marvin@osmoticpoet.com">marvin@osmoticpoet.com</a> directly. &middot; <a href="../privacy.html">Privacy Policy</a></p>
         </form>
       </div>
     </section>
@@ -316,7 +315,7 @@ def deploy_cloudflare() -> None:
         for name in ("index.html", "privacy.html", "robots.txt", "sitemap.xml"):
             if (ROOT / name).exists():
                 shutil.copy2(ROOT / name, dist / name)
-        for folder in ("css", "js", "about"):
+        for folder in ("css", "js", "about", "functions"):
             if (ROOT / folder).exists():
                 shutil.copytree(ROOT / folder, dist / folder)
         img_dst = dist / "assets" / "images"
@@ -336,7 +335,7 @@ def deploy_cloudflare() -> None:
             for f in (ROOT / "music" / "tracks").glob(ext):
                 shutil.copy2(f, dist / "music" / "tracks" / f.name)
         print("Deploying to https://osmoticpoet.com ...")
-        subprocess.run([cmd_bin, "pages", "deploy", str(dist), "--project-name", "osmoticpoet", "--branch", "main"], check=True)
+        subprocess.run([cmd_bin, "pages", "deploy", str(dist), "--project-name", "osmoticpoet", "--branch", "main"], cwd=str(ROOT), check=True)
 
 
 def git_push_if_configured() -> None:
