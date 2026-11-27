@@ -78,6 +78,17 @@ def process_inbox() -> int:
     return count
 
 
+def optimize_existing_pngs() -> None:
+    originals = IMAGES / "originals"
+    originals.mkdir(parents=True, exist_ok=True)
+    for png in list(IMAGES.glob("*.png")):
+        if png.name.startswith("_"):
+            continue
+        jpg = IMAGES / f"{png.stem}.jpg"
+        run_ffmpeg(["-i", str(png), "-vf", "scale='min(896,iw)':-2", "-q:v", "3", str(jpg)])
+        shutil.move(str(png), str(originals / png.name))
+
+
 def find_cover(stem: str, prefix: str) -> str:
     for ext in (".jpg", ".jpeg", ".png", ".webp"):
         if (IMAGES / f"{stem}{ext}").exists():
@@ -129,6 +140,9 @@ def write_poem_pages() -> list[tuple[str, str]]:
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{title_esc} — OsmoticPoet</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@300;400;500;600&family=Lora:ital,wght@0,400;0,500;1,400&display=swap">
   <link rel="stylesheet" href="../css/styles.css">
 </head>
 <body>
@@ -225,7 +239,7 @@ def write_poem_pages() -> list[tuple[str, str]]:
     </footer>
   </main>
 
-  <script src="../js/main.js"></script>
+  <script src="../js/main.js" defer></script>
 </body>
 </html>
 """
@@ -243,7 +257,7 @@ def build_poem_cards(items: list[tuple[str, str]], prefix: str, href_prefix: str
     for num, (stem, title) in enumerate(items, start=1):
         title_esc = html.escape(title)
         cover = find_cover(stem, prefix)
-        img_html = f'\n          <img class="media-card-img" src="{cover}" alt="{title_esc} cover">' if cover else ""
+        img_html = f'\n          <img class="media-card-img" loading="lazy" decoding="async" src="{cover}" alt="{title_esc} cover">' if cover else ""
         cards.append(
             f"""        <a class="media-card" href="{href_prefix}{stem}.html">{img_html}
           <div class="media-card-body">
@@ -286,6 +300,7 @@ def git_push_if_configured() -> None:
 
 if __name__ == "__main__":
     created = process_inbox()
+    optimize_existing_pngs()
     items = write_poem_pages()
     replace_section(POEMS_DIR / "index.html", "<!-- POEMS_START -->", "<!-- POEMS_END -->", build_poem_cards(items, "../", ""))
     replace_section(ROOT / "index.html", "<!-- HOME_POEMS_START -->", "<!-- HOME_POEMS_END -->", build_poem_cards(items[:4], "", "poetry/"))
