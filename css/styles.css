@@ -149,15 +149,14 @@ a {
   display: grid;
   grid-template-columns: 1fr auto;
   gap: 36px;
-  align-items: stretch;
+  align-items: center;
 }
 
 .hero-visual {
   position: relative;
   justify-self: end;
   width: 340px;
-  height: 100%;
-  min-height: 0;
+  height: 240px;
   border-radius: var(--radius);
   border: 1px solid var(--border);
   background: radial-gradient(circle at 50% 50%, rgba(197, 155, 95, 0.08), rgba(18, 17, 16, 0.4) 70%);

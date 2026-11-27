@@ -47,6 +47,11 @@ document.addEventListener('DOMContentLoaded', () => {
     metalness: 0.55,
     roughness: 0.35,
   });
+  const rimMat = new THREE.MeshStandardMaterial({
+    color: 0xede8df,
+    metalness: 0.25,
+    roughness: 0.45,
+  });
 
   const createNote = (beamed) => {
     const group = new THREE.Group();
@@ -88,7 +93,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Pages (for 'all' and 'pages' modes)
   const pages = [];
-  if (mode === 'all' || mode === 'pages') {
+  if (mode === 'all') {
     const makePageTexture = () => {
       const c = document.createElement('canvas');
       c.width = 256;
@@ -173,7 +178,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const risingNotes = [];
   if (mode === 'notes' || mode === 'all') {
     const vinylTilt = new THREE.Group();
-    vinylTilt.position.set(0, mode === 'all' ? 0.0 : -0.55, 0);
+    vinylTilt.position.set(0, 0, 0);
     vinylTilt.rotation.x = 0.95;
     vinylTilt.rotation.z = -0.15;
     scene.add(vinylTilt);
@@ -208,9 +213,23 @@ document.addEventListener('DOMContentLoaded', () => {
       new THREE.MeshStandardMaterial({ color: 0xede8df, metalness: 0.6, roughness: 0.3 })
     );
     vinylSpinner.add(spindle);
+    if (mode === 'notes') {
+      const armGroup = new THREE.Group();
+      armGroup.position.set(2.15, 0.22, -0.7);
+      const pivot = new THREE.Mesh(new THREE.CylinderGeometry(0.18, 0.22, 0.16, 24), brassMat);
+      const arm = new THREE.Mesh(new THREE.CylinderGeometry(0.032, 0.032, 1.85, 12), rimMat || new THREE.MeshStandardMaterial({ color: 0xede8df, metalness: 0.5, roughness: 0.35 }));
+      arm.rotation.z = Math.PI / 2;
+      arm.rotation.y = 0.42;
+      arm.position.set(-0.78, 0.05, 0.35);
+      const head = new THREE.Mesh(new THREE.BoxGeometry(0.24, 0.08, 0.14), brassMat);
+      head.position.set(-1.55, 0.02, 0.7);
+      head.rotation.y = 0.42;
+      armGroup.add(pivot, arm, head);
+      vinylTilt.add(armGroup);
+    }
 
     // Notes rising smoothly from the spinning record (on Music page)
-    if (mode === 'notes') {
+    if (false) {
       for (let i = 0; i < 6; i++) {
       const note = createNote(i % 2 === 0);
       note.scale.setScalar(0.7 + (i % 3) * 0.12);
@@ -224,6 +243,46 @@ document.addEventListener('DOMContentLoaded', () => {
         risingNotes.push(note);
       }
     }
+  }
+
+  // 3D Extruded Fountain Pen Nib (for 'pages' mode on Poetry page)
+  let nibGroup = null;
+  if (mode === 'pages') {
+    nibGroup = new THREE.Group();
+    const nibShape = new THREE.Shape();
+    nibShape.moveTo(0, 1.45);
+    nibShape.lineTo(0.22, 0.55);
+    nibShape.quadraticCurveTo(0.75, 0.1, 0.52, -0.85);
+    nibShape.lineTo(0.36, -1.28);
+    nibShape.lineTo(-0.36, -1.28);
+    nibShape.lineTo(-0.52, -0.85);
+    nibShape.quadraticCurveTo(-0.75, 0.1, -0.22, 0.55);
+    nibShape.closePath();
+
+    const hole = new THREE.Path();
+    hole.absarc(0, 0.12, 0.11, 0, Math.PI * 2, true);
+    nibShape.holes.push(hole);
+
+    const nibGeo = new THREE.ExtrudeGeometry(nibShape, {
+      depth: 0.12,
+      bevelEnabled: true,
+      bevelThickness: 0.03,
+      bevelSize: 0.03,
+      bevelSegments: 2,
+    });
+    nibGeo.center();
+    const nibMesh = new THREE.Mesh(nibGeo, brassMat);
+
+    // Center slit + collar band
+    const slit = new THREE.Mesh(new THREE.BoxGeometry(0.025, 1.15, 0.18), new THREE.MeshBasicMaterial({ color: 0x121110 }));
+    slit.position.set(0, 0.72, 0);
+    const collar = new THREE.Mesh(new THREE.BoxGeometry(0.82, 0.14, 0.2), rimMat);
+    collar.position.set(0, -1.08, 0);
+
+    nibGroup.add(nibMesh, slit, collar);
+    nibGroup.rotation.z = -0.22;
+    nibGroup.scale.setScalar(0.95);
+    scene.add(nibGroup);
   }
 
   // 3D Extruded Shield with Checkmark (for 'privacy' mode)
@@ -241,11 +300,6 @@ document.addEventListener('DOMContentLoaded', () => {
       return sh;
     };
 
-    const rimMat = new THREE.MeshStandardMaterial({
-      color: 0xede8df,
-      metalness: 0.25,
-      roughness: 0.45,
-    });
     const outerGeo = new THREE.ExtrudeGeometry(makeShieldShape(1.0), {
       depth: 0.12,
       bevelEnabled: true,
@@ -353,6 +407,11 @@ document.addEventListener('DOMContentLoaded', () => {
       const s = 0.75 * Math.sin(life * Math.PI);
       n.scale.setScalar(Math.max(0.001, s));
     });
+
+    if (nibGroup) {
+      nibGroup.rotation.y = Math.sin(t * 0.75) * 0.45;
+      nibGroup.rotation.x = Math.sin(t * 0.45) * 0.1;
+    }
 
     if (sealGroup) {
       sealGroup.rotation.y = Math.sin(t * 0.75) * 0.48;
