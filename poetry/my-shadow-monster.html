@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Shadow Monster — OsmoticPoet</title>
+  <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="nav-inner">
+      <a class="brand" href="../index.html">
+        <span class="brand-dot" aria-hidden="true"></span>
+        <span>OsmoticPoet</span>
+      </a>
+      <button class="menu-toggle" type="button" aria-label="Toggle navigation">Menu</button>
+      <ul class="nav-links">
+        <li><a href="../index.html">Home</a></li>
+        <li><a href="index.html" class="active">Poetry</a></li>
+        <li><a href="../music/index.html">Music</a></li>
+        <li><a href="../about/index.html">About</a></li>
+      </ul>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="section">
+      <a class="breadcrumb" href="index.html">&larr; All Poems</a>
+      <div class="card piece-layout">
+        <div class="piece-media">
+          <img class="piece-cover" src="../assets/images/_poem-default.png" alt="My Shadow Monster illustration">
+          <div class="audio-box">
+            <div class="audio-box-label">Listen to Poem (MP3)</div>
+            <audio controls controlsList="nodownload" oncontextmenu="return false;" preload="metadata">
+              <source src="poems/my-shadow-monster.mp3" type="audio/mpeg">
+            </audio>
+            <p class="audio-note">Audio reading slot ready for <code>poetry/poems/my-shadow-monster.mp3</code>.</p>
+          </div>
+        </div>
+        <div>
+          <div class="card-meta">Poem &middot; No. 70</div>
+          <h1 class="piece-title">My Shadow Monster</h1>
+          <p class="poem-stanza">There&#x27;s a thing that comes creeping wherever I go,
+
+it follows my feet on the ground!
+
+It stretches and squishes and puts on a show,
+
+without making one single sound!
+
+
+
+I jumped on it! Stomped it! It didn&#x27;t say ow!
+
+I stood on its slippery head!
+
+It just spread out flatter — I don&#x27;t know quite how —
+
+and it still didn&#x27;t fall over dead!
+
+
+
+I ran from it! Sprinted! It came right along,
+
+it stuck to my heels like glue!
+
+That dark squishy copycat, sneaky and strong,
+
+did every last thing that I do!
+
+
+
+Then I waved my right hand and it waved its right hand,
+
+and I waved my left — so did it!
+
+And I figured it out — it was perfectly planned —
+
+it&#x27;s just ME! And I have to admit:
+
+
+
+Having two of me — one in the air, one below —
+
+is just about perfectly great!
+
+I&#x27;m incredibly handsome from both sides, you know,
+
+and my shadow thinks I&#x27;m really EIGHT!</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="comments">
+      <div class="section-head">
+        <h2 class="section-title">Leave a Note</h2>
+        <span class="section-link">Sent directly via email</span>
+      </div>
+      <div class="card">
+        <form class="comment-form" id="comment-form" action="https://api.web3forms.com/submit" method="POST">
+          <input type="hidden" name="access_key" value="38932bab-2025-40ac-b84e-f2ff021cd68f">
+          <input type="hidden" name="subject" value="Comment on Poem: My Shadow Monster">
+          <input type="checkbox" name="botcheck" style="display: none;" tabindex="-1" autocomplete="off">
+
+          <div class="form-row">
+            <div class="form-field">
+              <label for="comment-name">Name</label>
+              <input id="comment-name" name="name" type="text" placeholder="Your name" required>
+            </div>
+            <div class="form-field">
+              <label for="comment-email">Email (optional)</label>
+              <input id="comment-email" name="email" type="email" placeholder="you@example.com">
+            </div>
+          </div>
+
+          <div class="form-field">
+            <label for="comment-message">Comment</label>
+            <textarea id="comment-message" name="message" placeholder="Share a thought..." required></textarea>
+          </div>
+
+          <div class="form-actions">
+            <button class="btn btn-primary" type="submit">Send Comment</button>
+            <span class="form-status" id="comment-status" aria-live="polite"></span>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <footer class="site-footer">
+      <div>
+        <p class="footer-brand">OsmoticPoet</p>
+        <p class="footer-tagline">Words written for quiet hours, paired with sound.</p>
+        <span class="footer-copy">&copy; 2026 OsmoticPoet</span>
+      </div>
+      <div>
+        <p class="footer-heading">Explore</p>
+        <ul class="footer-links">
+          <li><a href="../index.html">Home</a></li>
+          <li><a href="../poetry/index.html">Poetry</a></li>
+          <li><a href="../music/index.html">Music</a></li>
+          <li><a href="../about/index.html">About</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="footer-heading">Follow</p>
+        <ul class="footer-links">
+          <li><a href="https://www.youtube.com/" target="_blank" rel="noopener">YouTube</a></li>
+          <li><a href="https://www.facebook.com/" target="_blank" rel="noopener">Facebook</a></li>
+        </ul>
+      </div>
+    </footer>
+  </main>
+
+  <script src="../js/main.js"></script>
+</body>
+</html>

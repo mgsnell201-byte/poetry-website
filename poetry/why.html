@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Why — OsmoticPoet</title>
+  <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="nav-inner">
+      <a class="brand" href="../index.html">
+        <span class="brand-dot" aria-hidden="true"></span>
+        <span>OsmoticPoet</span>
+      </a>
+      <button class="menu-toggle" type="button" aria-label="Toggle navigation">Menu</button>
+      <ul class="nav-links">
+        <li><a href="../index.html">Home</a></li>
+        <li><a href="index.html" class="active">Poetry</a></li>
+        <li><a href="../music/index.html">Music</a></li>
+        <li><a href="../about/index.html">About</a></li>
+      </ul>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="section">
+      <a class="breadcrumb" href="index.html">&larr; All Poems</a>
+      <div class="card piece-layout">
+        <div class="piece-media">
+          <img class="piece-cover" src="../assets/images/why.jpg" alt="Why illustration">
+          <div class="audio-box">
+            <div class="audio-box-label">Listen to Poem (MP3)</div>
+            <audio controls controlsList="nodownload" oncontextmenu="return false;" preload="metadata">
+              <source src="poems/why.mp3" type="audio/mpeg">
+            </audio>
+            <p class="audio-note">Audio reading slot ready for <code>poetry/poems/why.mp3</code>.</p>
+          </div>
+        </div>
+        <div>
+          <div class="card-meta">Poem &middot; No. 93</div>
+          <h1 class="piece-title">Why</h1>
+          <p class="poem-stanza">I have watched the song sparrow
+
+on the fence post all week,
+
+the way it grips the rail
+
+with its wiry feet
+
+and tilts its russet head
+
+and opens the small hinge of its beak
+
+before the sun has cleared the trees.
+
+
+
+I do not think it is joy,
+
+though joy is in it.
+
+I think the body of the bird
+
+is a door that only opens outward,
+
+and what we call singing
+
+is what happens
+
+when nothing is held back.
+
+
+
+And the willow —
+
+I used to think it was grieving,
+
+the way it lets its branches down
+
+into the pond,
+
+that green curtain
+
+trailing in the shallows.
+
+
+
+But have you stood beneath one
+
+and watched the way each limb
+
+reaches toward the water
+
+the way a hand reaches
+
+for a face
+
+it has not touched in years?
+
+
+
+The willow is not weeping.
+
+It is bending
+
+toward what it loves.
+
+
+
+And the wind that comes
+
+across the marsh with its mouth open,
+
+pressing itself
+
+against the cattails, the clapboard,
+
+the stiff face of the pond —
+
+
+
+I think it cries out
+
+because it has no body of its own
+
+and must press against everything it crosses
+
+just to know
+
+that it is here.
+
+
+
+Meanwhile the morning
+
+opens around all of us —
+
+the sparrow on its post,
+
+the willow in its leaning,
+
+the wind on its way to the sea.
+
+
+
+You who have been given
+
+a throat and a body
+
+and two good hands
+
+to press against the rough bark
+
+of this life —
+
+
+
+tell me,
+
+what would you do
+
+but sing?</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="comments">
+      <div class="section-head">
+        <h2 class="section-title">Leave a Note</h2>
+        <span class="section-link">Sent directly via email</span>
+      </div>
+      <div class="card">
+        <form class="comment-form" id="comment-form" action="https://api.web3forms.com/submit" method="POST">
+          <input type="hidden" name="access_key" value="38932bab-2025-40ac-b84e-f2ff021cd68f">
+          <input type="hidden" name="subject" value="Comment on Poem: Why">
+          <input type="checkbox" name="botcheck" style="display: none;" tabindex="-1" autocomplete="off">
+
+          <div class="form-row">
+            <div class="form-field">
+              <label for="comment-name">Name</label>
+              <input id="comment-name" name="name" type="text" placeholder="Your name" required>
+            </div>
+            <div class="form-field">
+              <label for="comment-email">Email (optional)</label>
+              <input id="comment-email" name="email" type="email" placeholder="you@example.com">
+            </div>
+          </div>
+
+          <div class="form-field">
+            <label for="comment-message">Comment</label>
+            <textarea id="comment-message" name="message" placeholder="Share a thought..." required></textarea>
+          </div>
+
+          <div class="form-actions">
+            <button class="btn btn-primary" type="submit">Send Comment</button>
+            <span class="form-status" id="comment-status" aria-live="polite"></span>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <footer class="site-footer">
+      <div>
+        <p class="footer-brand">OsmoticPoet</p>
+        <p class="footer-tagline">Words written for quiet hours, paired with sound.</p>
+        <span class="footer-copy">&copy; 2026 OsmoticPoet</span>
+      </div>
+      <div>
+        <p class="footer-heading">Explore</p>
+        <ul class="footer-links">
+          <li><a href="../index.html">Home</a></li>
+          <li><a href="../poetry/index.html">Poetry</a></li>
+          <li><a href="../music/index.html">Music</a></li>
+          <li><a href="../about/index.html">About</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="footer-heading">Follow</p>
+        <ul class="footer-links">
+          <li><a href="https://www.youtube.com/" target="_blank" rel="noopener">YouTube</a></li>
+          <li><a href="https://www.facebook.com/" target="_blank" rel="noopener">Facebook</a></li>
+        </ul>
+      </div>
+    </footer>
+  </main>
+
+  <script src="../js/main.js"></script>
+</body>
+</html>

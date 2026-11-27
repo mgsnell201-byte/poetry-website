@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Transparent — OsmoticPoet</title>
+  <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="nav-inner">
+      <a class="brand" href="../index.html">
+        <span class="brand-dot" aria-hidden="true"></span>
+        <span>OsmoticPoet</span>
+      </a>
+      <button class="menu-toggle" type="button" aria-label="Toggle navigation">Menu</button>
+      <ul class="nav-links">
+        <li><a href="../index.html">Home</a></li>
+        <li><a href="index.html" class="active">Poetry</a></li>
+        <li><a href="../music/index.html">Music</a></li>
+        <li><a href="../about/index.html">About</a></li>
+      </ul>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="section">
+      <a class="breadcrumb" href="index.html">&larr; All Poems</a>
+      <div class="card piece-layout">
+        <div class="piece-media">
+          <img class="piece-cover" src="../assets/images/_poem-default.png" alt="Transparent illustration">
+          <div class="audio-box">
+            <div class="audio-box-label">Listen to Poem (MP3)</div>
+            <audio controls controlsList="nodownload" oncontextmenu="return false;" preload="metadata">
+              <source src="poems/transparent.mp3" type="audio/mpeg">
+            </audio>
+            <p class="audio-note">Audio reading slot ready for <code>poetry/poems/transparent.mp3</code>.</p>
+          </div>
+        </div>
+        <div>
+          <div class="card-meta">Poem &middot; No. 195</div>
+          <h1 class="piece-title">Transparent</h1>
+          <p class="poem-stanza">What are transparent poems?
+
+are they the ones you can see right through
+
+like the parents who aren&#x27;t there anymore—
+
+transparent, the ones who&#x27;ve crossed over.
+
+
+
+My father is transparent now.
+
+I can hold my hand up and watch the light
+
+pass through where he used to be,
+
+through the space at the kitchen table,
+
+through the driver&#x27;s seat of the car,
+
+through the doorway where he&#x27;d stand
+
+asking if I&#x27;d checked the oil, locked the back door,
+
+remembered to call my mother.
+
+
+
+Is that what makes a poem transparent—
+
+when you can see straight through the words
+
+to the shape of what&#x27;s missing?
+
+The way a window is really just an organized absence,
+
+a hole we&#x27;ve agreed to call architecture?
+
+
+
+I asked my friends what transparency means in poetry
+
+and they say clarity, they say truth,
+
+they say a poem that doesn&#x27;t hide behind metaphor.
+
+But I think they&#x27;re wrong. I think transparency
+
+is what happens when something becomes so thin
+
+with leaving that light passes through it without stopping,
+
+without even noticing there was something there to illuminate.
+
+
+
+My mother is becoming transparent too.
+
+Not gone, but going—each day a little more see-through,
+
+her voice on the phone a little more like wind,
+
+her memory of my childhood a little more like a window
+
+someone forgot to put glass in.
+
+
+
+And here&#x27;s what keeps me up at night:
+
+if a transparent poem is one no one sees,
+
+and transparent means the parent who has moved through,
+
+then what am I becoming as I watch them go?
+
+What does it mean that I can feel myself
+
+growing more transparent, standing here
+
+in the autumn of my life, understanding finally
+
+that we&#x27;re all just light on our way through something,
+
+that being seen was only ever temporary,
+
+that the most honest poem might be
+
+the one that disappears completely
+
+the moment you finish reading it—
+
+
+
+Would you even know it had been there?
+
+Would you feel the space where it used to be?
+
+Or is that the point: that transparency
+
+isn&#x27;t about being invisible,
+
+but about becoming a window
+
+through which someone else might see
+
+what&#x27;s on the other side of being here at all?</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="comments">
+      <div class="section-head">
+        <h2 class="section-title">Leave a Note</h2>
+        <span class="section-link">Sent directly via email</span>
+      </div>
+      <div class="card">
+        <form class="comment-form" id="comment-form" action="https://api.web3forms.com/submit" method="POST">
+          <input type="hidden" name="access_key" value="38932bab-2025-40ac-b84e-f2ff021cd68f">
+          <input type="hidden" name="subject" value="Comment on Poem: Transparent">
+          <input type="checkbox" name="botcheck" style="display: none;" tabindex="-1" autocomplete="off">
+
+          <div class="form-row">
+            <div class="form-field">
+              <label for="comment-name">Name</label>
+              <input id="comment-name" name="name" type="text" placeholder="Your name" required>
+            </div>
+            <div class="form-field">
+              <label for="comment-email">Email (optional)</label>
+              <input id="comment-email" name="email" type="email" placeholder="you@example.com">
+            </div>
+          </div>
+
+          <div class="form-field">
+            <label for="comment-message">Comment</label>
+            <textarea id="comment-message" name="message" placeholder="Share a thought..." required></textarea>
+          </div>
+
+          <div class="form-actions">
+            <button class="btn btn-primary" type="submit">Send Comment</button>
+            <span class="form-status" id="comment-status" aria-live="polite"></span>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <footer class="site-footer">
+      <div>
+        <p class="footer-brand">OsmoticPoet</p>
+        <p class="footer-tagline">Words written for quiet hours, paired with sound.</p>
+        <span class="footer-copy">&copy; 2026 OsmoticPoet</span>
+      </div>
+      <div>
+        <p class="footer-heading">Explore</p>
+        <ul class="footer-links">
+          <li><a href="../index.html">Home</a></li>
+          <li><a href="../poetry/index.html">Poetry</a></li>
+          <li><a href="../music/index.html">Music</a></li>
+          <li><a href="../about/index.html">About</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="footer-heading">Follow</p>
+        <ul class="footer-links">
+          <li><a href="https://www.youtube.com/" target="_blank" rel="noopener">YouTube</a></li>
+          <li><a href="https://www.facebook.com/" target="_blank" rel="noopener">Facebook</a></li>
+        </ul>
+      </div>
+    </footer>
+  </main>
+
+  <script src="../js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Last Oak Leaf — OsmoticPoet</title>
+  <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="nav-inner">
+      <a class="brand" href="../index.html">
+        <span class="brand-dot" aria-hidden="true"></span>
+        <span>OsmoticPoet</span>
+      </a>
+      <button class="menu-toggle" type="button" aria-label="Toggle navigation">Menu</button>
+      <ul class="nav-links">
+        <li><a href="../index.html">Home</a></li>
+        <li><a href="index.html" class="active">Poetry</a></li>
+        <li><a href="../music/index.html">Music</a></li>
+        <li><a href="../about/index.html">About</a></li>
+      </ul>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="section">
+      <a class="breadcrumb" href="index.html">&larr; All Poems</a>
+      <div class="card piece-layout">
+        <div class="piece-media">
+          <img class="piece-cover" src="../assets/images/the-last-oak-leaf.jpg" alt="The Last Oak Leaf illustration">
+          <div class="audio-box">
+            <div class="audio-box-label">Listen to Poem (MP3)</div>
+            <audio controls controlsList="nodownload" oncontextmenu="return false;" preload="metadata">
+              <source src="poems/the-last-oak-leaf.mp3" type="audio/mpeg">
+            </audio>
+            <p class="audio-note">Audio reading slot ready for <code>poetry/poems/the-last-oak-leaf.mp3</code>.</p>
+          </div>
+        </div>
+        <div>
+          <div class="card-meta">Poem &middot; No. 419</div>
+          <h1 class="piece-title">The Last Oak Leaf</h1>
+          <p class="poem-stanza">An oak stood gnarled, bent and old,
+
+A weary tree in autumn’s grip,
+
+Rough bark revealed a tale untold,
+
+A frame where life began to slip.
+
+One leaf hung on, so frail and thin,
+
+With all its might it gripped the bough,
+
+Its green now gold, a fragile skin,
+
+A whisper of what once was now.
+
+
+
+The dawn crept in with chilly air,
+
+A mist lay thick on hill and plain,
+
+The leaf shook soft, alone up there,
+
+And fought against the season’s reign.
+
+Its veins grew weak, its hold unsure,
+
+Yet still it clung with quiet might,
+
+A thread of hope, so small, so pure,
+
+To hold its place in fading light.
+
+
+
+A breeze blew in, so soft, so kind,
+
+Through frosted fields it hummed a tune,
+
+It tugged the leaf, its will to bind,
+
+And pulled it free by morning’s noon.
+
+The leaf resisted, tried to stay,
+
+But strength gave out, it couldn’t last,
+
+It fell with grace that cool fall day,
+
+The branch released its hold so fast.
+
+
+
+The air then caught it, light and free,
+
+Above the river’s shining face,
+
+It soared where water gleamed to see,
+
+A dance through beauty’s wild embrace.
+
+Past meadows bright with flower and weed,
+
+A world alive in bloom and strife,
+
+The leaf drifted on, its heart to bleed,
+
+Still aching for its former life.
+
+
+
+With edges browned, its spark grew dim,
+
+The wind now twirled it high and grand,
+
+Its golden hue was growing slim,
+
+A soul that sank in autumn’s hand.
+
+The earth below rolled vast and wide,
+
+Its journey long, its sorrow deep,
+
+A silent wish it couldn’t hide,
+
+For roots it lost and couldn’t keep.
+
+
+
+The breeze slowed down, the air grew still,
+
+It dropped the leaf on shadowed ground,
+
+A cold, dark spot beneath a hill,
+
+Where quiet secrets wrap around.
+
+No eye could see the twist unfold,
+
+As under that oak it came to rest,
+
+Its home reclaimed, so soft, so bold,
+
+Back where its life had once been blessed.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="comments">
+      <div class="section-head">
+        <h2 class="section-title">Leave a Note</h2>
+        <span class="section-link">Sent directly via email</span>
+      </div>
+      <div class="card">
+        <form class="comment-form" id="comment-form" action="https://api.web3forms.com/submit" method="POST">
+          <input type="hidden" name="access_key" value="38932bab-2025-40ac-b84e-f2ff021cd68f">
+          <input type="hidden" name="subject" value="Comment on Poem: The Last Oak Leaf">
+          <input type="checkbox" name="botcheck" style="display: none;" tabindex="-1" autocomplete="off">
+
+          <div class="form-row">
+            <div class="form-field">
+              <label for="comment-name">Name</label>
+              <input id="comment-name" name="name" type="text" placeholder="Your name" required>
+            </div>
+            <div class="form-field">
+              <label for="comment-email">Email (optional)</label>
+              <input id="comment-email" name="email" type="email" placeholder="you@example.com">
+            </div>
+          </div>
+
+          <div class="form-field">
+            <label for="comment-message">Comment</label>
+            <textarea id="comment-message" name="message" placeholder="Share a thought..." required></textarea>
+          </div>
+
+          <div class="form-actions">
+            <button class="btn btn-primary" type="submit">Send Comment</button>
+            <span class="form-status" id="comment-status" aria-live="polite"></span>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <footer class="site-footer">
+      <div>
+        <p class="footer-brand">OsmoticPoet</p>
+        <p class="footer-tagline">Words written for quiet hours, paired with sound.</p>
+        <span class="footer-copy">&copy; 2026 OsmoticPoet</span>
+      </div>
+      <div>
+        <p class="footer-heading">Explore</p>
+        <ul class="footer-links">
+          <li><a href="../index.html">Home</a></li>
+          <li><a href="../poetry/index.html">Poetry</a></li>
+          <li><a href="../music/index.html">Music</a></li>
+          <li><a href="../about/index.html">About</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="footer-heading">Follow</p>
+        <ul class="footer-links">
+          <li><a href="https://www.youtube.com/" target="_blank" rel="noopener">YouTube</a></li>
+          <li><a href="https://www.facebook.com/" target="_blank" rel="noopener">Facebook</a></li>
+        </ul>
+      </div>
+    </footer>
+  </main>
+
+  <script src="../js/main.js"></script>
+</body>
+</html>

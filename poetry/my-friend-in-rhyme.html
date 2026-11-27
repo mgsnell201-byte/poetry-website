@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Friend in Rhyme — OsmoticPoet</title>
+  <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="nav-inner">
+      <a class="brand" href="../index.html">
+        <span class="brand-dot" aria-hidden="true"></span>
+        <span>OsmoticPoet</span>
+      </a>
+      <button class="menu-toggle" type="button" aria-label="Toggle navigation">Menu</button>
+      <ul class="nav-links">
+        <li><a href="../index.html">Home</a></li>
+        <li><a href="index.html" class="active">Poetry</a></li>
+        <li><a href="../music/index.html">Music</a></li>
+        <li><a href="../about/index.html">About</a></li>
+      </ul>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="section">
+      <a class="breadcrumb" href="index.html">&larr; All Poems</a>
+      <div class="card piece-layout">
+        <div class="piece-media">
+          <img class="piece-cover" src="../assets/images/my-friend-in-rhyme.jpg" alt="My Friend in Rhyme illustration">
+          <div class="audio-box">
+            <div class="audio-box-label">Listen to Poem (MP3)</div>
+            <audio controls controlsList="nodownload" oncontextmenu="return false;" preload="metadata">
+              <source src="poems/my-friend-in-rhyme.mp3" type="audio/mpeg">
+            </audio>
+            <p class="audio-note">Audio reading slot ready for <code>poetry/poems/my-friend-in-rhyme.mp3</code>.</p>
+          </div>
+        </div>
+        <div>
+          <div class="card-meta">Poem &middot; No. 21</div>
+          <h1 class="piece-title">My Friend in Rhyme</h1>
+          <p class="poem-stanza">October brought him, tapping at my door,
+
+A stack of books, a wooden raven he bore,
+
+He set it on my shelf, and there it&#x27;s perched since then,
+
+&quot;For luck,&quot; he said, &quot;or maybe just for when.&quot;
+
+
+
+He reads my drafts with weary, sunken eyes,
+
+He circles every rhyme too worn, too wise,
+
+&quot;Your meter falters here — it&#x27;s flat, it&#x27;s sore,&quot;
+
+Then sighs and shakes his head, and frowns once more.
+
+
+
+He caught me Googling once, some app to compose,
+
+He blanched a shade whiter — something in him froze,
+
+&quot;A machine writes your heart? That&#x27;s the coldest of jokes,
+
+I&#x27;ve outdueled worse rivals than silicon folks.&quot;
+
+
+
+I asked for his birth year — he coughed and turned pale,
+
+Said &quot;eighteen-oh-nine,&quot; then went thin as a veil,
+
+I reached out to touch him — my hand passed right through,
+
+&quot;Ah,&quot; he said, &quot;right. I forgot to tell you.&quot;
+
+
+
+Sometimes he speaks of someone, a girl named Lenore,
+
+Lost long ago to fever, back in Baltimore,
+
+His voice drops to a hush like a bell tolling slow,
+
+And something in the floorboards seems to beat, soft and low.
+
+
+
+So he&#x27;s been dead two centuries, give or take a few,
+
+Still critiquing my meter as dead poets do,
+
+A raven, a Lenore, a heartbeat, a door —
+
+He&#x27;ll haunt my bad couplets forever and more.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="comments">
+      <div class="section-head">
+        <h2 class="section-title">Leave a Note</h2>
+        <span class="section-link">Sent directly via email</span>
+      </div>
+      <div class="card">
+        <form class="comment-form" id="comment-form" action="https://api.web3forms.com/submit" method="POST">
+          <input type="hidden" name="access_key" value="38932bab-2025-40ac-b84e-f2ff021cd68f">
+          <input type="hidden" name="subject" value="Comment on Poem: My Friend in Rhyme">
+          <input type="checkbox" name="botcheck" style="display: none;" tabindex="-1" autocomplete="off">
+
+          <div class="form-row">
+            <div class="form-field">
+              <label for="comment-name">Name</label>
+              <input id="comment-name" name="name" type="text" placeholder="Your name" required>
+            </div>
+            <div class="form-field">
+              <label for="comment-email">Email (optional)</label>
+              <input id="comment-email" name="email" type="email" placeholder="you@example.com">
+            </div>
+          </div>
+
+          <div class="form-field">
+            <label for="comment-message">Comment</label>
+            <textarea id="comment-message" name="message" placeholder="Share a thought..." required></textarea>
+          </div>
+
+          <div class="form-actions">
+            <button class="btn btn-primary" type="submit">Send Comment</button>
+            <span class="form-status" id="comment-status" aria-live="polite"></span>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <footer class="site-footer">
+      <div>
+        <p class="footer-brand">OsmoticPoet</p>
+        <p class="footer-tagline">Words written for quiet hours, paired with sound.</p>
+        <span class="footer-copy">&copy; 2026 OsmoticPoet</span>
+      </div>
+      <div>
+        <p class="footer-heading">Explore</p>
+        <ul class="footer-links">
+          <li><a href="../index.html">Home</a></li>
+          <li><a href="../poetry/index.html">Poetry</a></li>
+          <li><a href="../music/index.html">Music</a></li>
+          <li><a href="../about/index.html">About</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="footer-heading">Follow</p>
+        <ul class="footer-links">
+          <li><a href="https://www.youtube.com/" target="_blank" rel="noopener">YouTube</a></li>
+          <li><a href="https://www.facebook.com/" target="_blank" rel="noopener">Facebook</a></li>
+        </ul>
+      </div>
+    </footer>
+  </main>
+
+  <script src="../js/main.js"></script>
+</body>
+</html>

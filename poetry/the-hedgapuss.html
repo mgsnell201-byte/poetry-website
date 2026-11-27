@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Hedgapuss — OsmoticPoet</title>
+  <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="nav-inner">
+      <a class="brand" href="../index.html">
+        <span class="brand-dot" aria-hidden="true"></span>
+        <span>OsmoticPoet</span>
+      </a>
+      <button class="menu-toggle" type="button" aria-label="Toggle navigation">Menu</button>
+      <ul class="nav-links">
+        <li><a href="../index.html">Home</a></li>
+        <li><a href="index.html" class="active">Poetry</a></li>
+        <li><a href="../music/index.html">Music</a></li>
+        <li><a href="../about/index.html">About</a></li>
+      </ul>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="section">
+      <a class="breadcrumb" href="index.html">&larr; All Poems</a>
+      <div class="card piece-layout">
+        <div class="piece-media">
+          <img class="piece-cover" src="../assets/images/_poem-default.png" alt="The Hedgapuss illustration">
+          <div class="audio-box">
+            <div class="audio-box-label">Listen to Poem (MP3)</div>
+            <audio controls controlsList="nodownload" oncontextmenu="return false;" preload="metadata">
+              <source src="poems/the-hedgapuss.mp3" type="audio/mpeg">
+            </audio>
+            <p class="audio-note">Audio reading slot ready for <code>poetry/poems/the-hedgapuss.mp3</code>.</p>
+          </div>
+        </div>
+        <div>
+          <div class="card-meta">Poem &middot; No. 83</div>
+          <h1 class="piece-title">The Hedgapuss</h1>
+          <p class="poem-stanza">I was sitting at the kitchen table
+
+as I often do in the early morning,
+
+with the dictionary open to the H&#x27;s,
+
+a cup of coffee cooling beside me,
+
+when I discovered that a hodgepodge
+
+is not, as I had long believed,
+
+a hedgehog and a platypus.
+
+
+
+This was disappointing.
+
+
+
+I had carried the idea for years
+
+the way you carry a coin in your pocket
+
+without remembering which country it came from—
+
+the two animals fused in my mind
+
+into a single, implausible creature,
+
+quilled on one half, billed on the other,
+
+waddling through the underbrush
+
+of the English language
+
+looking for a place to rest.
+
+
+
+And it turns out the word
+
+is only Middle English for a stew,
+
+a corruption of &quot;hochepot&quot;,
+
+which the French used
+
+for whatever you threw in the pot
+
+when you had nothing particular in mind.
+
+
+
+But I prefer my version—
+
+the hedgehog contributing its spines
+
+and its talent for curling into a ball
+
+at the first sign of trouble,
+
+the platypus offering that duck bill,
+
+those venomous ankles,
+
+and the quiet confidence of an animal
+
+that looked at evolution and said no thank you,
+
+I&#x27;ll stay.
+
+
+
+Between them they&#x27;d make
+
+a word that means exactly what it means:
+
+a gathering of things
+
+that have no business being together
+
+but somehow are,
+
+like the contents of a junk drawer,
+
+like the crowd at a Wednesday matinee,
+
+like this moment at the table
+
+where the coffee has gone cold
+
+and the dictionary lies open
+
+to a page I am no longer reading,
+
+
+
+and outside the window a sparrow
+
+is doing something ordinary with a twig
+
+that I will watch
+
+until it flies.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="comments">
+      <div class="section-head">
+        <h2 class="section-title">Leave a Note</h2>
+        <span class="section-link">Sent directly via email</span>
+      </div>
+      <div class="card">
+        <form class="comment-form" id="comment-form" action="https://api.web3forms.com/submit" method="POST">
+          <input type="hidden" name="access_key" value="38932bab-2025-40ac-b84e-f2ff021cd68f">
+          <input type="hidden" name="subject" value="Comment on Poem: The Hedgapuss">
+          <input type="checkbox" name="botcheck" style="display: none;" tabindex="-1" autocomplete="off">
+
+          <div class="form-row">
+            <div class="form-field">
+              <label for="comment-name">Name</label>
+              <input id="comment-name" name="name" type="text" placeholder="Your name" required>
+            </div>
+            <div class="form-field">
+              <label for="comment-email">Email (optional)</label>
+              <input id="comment-email" name="email" type="email" placeholder="you@example.com">
+            </div>
+          </div>
+
+          <div class="form-field">
+            <label for="comment-message">Comment</label>
+            <textarea id="comment-message" name="message" placeholder="Share a thought..." required></textarea>
+          </div>
+
+          <div class="form-actions">
+            <button class="btn btn-primary" type="submit">Send Comment</button>
+            <span class="form-status" id="comment-status" aria-live="polite"></span>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <footer class="site-footer">
+      <div>
+        <p class="footer-brand">OsmoticPoet</p>
+        <p class="footer-tagline">Words written for quiet hours, paired with sound.</p>
+        <span class="footer-copy">&copy; 2026 OsmoticPoet</span>
+      </div>
+      <div>
+        <p class="footer-heading">Explore</p>
+        <ul class="footer-links">
+          <li><a href="../index.html">Home</a></li>
+          <li><a href="../poetry/index.html">Poetry</a></li>
+          <li><a href="../music/index.html">Music</a></li>
+          <li><a href="../about/index.html">About</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="footer-heading">Follow</p>
+        <ul class="footer-links">
+          <li><a href="https://www.youtube.com/" target="_blank" rel="noopener">YouTube</a></li>
+          <li><a href="https://www.facebook.com/" target="_blank" rel="noopener">Facebook</a></li>
+        </ul>
+      </div>
+    </footer>
+  </main>
+
+  <script src="../js/main.js"></script>
+</body>
+</html>

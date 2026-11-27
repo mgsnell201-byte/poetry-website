@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Behind the Waterfall — OsmoticPoet</title>
+  <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="nav-inner">
+      <a class="brand" href="../index.html">
+        <span class="brand-dot" aria-hidden="true"></span>
+        <span>OsmoticPoet</span>
+      </a>
+      <button class="menu-toggle" type="button" aria-label="Toggle navigation">Menu</button>
+      <ul class="nav-links">
+        <li><a href="../index.html">Home</a></li>
+        <li><a href="index.html" class="active">Poetry</a></li>
+        <li><a href="../music/index.html">Music</a></li>
+        <li><a href="../about/index.html">About</a></li>
+      </ul>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="section">
+      <a class="breadcrumb" href="index.html">&larr; All Poems</a>
+      <div class="card piece-layout">
+        <div class="piece-media">
+          <img class="piece-cover" src="../assets/images/behind-the-waterfall.jpg" alt="Behind the Waterfall illustration">
+          <div class="audio-box">
+            <div class="audio-box-label">Listen to Poem (MP3)</div>
+            <audio controls controlsList="nodownload" oncontextmenu="return false;" preload="metadata">
+              <source src="poems/behind-the-waterfall.mp3" type="audio/mpeg">
+            </audio>
+            <p class="audio-note">Audio reading slot ready for <code>poetry/poems/behind-the-waterfall.mp3</code>.</p>
+          </div>
+        </div>
+        <div>
+          <div class="card-meta">Poem &middot; No. 209</div>
+          <h1 class="piece-title">Behind the Waterfall</h1>
+          <p class="poem-stanza">As I looked at this photograph,
+
+it reminded me of the small cave
+
+I found last summer behind a waterfall in Yosemite.
+
+How I had to wade through knee-deep water
+
+and duck under a curtain of falling white
+
+to discover this pocket of stillness
+
+carved out by centuries of patient erosion.
+
+
+
+It occurred to me, standing there
+
+with my back against the cool stone,
+
+that this might be what consciousness is like—
+
+a dry space behind the constant cascade
+
+of experience, a place where you can stand
+
+and watch the torrent without being swept away,
+
+which sounds more philosophical than I intended,
+
+but there I was, soaked to the waist,
+
+thinking about Plato and his cave,
+
+wondering if he&#x27;d ever actually stood in one.
+
+
+
+The funny thing about being behind a waterfall
+
+is how the world looks when filtered through
+
+all that moving water—
+
+blurred, softer somehow, as if someone
+
+had smudged the edges of reality
+
+with their thumb.
+
+
+
+I could see people on the other side,
+
+just shapes really, walking along the path,
+
+taking their selfies, checking their phones,
+
+living their lives in the bright noise
+
+of the ordinary world, while I stood hidden
+
+in this chamber of mist and echo,
+
+neither here nor there exactly,
+
+a witness with wet shoes and a growing sense
+
+that I&#x27;d stumbled into some kind of metaphor
+
+I wasn&#x27;t quite equipped to handle.
+
+
+
+You spend your whole life on one side
+
+of the cascade, don&#x27;t you?
+
+Moving through the days, getting things done,
+
+checking items off lists, and then one day
+
+you duck behind the curtain and realize
+
+you&#x27;ve been looking at everything backwards—
+
+or maybe forwards for the first time—
+
+and the sound of all that falling water
+
+is actually quite beautiful from this side,
+
+this quiet side, where you can see
+
+how temporary it all is, how provisional,
+
+how the light breaks apart in the spray
+
+and reforms into something you could almost
+
+mistake for meaning.
+
+
+
+I stayed there longer than I should have,
+
+long enough that my legs went numb with cold,
+
+long enough to understand why hermits
+
+choose caves, why mystics seek out
+
+these liminal spaces between the world
+
+and whatever&#x27;s behind it.
+
+
+
+But eventually you have to step back through,
+
+don&#x27;t you? Back into the noise and motion,
+
+back to the parking lot and the drive home,
+
+carrying with you this small sadness—
+
+not quite grief, more like nostalgia
+
+for a place you only just discovered,
+
+knowing you&#x27;ll never see things
+
+quite the same way again,
+
+now that you&#x27;ve stood behind the veil
+
+and looked out.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="comments">
+      <div class="section-head">
+        <h2 class="section-title">Leave a Note</h2>
+        <span class="section-link">Sent directly via email</span>
+      </div>
+      <div class="card">
+        <form class="comment-form" id="comment-form" action="https://api.web3forms.com/submit" method="POST">
+          <input type="hidden" name="access_key" value="38932bab-2025-40ac-b84e-f2ff021cd68f">
+          <input type="hidden" name="subject" value="Comment on Poem: Behind the Waterfall">
+          <input type="checkbox" name="botcheck" style="display: none;" tabindex="-1" autocomplete="off">
+
+          <div class="form-row">
+            <div class="form-field">
+              <label for="comment-name">Name</label>
+              <input id="comment-name" name="name" type="text" placeholder="Your name" required>
+            </div>
+            <div class="form-field">
+              <label for="comment-email">Email (optional)</label>
+              <input id="comment-email" name="email" type="email" placeholder="you@example.com">
+            </div>
+          </div>
+
+          <div class="form-field">
+            <label for="comment-message">Comment</label>
+            <textarea id="comment-message" name="message" placeholder="Share a thought..." required></textarea>
+          </div>
+
+          <div class="form-actions">
+            <button class="btn btn-primary" type="submit">Send Comment</button>
+            <span class="form-status" id="comment-status" aria-live="polite"></span>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <footer class="site-footer">
+      <div>
+        <p class="footer-brand">OsmoticPoet</p>
+        <p class="footer-tagline">Words written for quiet hours, paired with sound.</p>
+        <span class="footer-copy">&copy; 2026 OsmoticPoet</span>
+      </div>
+      <div>
+        <p class="footer-heading">Explore</p>
+        <ul class="footer-links">
+          <li><a href="../index.html">Home</a></li>
+          <li><a href="../poetry/index.html">Poetry</a></li>
+          <li><a href="../music/index.html">Music</a></li>
+          <li><a href="../about/index.html">About</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="footer-heading">Follow</p>
+        <ul class="footer-links">
+          <li><a href="https://www.youtube.com/" target="_blank" rel="noopener">YouTube</a></li>
+          <li><a href="https://www.facebook.com/" target="_blank" rel="noopener">Facebook</a></li>
+        </ul>
+      </div>
+    </footer>
+  </main>
+
+  <script src="../js/main.js"></script>
+</body>
+</html>

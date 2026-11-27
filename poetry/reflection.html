@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Reflection — OsmoticPoet</title>
+  <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="nav-inner">
+      <a class="brand" href="../index.html">
+        <span class="brand-dot" aria-hidden="true"></span>
+        <span>OsmoticPoet</span>
+      </a>
+      <button class="menu-toggle" type="button" aria-label="Toggle navigation">Menu</button>
+      <ul class="nav-links">
+        <li><a href="../index.html">Home</a></li>
+        <li><a href="index.html" class="active">Poetry</a></li>
+        <li><a href="../music/index.html">Music</a></li>
+        <li><a href="../about/index.html">About</a></li>
+      </ul>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="section">
+      <a class="breadcrumb" href="index.html">&larr; All Poems</a>
+      <div class="card piece-layout">
+        <div class="piece-media">
+          <img class="piece-cover" src="../assets/images/reflection.jpg" alt="Reflection illustration">
+          <div class="audio-box">
+            <div class="audio-box-label">Listen to Poem (MP3)</div>
+            <audio controls controlsList="nodownload" oncontextmenu="return false;" preload="metadata">
+              <source src="poems/reflection.mp3" type="audio/mpeg">
+            </audio>
+            <p class="audio-note">Audio reading slot ready for <code>poetry/poems/reflection.mp3</code>.</p>
+          </div>
+        </div>
+        <div>
+          <div class="card-meta">Poem &middot; No. 200</div>
+          <h1 class="piece-title">Reflection</h1>
+          <p class="poem-stanza">The lake this morning holds two faces—
+
+mine looking down, and the one
+
+the water makes of sky. Both shimmer,
+
+neither quite true. I think how the word itself
+
+does this: turns inward to mean thought
+
+folding back on thought, then outward
+
+to mean light returning from a surface
+
+it cannot enter.
+
+
+
+I remember my father taking me fishing once
+
+at a pond so still it looked like a photograph of itself.
+
+He pointed at the dragonflies touching down,
+
+said, &quot;Look at that,&quot; as the whole sky shivered—
+
+which is what fathers say
+
+when they don&#x27;t have the words for beauty.
+
+
+
+I wanted to ask him if he saw his own face down there too,
+
+floating among the lily pads,
+
+but I was eight and didn&#x27;t know how to talk
+
+about the strange way water makes you see yourself
+
+as part of the landscape, your features
+
+mingling with clouds and branches.
+
+
+
+Now I understand he must have felt it too—
+
+the lake doing what the mind does,
+
+taking in the world each morning
+
+in the truck on the way to work, sending it back
+
+slightly altered, tinted with worry and wonder.
+
+
+
+The window does this too. Right now
+
+my transparent face is superimposed on the aspen,
+
+so that I seem to be sprouting leaves from my ears.
+
+It&#x27;s the kind of thing that makes you consider
+
+how thinking is just a more complicated version
+
+of reflection—light hitting the surface of consciousness
+
+and returning, carrying some image of what it touched.
+
+
+
+Maybe that&#x27;s why we use the same word for both:
+
+the mind and the lake are doing the same work,
+
+receiving what comes to them and offering it back
+
+with their own particular slant, their own
+
+quiet commentary on what they&#x27;ve been given.
+
+
+
+I think about this as I watch the tree
+
+sway slightly in the breeze, my face swaying with it,
+
+and I feel a tenderness for the word itself,
+
+for the way it holds both meanings so easily,
+
+as if it always knew they were the same thing—
+
+the world returning to us, and us
+
+returning to ourselves, both of us changed
+
+by the meeting, both of us grateful
+
+for the surface that made it possible.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="comments">
+      <div class="section-head">
+        <h2 class="section-title">Leave a Note</h2>
+        <span class="section-link">Sent directly via email</span>
+      </div>
+      <div class="card">
+        <form class="comment-form" id="comment-form" action="https://api.web3forms.com/submit" method="POST">
+          <input type="hidden" name="access_key" value="38932bab-2025-40ac-b84e-f2ff021cd68f">
+          <input type="hidden" name="subject" value="Comment on Poem: Reflection">
+          <input type="checkbox" name="botcheck" style="display: none;" tabindex="-1" autocomplete="off">
+
+          <div class="form-row">
+            <div class="form-field">
+              <label for="comment-name">Name</label>
+              <input id="comment-name" name="name" type="text" placeholder="Your name" required>
+            </div>
+            <div class="form-field">
+              <label for="comment-email">Email (optional)</label>
+              <input id="comment-email" name="email" type="email" placeholder="you@example.com">
+            </div>
+          </div>
+
+          <div class="form-field">
+            <label for="comment-message">Comment</label>
+            <textarea id="comment-message" name="message" placeholder="Share a thought..." required></textarea>
+          </div>
+
+          <div class="form-actions">
+            <button class="btn btn-primary" type="submit">Send Comment</button>
+            <span class="form-status" id="comment-status" aria-live="polite"></span>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <footer class="site-footer">
+      <div>
+        <p class="footer-brand">OsmoticPoet</p>
+        <p class="footer-tagline">Words written for quiet hours, paired with sound.</p>
+        <span class="footer-copy">&copy; 2026 OsmoticPoet</span>
+      </div>
+      <div>
+        <p class="footer-heading">Explore</p>
+        <ul class="footer-links">
+          <li><a href="../index.html">Home</a></li>
+          <li><a href="../poetry/index.html">Poetry</a></li>
+          <li><a href="../music/index.html">Music</a></li>
+          <li><a href="../about/index.html">About</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="footer-heading">Follow</p>
+        <ul class="footer-links">
+          <li><a href="https://www.youtube.com/" target="_blank" rel="noopener">YouTube</a></li>
+          <li><a href="https://www.facebook.com/" target="_blank" rel="noopener">Facebook</a></li>
+        </ul>
+      </div>
+    </footer>
+  </main>
+
+  <script src="../js/main.js"></script>
+</body>
+</html>

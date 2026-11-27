@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Keeper — OsmoticPoet</title>
+  <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="nav-inner">
+      <a class="brand" href="../index.html">
+        <span class="brand-dot" aria-hidden="true"></span>
+        <span>OsmoticPoet</span>
+      </a>
+      <button class="menu-toggle" type="button" aria-label="Toggle navigation">Menu</button>
+      <ul class="nav-links">
+        <li><a href="../index.html">Home</a></li>
+        <li><a href="index.html" class="active">Poetry</a></li>
+        <li><a href="../music/index.html">Music</a></li>
+        <li><a href="../about/index.html">About</a></li>
+      </ul>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="section">
+      <a class="breadcrumb" href="index.html">&larr; All Poems</a>
+      <div class="card piece-layout">
+        <div class="piece-media">
+          <img class="piece-cover" src="../assets/images/_poem-default.png" alt="The Keeper illustration">
+          <div class="audio-box">
+            <div class="audio-box-label">Listen to Poem (MP3)</div>
+            <audio controls controlsList="nodownload" oncontextmenu="return false;" preload="metadata">
+              <source src="poems/the-keeper.mp3" type="audio/mpeg">
+            </audio>
+            <p class="audio-note">Audio reading slot ready for <code>poetry/poems/the-keeper.mp3</code>.</p>
+          </div>
+        </div>
+        <div>
+          <div class="card-meta">Poem &middot; No. 306</div>
+          <h1 class="piece-title">The Keeper</h1>
+          <p class="poem-stanza">They told me, &quot;Put away your childish things,&quot;
+
+So I packed the wonder up in reasoned, tidy boxes.
+
+I learned the weight of words, the chill that silence brings,
+
+And walked through days bordered by clockses.
+
+
+
+But a stubborn part, a seed they could not find,
+
+Refused to wither in the dark and settled dust.
+
+It held the scent of rain on hot concrete, the kind
+
+That smells of promise, of a world reborn and just.
+
+
+
+It kept the memory of the snail&#x27;s engraved trail,
+
+The dizzy spin of a maple&#x27;s helicopter seed,
+
+The patient art of building a leaf-boat to sail
+
+In the river of a gutter—a singular, mighty deed.
+
+
+
+So now I walk with two pairs of eyes.
+
+One sees the path, the storm, the falling night.
+
+The other watches where the lightborn insect flies
+
+And turns the mundane world to sudden, stunning light.
+
+
+
+I sign the forms and pay the bills on time,
+
+My hands are scored with lines of work and care,
+
+Yet I still taste the sun in a clementine,
+
+And find a universe trapped in a ladybug&#x27;s lair.
+
+
+
+The grief I&#x27;ve known is a deep and weathered stone,
+
+It sits inside me, permanent and cold.
+
+But it makes the joy, when a simple joy is known,
+
+A sharper, brighter fire to have and hold.
+
+
+
+For the child does not forget, the man does not regret,
+
+The trade is off; the two are woven tight.
+
+The years give depth to what the young heart sees,
+
+And the young heart sets the older world alight.
+
+
+
+I am not old, not young, but something in between—
+
+A keeper of the key, who never lost the door.
+
+The world is serious, brittle, sharp, and keen,
+
+And I love it all so fiercely, now, much more than before.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="comments">
+      <div class="section-head">
+        <h2 class="section-title">Leave a Note</h2>
+        <span class="section-link">Sent directly via email</span>
+      </div>
+      <div class="card">
+        <form class="comment-form" id="comment-form" action="https://api.web3forms.com/submit" method="POST">
+          <input type="hidden" name="access_key" value="38932bab-2025-40ac-b84e-f2ff021cd68f">
+          <input type="hidden" name="subject" value="Comment on Poem: The Keeper">
+          <input type="checkbox" name="botcheck" style="display: none;" tabindex="-1" autocomplete="off">
+
+          <div class="form-row">
+            <div class="form-field">
+              <label for="comment-name">Name</label>
+              <input id="comment-name" name="name" type="text" placeholder="Your name" required>
+            </div>
+            <div class="form-field">
+              <label for="comment-email">Email (optional)</label>
+              <input id="comment-email" name="email" type="email" placeholder="you@example.com">
+            </div>
+          </div>
+
+          <div class="form-field">
+            <label for="comment-message">Comment</label>
+            <textarea id="comment-message" name="message" placeholder="Share a thought..." required></textarea>
+          </div>
+
+          <div class="form-actions">
+            <button class="btn btn-primary" type="submit">Send Comment</button>
+            <span class="form-status" id="comment-status" aria-live="polite"></span>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <footer class="site-footer">
+      <div>
+        <p class="footer-brand">OsmoticPoet</p>
+        <p class="footer-tagline">Words written for quiet hours, paired with sound.</p>
+        <span class="footer-copy">&copy; 2026 OsmoticPoet</span>
+      </div>
+      <div>
+        <p class="footer-heading">Explore</p>
+        <ul class="footer-links">
+          <li><a href="../index.html">Home</a></li>
+          <li><a href="../poetry/index.html">Poetry</a></li>
+          <li><a href="../music/index.html">Music</a></li>
+          <li><a href="../about/index.html">About</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="footer-heading">Follow</p>
+        <ul class="footer-links">
+          <li><a href="https://www.youtube.com/" target="_blank" rel="noopener">YouTube</a></li>
+          <li><a href="https://www.facebook.com/" target="_blank" rel="noopener">Facebook</a></li>
+        </ul>
+      </div>
+    </footer>
+  </main>
+
+  <script src="../js/main.js"></script>
+</body>
+</html>

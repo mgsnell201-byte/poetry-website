@@ -82,6 +82,8 @@ def find_cover(stem: str, prefix: str) -> str:
     for ext in (".jpg", ".jpeg", ".png", ".webp"):
         if (IMAGES / f"{stem}{ext}").exists():
             return f"{prefix}assets/images/{stem}{ext}"
+    if (IMAGES / "_poem-default.png").exists():
+        return f"{prefix}assets/images/_poem-default.png"
     return ""
 
 

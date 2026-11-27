@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Surely you Jest — OsmoticPoet</title>
+  <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="nav-inner">
+      <a class="brand" href="../index.html">
+        <span class="brand-dot" aria-hidden="true"></span>
+        <span>OsmoticPoet</span>
+      </a>
+      <button class="menu-toggle" type="button" aria-label="Toggle navigation">Menu</button>
+      <ul class="nav-links">
+        <li><a href="../index.html">Home</a></li>
+        <li><a href="index.html" class="active">Poetry</a></li>
+        <li><a href="../music/index.html">Music</a></li>
+        <li><a href="../about/index.html">About</a></li>
+      </ul>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="section">
+      <a class="breadcrumb" href="index.html">&larr; All Poems</a>
+      <div class="card piece-layout">
+        <div class="piece-media">
+          <img class="piece-cover" src="../assets/images/surely-you-jest.jpg" alt="Surely you Jest illustration">
+          <div class="audio-box">
+            <div class="audio-box-label">Listen to Poem (MP3)</div>
+            <audio controls controlsList="nodownload" oncontextmenu="return false;" preload="metadata">
+              <source src="poems/surely-you-jest.mp3" type="audio/mpeg">
+            </audio>
+            <p class="audio-note">Audio reading slot ready for <code>poetry/poems/surely-you-jest.mp3</code>.</p>
+          </div>
+        </div>
+        <div>
+          <div class="card-meta">Poem &middot; No. 469</div>
+          <h1 class="piece-title">Surely you Jest</h1>
+          <p class="poem-stanza">At a table set brightly with mismatched delight,
+
+The Mad Hatter poured tea, though it felt rather slight.
+
+“Would you care for some treacle?” he asked with a grin,
+
+While the Dormouse, quite sleepy, was dozing within.
+
+
+
+“Draw treacle from water?” young Alice exclaimed,
+
+“Are you mad or just silly? The thought should be famed!”
+
+The Hatter chimed in, with a chuckle and fuss,
+
+“Well, you draw from a well—not from well, it’s a plus!”
+
+
+
+“Oh, you surely draw from the depths of your mind,
+
+To conjure such nonsense, I’m wholly aligned!”
+
+The Dormouse awoke with a yawn and a stretch,
+
+“Muchness is all, in this world — that I sketch.&quot;
+
+
+
+“Sketch? What do you mean?” Alice puzzled, bemused,
+
+“Much of a muchness?” she added, confused.
+
+“Indeed, we draw memories; we draw them with glee,
+
+Like drawing a mouse with a trap on your knee!”
+
+
+
+But before she could ponder the meaning behind,
+
+A new figure approached, with curiosity twined.
+
+He was named Quirkle, with eyes full of jest,
+
+“And I come with a riddle, for you all to test!”
+
+
+
+With a grin like the Cheshire, and riddles a-plenty,
+
+He spoke of contradictions, delightful yet risky.
+
+“A hair of the dog that once wagged, now sits,
+
+For what’s lost in the forest is found in the pits.”
+
+
+
+The Hatter looked askance and the Dormouse did snore,
+
+“Do you think we have time for this riddle in store?”
+
+“Oh, but dear friends!” cried young Quirkle with glee,
+
+“To find sense in nonsense is key, can’t you see?”
+
+
+
+“Will I find what I seek in your riddles, dear friend?
+
+Or will this chaotic tea party never quite end?”
+
+With each twist of the words, Alice’s head spun,
+
+For though she wanted clarity, she hardly had fun.
+
+
+
+Success, she thought, must be buried beneath,
+
+This eccentric exchange, like a riddle with teeth.
+
+As the Dormouse was dunked in a whirlpool of tea,
+
+Quirkle just chuckled, “It’s quite a sight, wouldn’t you agree?”
+
+
+
+With a nudge of the teapot and a flick of his wrist,
+
+He whispered, “The answers are there — you just missed.”
+
+The tea party’s madness, so wild and profound,
+
+Held lessons to savor, if one looked all around.
+
+
+
+So Alice resolved, amid muchness of chat,
+
+To seek hidden meanings in riddles like that.
+
+With Quirkle beside her, a guide of sorts fine,
+
+Her journey through Wonderland continued to twine.
+
+
+
+Where puns danced like leaves and logic took flight,
+
+In the land of the curious, day merged into night.
+
+And amid all the chaos, with courage she’d tread,
+
+To unlock all the wonders that lay just ahead.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="comments">
+      <div class="section-head">
+        <h2 class="section-title">Leave a Note</h2>
+        <span class="section-link">Sent directly via email</span>
+      </div>
+      <div class="card">
+        <form class="comment-form" id="comment-form" action="https://api.web3forms.com/submit" method="POST">
+          <input type="hidden" name="access_key" value="38932bab-2025-40ac-b84e-f2ff021cd68f">
+          <input type="hidden" name="subject" value="Comment on Poem: Surely you Jest">
+          <input type="checkbox" name="botcheck" style="display: none;" tabindex="-1" autocomplete="off">
+
+          <div class="form-row">
+            <div class="form-field">
+              <label for="comment-name">Name</label>
+              <input id="comment-name" name="name" type="text" placeholder="Your name" required>
+            </div>
+            <div class="form-field">
+              <label for="comment-email">Email (optional)</label>
+              <input id="comment-email" name="email" type="email" placeholder="you@example.com">
+            </div>
+          </div>
+
+          <div class="form-field">
+            <label for="comment-message">Comment</label>
+            <textarea id="comment-message" name="message" placeholder="Share a thought..." required></textarea>
+          </div>
+
+          <div class="form-actions">
+            <button class="btn btn-primary" type="submit">Send Comment</button>
+            <span class="form-status" id="comment-status" aria-live="polite"></span>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <footer class="site-footer">
+      <div>
+        <p class="footer-brand">OsmoticPoet</p>
+        <p class="footer-tagline">Words written for quiet hours, paired with sound.</p>
+        <span class="footer-copy">&copy; 2026 OsmoticPoet</span>
+      </div>
+      <div>
+        <p class="footer-heading">Explore</p>
+        <ul class="footer-links">
+          <li><a href="../index.html">Home</a></li>
+          <li><a href="../poetry/index.html">Poetry</a></li>
+          <li><a href="../music/index.html">Music</a></li>
+          <li><a href="../about/index.html">About</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="footer-heading">Follow</p>
+        <ul class="footer-links">
+          <li><a href="https://www.youtube.com/" target="_blank" rel="noopener">YouTube</a></li>
+          <li><a href="https://www.facebook.com/" target="_blank" rel="noopener">Facebook</a></li>
+        </ul>
+      </div>
+    </footer>
+  </main>
+
+  <script src="../js/main.js"></script>
+</body>
+</html>

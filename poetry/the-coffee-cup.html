@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Coffee Cup — OsmoticPoet</title>
+  <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="nav-inner">
+      <a class="brand" href="../index.html">
+        <span class="brand-dot" aria-hidden="true"></span>
+        <span>OsmoticPoet</span>
+      </a>
+      <button class="menu-toggle" type="button" aria-label="Toggle navigation">Menu</button>
+      <ul class="nav-links">
+        <li><a href="../index.html">Home</a></li>
+        <li><a href="index.html" class="active">Poetry</a></li>
+        <li><a href="../music/index.html">Music</a></li>
+        <li><a href="../about/index.html">About</a></li>
+      </ul>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="section">
+      <a class="breadcrumb" href="index.html">&larr; All Poems</a>
+      <div class="card piece-layout">
+        <div class="piece-media">
+          <img class="piece-cover" src="../assets/images/_poem-default.png" alt="The Coffee Cup illustration">
+          <div class="audio-box">
+            <div class="audio-box-label">Listen to Poem (MP3)</div>
+            <audio controls controlsList="nodownload" oncontextmenu="return false;" preload="metadata">
+              <source src="poems/the-coffee-cup.mp3" type="audio/mpeg">
+            </audio>
+            <p class="audio-note">Audio reading slot ready for <code>poetry/poems/the-coffee-cup.mp3</code>.</p>
+          </div>
+        </div>
+        <div>
+          <div class="card-meta">Poem &middot; No. 146</div>
+          <h1 class="piece-title">The Coffee Cup</h1>
+          <p class="poem-stanza">Forget the dozen roses wrapped in cellophane,
+
+the heart-shaped boxes of chocolates at the drugstore,
+
+the restaurants booked solid with couples
+
+trying to prove something to each other with prix-fixe menus.
+
+I want to tell you about the kind of love
+
+that happens on a Wednesday in February
+
+when she&#x27;s still half asleep in her bathrobe
+
+and you&#x27;re pouring coffee into her favorite mug—
+
+the one with the faded picture of a lighthouse
+
+that neither of you can bring yourself to replace.
+
+
+
+It&#x27;s not the love of Valentine&#x27;s commercials,
+
+not the kind that needs violins or moonlight
+
+or declarations shouted from rooftops,
+
+not the love that arrives once a year
+
+in red envelopes with somebody else&#x27;s words inside.
+
+It&#x27;s quieter than that, more like the sound
+
+of two people breathing in the same room,
+
+the small music of ordinary life.
+
+
+
+This is the love that knows
+
+how you take your eggs, which side of the bed
+
+you prefer, the exact temperature you like the house
+
+before you&#x27;re willing to get up.
+
+It&#x27;s the love that hands you your reading glasses
+
+before you even realize you&#x27;re squinting at the newspaper.
+
+
+
+Sometimes I think real love is just this:
+
+the way she laughs at your jokes even when they&#x27;re terrible,
+
+how you both reach for the remote at the same time
+
+and somehow never argue about what to watch,
+
+the fact that she saves you the last piece of pie
+
+even though you both know pie is her weakness.
+
+
+
+So let them have their Valentine&#x27;s Day—
+
+the teddy bears clutching satin hearts,
+
+the couples dressed up and uncomfortable,
+
+the pressure to be romantic on schedule.
+
+Give me instead this everyday devotion,
+
+love, it turns out, is not so much a thunderstorm
+
+as it is the steady rain that makes things grow—
+
+patient, persistent, showing up day after day
+
+to water all the small moments
+
+until they bloom into something
+
+you can&#x27;t imagine living without,
+
+
+
+like that lighthouse mug between her hands,
+
+still warm, still holding something necessary,
+
+still here.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="comments">
+      <div class="section-head">
+        <h2 class="section-title">Leave a Note</h2>
+        <span class="section-link">Sent directly via email</span>
+      </div>
+      <div class="card">
+        <form class="comment-form" id="comment-form" action="https://api.web3forms.com/submit" method="POST">
+          <input type="hidden" name="access_key" value="38932bab-2025-40ac-b84e-f2ff021cd68f">
+          <input type="hidden" name="subject" value="Comment on Poem: The Coffee Cup">
+          <input type="checkbox" name="botcheck" style="display: none;" tabindex="-1" autocomplete="off">
+
+          <div class="form-row">
+            <div class="form-field">
+              <label for="comment-name">Name</label>
+              <input id="comment-name" name="name" type="text" placeholder="Your name" required>
+            </div>
+            <div class="form-field">
+              <label for="comment-email">Email (optional)</label>
+              <input id="comment-email" name="email" type="email" placeholder="you@example.com">
+            </div>
+          </div>
+
+          <div class="form-field">
+            <label for="comment-message">Comment</label>
+            <textarea id="comment-message" name="message" placeholder="Share a thought..." required></textarea>
+          </div>
+
+          <div class="form-actions">
+            <button class="btn btn-primary" type="submit">Send Comment</button>
+            <span class="form-status" id="comment-status" aria-live="polite"></span>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <footer class="site-footer">
+      <div>
+        <p class="footer-brand">OsmoticPoet</p>
+        <p class="footer-tagline">Words written for quiet hours, paired with sound.</p>
+        <span class="footer-copy">&copy; 2026 OsmoticPoet</span>
+      </div>
+      <div>
+        <p class="footer-heading">Explore</p>
+        <ul class="footer-links">
+          <li><a href="../index.html">Home</a></li>
+          <li><a href="../poetry/index.html">Poetry</a></li>
+          <li><a href="../music/index.html">Music</a></li>
+          <li><a href="../about/index.html">About</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="footer-heading">Follow</p>
+        <ul class="footer-links">
+          <li><a href="https://www.youtube.com/" target="_blank" rel="noopener">YouTube</a></li>
+          <li><a href="https://www.facebook.com/" target="_blank" rel="noopener">Facebook</a></li>
+        </ul>
+      </div>
+    </footer>
+  </main>
+
+  <script src="../js/main.js"></script>
+</body>
+</html>

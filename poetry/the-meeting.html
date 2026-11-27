@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Meeting — OsmoticPoet</title>
+  <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="nav-inner">
+      <a class="brand" href="../index.html">
+        <span class="brand-dot" aria-hidden="true"></span>
+        <span>OsmoticPoet</span>
+      </a>
+      <button class="menu-toggle" type="button" aria-label="Toggle navigation">Menu</button>
+      <ul class="nav-links">
+        <li><a href="../index.html">Home</a></li>
+        <li><a href="index.html" class="active">Poetry</a></li>
+        <li><a href="../music/index.html">Music</a></li>
+        <li><a href="../about/index.html">About</a></li>
+      </ul>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="section">
+      <a class="breadcrumb" href="index.html">&larr; All Poems</a>
+      <div class="card piece-layout">
+        <div class="piece-media">
+          <img class="piece-cover" src="../assets/images/the-meeting.jpg" alt="The Meeting illustration">
+          <div class="audio-box">
+            <div class="audio-box-label">Listen to Poem (MP3)</div>
+            <audio controls controlsList="nodownload" oncontextmenu="return false;" preload="metadata">
+              <source src="poems/the-meeting.mp3" type="audio/mpeg">
+            </audio>
+            <p class="audio-note">Audio reading slot ready for <code>poetry/poems/the-meeting.mp3</code>.</p>
+          </div>
+        </div>
+        <div>
+          <div class="card-meta">Poem &middot; No. 247</div>
+          <h1 class="piece-title">The Meeting</h1>
+          <p class="poem-stanza">I remember the coffee was terrible that morning,
+
+the kind that tastes like it&#x27;s been sitting
+
+on the burner since dawn, which it probably had.
+
+Someone made a joke about it—I forget who—
+
+and we all laughed, the way you do
+
+when you&#x27;re waiting for something important to begin.
+
+
+
+There were eight of us around the table.
+
+I sat near the window where I could see
+
+a gardener trimming the hedges outside,
+
+his shears making that soft clicking sound
+
+that seemed louder than it should have been.
+
+
+
+The President spoke about acceptable losses,
+
+a phrase I&#x27;d heard before but never really
+
+considered the way you might consider
+
+a piece of furniture you walk past every day
+
+until someone asks you to describe it.
+
+
+
+Acceptable. Loss. Two words
+
+that don&#x27;t belong together, like saying
+
+&quot;the friendly fire&quot; or &quot;the necessary evil.&quot;
+
+But there they were, side by side on the page,
+
+and someone was reading them aloud
+
+in a voice that suggested they made perfect sense.
+
+
+
+I thought about my daughter that morning—
+
+she would have been four—asking me at breakfast
+
+why the sky was blue, and me trying to explain
+
+something about wavelengths and atmosphere,
+
+knowing even as I spoke that the real answer
+
+was simply &quot;because it is.&quot;
+
+
+
+There was a vote. I don&#x27;t remember
+
+if I raised my hand or just nodded,
+
+but I remember the gardener outside
+
+had moved to a different hedge by then,
+
+still making that soft clicking sound,
+
+still doing the work he came to do.
+
+
+
+Years later, I would read about the shadows
+
+burned into walls, the permanent silhouettes
+
+of people going about their morning routines,
+
+and I would think about that meeting,
+
+the terrible coffee, the clicking shears,
+
+and how we all went home for dinner that night
+
+as if we&#x27;d done nothing more remarkable
+
+than approve the minutes from the previous meeting.
+
+
+
+I still don&#x27;t know if there was another way.
+
+But I know that somewhere in Hiroshima,
+
+while we were deciding, a mother was probably
+
+making breakfast, a gardener was probably
+
+trimming hedges, and someone was probably
+
+telling a joke that would make everyone laugh.
+
+
+
+I know this doesn&#x27;t make it better.
+
+I&#x27;m just telling you what I remember.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="comments">
+      <div class="section-head">
+        <h2 class="section-title">Leave a Note</h2>
+        <span class="section-link">Sent directly via email</span>
+      </div>
+      <div class="card">
+        <form class="comment-form" id="comment-form" action="https://api.web3forms.com/submit" method="POST">
+          <input type="hidden" name="access_key" value="38932bab-2025-40ac-b84e-f2ff021cd68f">
+          <input type="hidden" name="subject" value="Comment on Poem: The Meeting">
+          <input type="checkbox" name="botcheck" style="display: none;" tabindex="-1" autocomplete="off">
+
+          <div class="form-row">
+            <div class="form-field">
+              <label for="comment-name">Name</label>
+              <input id="comment-name" name="name" type="text" placeholder="Your name" required>
+            </div>
+            <div class="form-field">
+              <label for="comment-email">Email (optional)</label>
+              <input id="comment-email" name="email" type="email" placeholder="you@example.com">
+            </div>
+          </div>
+
+          <div class="form-field">
+            <label for="comment-message">Comment</label>
+            <textarea id="comment-message" name="message" placeholder="Share a thought..." required></textarea>
+          </div>
+
+          <div class="form-actions">
+            <button class="btn btn-primary" type="submit">Send Comment</button>
+            <span class="form-status" id="comment-status" aria-live="polite"></span>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <footer class="site-footer">
+      <div>
+        <p class="footer-brand">OsmoticPoet</p>
+        <p class="footer-tagline">Words written for quiet hours, paired with sound.</p>
+        <span class="footer-copy">&copy; 2026 OsmoticPoet</span>
+      </div>
+      <div>
+        <p class="footer-heading">Explore</p>
+        <ul class="footer-links">
+          <li><a href="../index.html">Home</a></li>
+          <li><a href="../poetry/index.html">Poetry</a></li>
+          <li><a href="../music/index.html">Music</a></li>
+          <li><a href="../about/index.html">About</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="footer-heading">Follow</p>
+        <ul class="footer-links">
+          <li><a href="https://www.youtube.com/" target="_blank" rel="noopener">YouTube</a></li>
+          <li><a href="https://www.facebook.com/" target="_blank" rel="noopener">Facebook</a></li>
+        </ul>
+      </div>
+    </footer>
+  </main>
+
+  <script src="../js/main.js"></script>
+</body>
+</html>

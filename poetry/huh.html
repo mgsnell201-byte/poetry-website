@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Huh? — OsmoticPoet</title>
+  <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="nav-inner">
+      <a class="brand" href="../index.html">
+        <span class="brand-dot" aria-hidden="true"></span>
+        <span>OsmoticPoet</span>
+      </a>
+      <button class="menu-toggle" type="button" aria-label="Toggle navigation">Menu</button>
+      <ul class="nav-links">
+        <li><a href="../index.html">Home</a></li>
+        <li><a href="index.html" class="active">Poetry</a></li>
+        <li><a href="../music/index.html">Music</a></li>
+        <li><a href="../about/index.html">About</a></li>
+      </ul>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="section">
+      <a class="breadcrumb" href="index.html">&larr; All Poems</a>
+      <div class="card piece-layout">
+        <div class="piece-media">
+          <img class="piece-cover" src="../assets/images/_poem-default.png" alt="Huh? illustration">
+          <div class="audio-box">
+            <div class="audio-box-label">Listen to Poem (MP3)</div>
+            <audio controls controlsList="nodownload" oncontextmenu="return false;" preload="metadata">
+              <source src="poems/huh.mp3" type="audio/mpeg">
+            </audio>
+            <p class="audio-note">Audio reading slot ready for <code>poetry/poems/huh.mp3</code>.</p>
+          </div>
+        </div>
+        <div>
+          <div class="card-meta">Poem &middot; No. 166</div>
+          <h1 class="piece-title">Huh?</h1>
+          <p class="poem-stanza">I was walking past the post office
+
+on Thursday
+
+when I heard a woman say
+
+to someone on her phone—
+
+
+
+you don’t know what you don’t know
+
+but you need to know
+
+that you don’t know—
+
+
+
+and I stopped right there
+
+on the sidewalk
+
+like a wind‑up toy
+
+that had wound down.
+
+
+
+Huh, I thought,
+
+and then again—huh—
+
+the sound of a mind
+
+catching itself mid‑stride.
+
+
+
+It was one of those sentences
+
+that eats its own tail,
+
+a snake made of appetite,
+
+the kind of thing you’d find
+
+in a fortune cookie
+
+written by a philosophy professor
+
+having a bad day.
+
+
+
+I wanted to chase her,
+
+ask her to say it again slowly,
+
+etch it on my hand,
+
+but she had already turned the corner,
+
+taking her koan with her
+
+like a purse
+
+clutched tight.
+
+
+
+You know how sometimes
+
+you open the refrigerator
+
+and forget what you were looking for,
+
+so you stand there in the cold light
+
+hoping the mustard
+
+or the milk
+
+will remind you?
+
+
+
+That’s what this felt like,
+
+only bigger—
+
+standing in the refrigerator of the universe
+
+with the door wide open,
+
+light pouring out,
+
+and no idea
+
+what I came for.
+
+
+
+My dog doesn’t worry about this.
+
+His knowledge is a perfect circle:
+
+dinner at six,
+
+squirrels are the enemy,
+
+the mail carrier is a fiend.
+
+
+
+He doesn’t lie awake
+
+wondering about the things
+
+he hasn’t even thought
+
+to wonder about.
+
+
+
+But we do.
+
+We’re cursed with this—
+
+this ability to know we don’t know,
+
+and worse,
+
+to suspect there are entire libraries
+
+we haven’t found the door to yet,
+
+vast, silent shelves
+
+of everything we’ll never learn.
+
+
+
+So I stood there,
+
+probably looking foolish,
+
+turning the sentence over
+
+like a Rubik’s cube,
+
+until a kid on a skateboard
+
+slid past me
+
+and I realized I was blocking traffic,
+
+lost in the very thing
+
+I was trying to understand—
+
+
+
+which seemed about right,
+
+like the only honest place to be:
+
+standing still on the sidewalk,
+
+knowing just enough
+
+to know I don’t know enough
+
+to know what I don’t know—
+
+
+
+and somehow—
+
+somehow,
+
+that felt like progress.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="comments">
+      <div class="section-head">
+        <h2 class="section-title">Leave a Note</h2>
+        <span class="section-link">Sent directly via email</span>
+      </div>
+      <div class="card">
+        <form class="comment-form" id="comment-form" action="https://api.web3forms.com/submit" method="POST">
+          <input type="hidden" name="access_key" value="38932bab-2025-40ac-b84e-f2ff021cd68f">
+          <input type="hidden" name="subject" value="Comment on Poem: Huh?">
+          <input type="checkbox" name="botcheck" style="display: none;" tabindex="-1" autocomplete="off">
+
+          <div class="form-row">
+            <div class="form-field">
+              <label for="comment-name">Name</label>
+              <input id="comment-name" name="name" type="text" placeholder="Your name" required>
+            </div>
+            <div class="form-field">
+              <label for="comment-email">Email (optional)</label>
+              <input id="comment-email" name="email" type="email" placeholder="you@example.com">
+            </div>
+          </div>
+
+          <div class="form-field">
+            <label for="comment-message">Comment</label>
+            <textarea id="comment-message" name="message" placeholder="Share a thought..." required></textarea>
+          </div>
+
+          <div class="form-actions">
+            <button class="btn btn-primary" type="submit">Send Comment</button>
+            <span class="form-status" id="comment-status" aria-live="polite"></span>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <footer class="site-footer">
+      <div>
+        <p class="footer-brand">OsmoticPoet</p>
+        <p class="footer-tagline">Words written for quiet hours, paired with sound.</p>
+        <span class="footer-copy">&copy; 2026 OsmoticPoet</span>
+      </div>
+      <div>
+        <p class="footer-heading">Explore</p>
+        <ul class="footer-links">
+          <li><a href="../index.html">Home</a></li>
+          <li><a href="../poetry/index.html">Poetry</a></li>
+          <li><a href="../music/index.html">Music</a></li>
+          <li><a href="../about/index.html">About</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="footer-heading">Follow</p>
+        <ul class="footer-links">
+          <li><a href="https://www.youtube.com/" target="_blank" rel="noopener">YouTube</a></li>
+          <li><a href="https://www.facebook.com/" target="_blank" rel="noopener">Facebook</a></li>
+        </ul>
+      </div>
+    </footer>
+  </main>
+
+  <script src="../js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Long Time Passing — OsmoticPoet</title>
+  <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="nav-inner">
+      <a class="brand" href="../index.html">
+        <span class="brand-dot" aria-hidden="true"></span>
+        <span>OsmoticPoet</span>
+      </a>
+      <button class="menu-toggle" type="button" aria-label="Toggle navigation">Menu</button>
+      <ul class="nav-links">
+        <li><a href="../index.html">Home</a></li>
+        <li><a href="index.html" class="active">Poetry</a></li>
+        <li><a href="../music/index.html">Music</a></li>
+        <li><a href="../about/index.html">About</a></li>
+      </ul>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="section">
+      <a class="breadcrumb" href="index.html">&larr; All Poems</a>
+      <div class="card piece-layout">
+        <div class="piece-media">
+          <img class="piece-cover" src="../assets/images/long-time-passing.jpg" alt="Long Time Passing illustration">
+          <div class="audio-box">
+            <div class="audio-box-label">Listen to Poem (MP3)</div>
+            <audio controls controlsList="nodownload" oncontextmenu="return false;" preload="metadata">
+              <source src="poems/long-time-passing.mp3" type="audio/mpeg">
+            </audio>
+            <p class="audio-note">Audio reading slot ready for <code>poetry/poems/long-time-passing.mp3</code>.</p>
+          </div>
+        </div>
+        <div>
+          <div class="card-meta">Poem &middot; No. 224</div>
+          <h1 class="piece-title">Long Time Passing</h1>
+          <p class="poem-stanza">I was thinking about the crickets last night,
+
+how they used to fill the August evenings
+
+with their persistent orchestra,
+
+rubbing their legs together in the grass
+
+like tiny violinists tuning up for a performance
+
+that never quite began, yet never ended either.
+
+
+
+Where have all the crickets gone? I ask
+
+the way the Kingston Trio used to ask
+
+about flowers and soldiers and young girls,
+
+each verse circling back to long time passing,
+
+which is what I&#x27;m doing now, I suppose,
+
+standing on the porch with my coffee,
+
+listening to the silence where the crickets should be.
+
+
+
+My daughter says it&#x27;s pesticides.
+
+My neighbor says it&#x27;s climate change.
+
+The internet says both, or neither, or possibly
+
+they&#x27;re just hiding, waiting for some signal
+
+we can&#x27;t hear, some cosmic all-clear
+
+that will bring them back in their multitudes.
+
+
+
+I remember when you couldn&#x27;t walk through grass
+
+without launching a dozen of them into flight,
+
+those awkward leaps, their inability to land gracefully—
+
+the way they were always somewhere else
+
+by the time you looked down at where they&#x27;d been.
+
+Now the lawn sits there, silent as a library,
+
+which is another thing that&#x27;s changing, come to think of it.
+
+
+
+Maybe the crickets left with the lightning bugs,
+
+packed their bags and caught the same train
+
+to wherever disappeared things go—
+
+that realm where payphones and handwritten letters
+
+compare notes with manual typewriters
+
+and actual film that you had to have developed
+
+to see if your pictures came out.
+
+
+
+Long time passing, indeed.
+
+Though I suppose the crickets don&#x27;t measure time
+
+the way we do, in decades and generations,
+
+mourning what we&#x27;ve lost while checking our phones
+
+for news of other losses.
+
+They just rubbed their legs and sang,
+
+which seems, in retrospect, like a reasonable way
+
+to spend an evening.
+
+
+
+So here I am, listening for them,
+
+the way I listen for other sounds that used to be:
+
+the particular silence before the phone rings,
+
+the click of a pen when someone&#x27;s thinking,
+
+the rustle of newspaper pages in the morning.
+
+All of it passing, long time passing,
+
+and me on the porch with my coffee,
+
+wondering if the crickets will ever come back,
+
+or if we&#x27;ll just learn to live without them,
+
+the way we&#x27;ve learned to live without so much else,
+
+until someone younger asks, &quot;What&#x27;s a cricket?&quot;
+
+and I&#x27;ll have to explain about the concerts in the grass,
+
+the summer symphonies we used to take for granted,
+
+back when long time passing was just a song.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="comments">
+      <div class="section-head">
+        <h2 class="section-title">Leave a Note</h2>
+        <span class="section-link">Sent directly via email</span>
+      </div>
+      <div class="card">
+        <form class="comment-form" id="comment-form" action="https://api.web3forms.com/submit" method="POST">
+          <input type="hidden" name="access_key" value="38932bab-2025-40ac-b84e-f2ff021cd68f">
+          <input type="hidden" name="subject" value="Comment on Poem: Long Time Passing">
+          <input type="checkbox" name="botcheck" style="display: none;" tabindex="-1" autocomplete="off">
+
+          <div class="form-row">
+            <div class="form-field">
+              <label for="comment-name">Name</label>
+              <input id="comment-name" name="name" type="text" placeholder="Your name" required>
+            </div>
+            <div class="form-field">
+              <label for="comment-email">Email (optional)</label>
+              <input id="comment-email" name="email" type="email" placeholder="you@example.com">
+            </div>
+          </div>
+
+          <div class="form-field">
+            <label for="comment-message">Comment</label>
+            <textarea id="comment-message" name="message" placeholder="Share a thought..." required></textarea>
+          </div>
+
+          <div class="form-actions">
+            <button class="btn btn-primary" type="submit">Send Comment</button>
+            <span class="form-status" id="comment-status" aria-live="polite"></span>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <footer class="site-footer">
+      <div>
+        <p class="footer-brand">OsmoticPoet</p>
+        <p class="footer-tagline">Words written for quiet hours, paired with sound.</p>
+        <span class="footer-copy">&copy; 2026 OsmoticPoet</span>
+      </div>
+      <div>
+        <p class="footer-heading">Explore</p>
+        <ul class="footer-links">
+          <li><a href="../index.html">Home</a></li>
+          <li><a href="../poetry/index.html">Poetry</a></li>
+          <li><a href="../music/index.html">Music</a></li>
+          <li><a href="../about/index.html">About</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="footer-heading">Follow</p>
+        <ul class="footer-links">
+          <li><a href="https://www.youtube.com/" target="_blank" rel="noopener">YouTube</a></li>
+          <li><a href="https://www.facebook.com/" target="_blank" rel="noopener">Facebook</a></li>
+        </ul>
+      </div>
+    </footer>
+  </main>
+
+  <script src="../js/main.js"></script>
+</body>
+</html>

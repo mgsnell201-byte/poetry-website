@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Vanishing Point — OsmoticPoet</title>
+  <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="nav-inner">
+      <a class="brand" href="../index.html">
+        <span class="brand-dot" aria-hidden="true"></span>
+        <span>OsmoticPoet</span>
+      </a>
+      <button class="menu-toggle" type="button" aria-label="Toggle navigation">Menu</button>
+      <ul class="nav-links">
+        <li><a href="../index.html">Home</a></li>
+        <li><a href="index.html" class="active">Poetry</a></li>
+        <li><a href="../music/index.html">Music</a></li>
+        <li><a href="../about/index.html">About</a></li>
+      </ul>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="section">
+      <a class="breadcrumb" href="index.html">&larr; All Poems</a>
+      <div class="card piece-layout">
+        <div class="piece-media">
+          <img class="piece-cover" src="../assets/images/_poem-default.png" alt="The Vanishing Point illustration">
+          <div class="audio-box">
+            <div class="audio-box-label">Listen to Poem (MP3)</div>
+            <audio controls controlsList="nodownload" oncontextmenu="return false;" preload="metadata">
+              <source src="poems/the-vanishing-point.mp3" type="audio/mpeg">
+            </audio>
+            <p class="audio-note">Audio reading slot ready for <code>poetry/poems/the-vanishing-point.mp3</code>.</p>
+          </div>
+        </div>
+        <div>
+          <div class="card-meta">Poem &middot; No. 190</div>
+          <h1 class="piece-title">The Vanishing Point</h1>
+          <p class="poem-stanza">You&#x27;re asking the wrong question, friend,
+
+sitting there with your poems spread across the kitchen table
+
+like tarot cards you can&#x27;t quite read.
+
+You want to know if the work is good
+
+before you&#x27;ve finished making it good,
+
+which is like asking if the bread will rise
+
+while your hands are still kneading the dough.
+
+
+
+I&#x27;ll tell you what I think, though I&#x27;m just a guy
+
+who writes poems in the morning and walks his dog in the afternoon,
+
+which might make me the least qualified person
+
+or the most, depending on your mood.
+
+
+
+The difference between da Vinci and Van Gogh
+
+isn&#x27;t that one got roses at the curtain call
+
+and the other got a bullet and a wheat field.
+
+It&#x27;s that both of them kept working
+
+when the work was all they had,
+
+when the canvas was the only mirror that didn&#x27;t lie.
+
+
+
+You say if you alone read it, it&#x27;s vanity.
+
+But I bet that you bend over a notebook
+
+the way a jeweler examines a stone,
+
+adjusting each facet, testing how the light
+
+moves through the words. That&#x27;s not vanity.
+
+That&#x27;s faith—the kind that doesn&#x27;t require
+
+an audience or a panel of judges in robes.
+
+
+
+Sure, we send our poems out into the world
+
+hoping someone will catch them like fireflies in a jar,
+
+but the poem was complete the moment you finished it,
+
+the way a tree falling in the forest makes a sound
+
+whether or not the philosophers are listening.
+
+
+
+The value isn&#x27;t independent of you—it&#x27;s just
+
+independent of their recognition,
+
+which is a different animal entirely.
+
+You&#x27;ll write a thousand poems that nobody reads
+
+and they&#x27;ll still be poems,
+
+the same way a bird sings in the morning
+
+whether or not you&#x27;re awake to hear it.
+
+
+
+So keep your hands in the dough, my friend.
+
+The bread will rise or it won&#x27;t,
+
+but the rising was never the point.
+
+The point was that you needed to make something
+
+that didn&#x27;t exist before you made it,
+
+and that need—that quiet, persistent need—
+
+is the only validation that ever mattered.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="comments">
+      <div class="section-head">
+        <h2 class="section-title">Leave a Note</h2>
+        <span class="section-link">Sent directly via email</span>
+      </div>
+      <div class="card">
+        <form class="comment-form" id="comment-form" action="https://api.web3forms.com/submit" method="POST">
+          <input type="hidden" name="access_key" value="38932bab-2025-40ac-b84e-f2ff021cd68f">
+          <input type="hidden" name="subject" value="Comment on Poem: The Vanishing Point">
+          <input type="checkbox" name="botcheck" style="display: none;" tabindex="-1" autocomplete="off">
+
+          <div class="form-row">
+            <div class="form-field">
+              <label for="comment-name">Name</label>
+              <input id="comment-name" name="name" type="text" placeholder="Your name" required>
+            </div>
+            <div class="form-field">
+              <label for="comment-email">Email (optional)</label>
+              <input id="comment-email" name="email" type="email" placeholder="you@example.com">
+            </div>
+          </div>
+
+          <div class="form-field">
+            <label for="comment-message">Comment</label>
+            <textarea id="comment-message" name="message" placeholder="Share a thought..." required></textarea>
+          </div>
+
+          <div class="form-actions">
+            <button class="btn btn-primary" type="submit">Send Comment</button>
+            <span class="form-status" id="comment-status" aria-live="polite"></span>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <footer class="site-footer">
+      <div>
+        <p class="footer-brand">OsmoticPoet</p>
+        <p class="footer-tagline">Words written for quiet hours, paired with sound.</p>
+        <span class="footer-copy">&copy; 2026 OsmoticPoet</span>
+      </div>
+      <div>
+        <p class="footer-heading">Explore</p>
+        <ul class="footer-links">
+          <li><a href="../index.html">Home</a></li>
+          <li><a href="../poetry/index.html">Poetry</a></li>
+          <li><a href="../music/index.html">Music</a></li>
+          <li><a href="../about/index.html">About</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="footer-heading">Follow</p>
+        <ul class="footer-links">
+          <li><a href="https://www.youtube.com/" target="_blank" rel="noopener">YouTube</a></li>
+          <li><a href="https://www.facebook.com/" target="_blank" rel="noopener">Facebook</a></li>
+        </ul>
+      </div>
+    </footer>
+  </main>
+
+  <script src="../js/main.js"></script>
+</body>
+</html>
