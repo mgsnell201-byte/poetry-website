@@ -149,6 +149,10 @@ def write_poem_pages() -> list[tuple[str, str]]:
   <meta property="og:description" content="{desc_esc}">
   <meta property="og:url" content="https://osmoticpoet.com/poetry/{stem}.html">
   <meta property="og:image" content="{og_img}">
+  <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="../assets/favicon-48x48.png" sizes="48x48" type="image/png">
+  <link rel="icon" href="../favicon.ico" sizes="any">
+  <link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@300;400;500;600&family=Lora:ital,wght@0,400;0,500;1,400&display=swap" media="print" onload="this.media='all'">
@@ -158,7 +162,7 @@ def write_poem_pages() -> list[tuple[str, str]]:
   <header class="site-header">
     <div class="nav-inner">
       <a class="brand" href="../index.html">
-        <span class="brand-dot" aria-hidden="true"></span>
+        <img class="brand-logo" src="../assets/logo.svg" alt="" width="26" height="26" aria-hidden="true">
         <span>OsmoticPoet</span>
       </a>
       <button class="menu-toggle" type="button" aria-label="Toggle navigation">Menu</button>

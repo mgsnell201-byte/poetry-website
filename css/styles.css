@@ -85,6 +85,13 @@ a {
   box-shadow: 0 0 12px rgba(197, 155, 95, 0.6);
 }
 
+.brand-logo {
+  width: 26px;
+  height: 26px;
+  flex-shrink: 0;
+  display: block;
+}
+
 .nav-links {
   display: flex;
   align-items: center;
