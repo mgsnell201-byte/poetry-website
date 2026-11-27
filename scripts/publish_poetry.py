@@ -127,6 +127,15 @@ def write_poem_pages() -> list[tuple[str, str]]:
         cover = find_cover(stem, "../")
         og_img = f"https://osmoticpoet.com/{cover.lstrip('../')}" if cover else "https://osmoticpoet.com/assets/images/_poem-default.png" 
         mp3_exists = (POEMS_DATA / f"{stem}.mp3").exists()
+        ld_json = json.dumps({
+            "@context": "https://schema.org",
+            "@type": "CreativeWork",
+            "name": title,
+            "url": f"https://osmoticpoet.com/poetry/{stem}.html",
+            "image": og_img,
+            "description": f"{title} — {snippet}" if snippet else f"{title} by OsmoticPoet",
+            "author": {"@type": "Person", "name": "Marvin Snell", "alternateName": "OsmoticPoet"},
+        }, ensure_ascii=False)
 
         img_html = f'          <img class="piece-cover" src="{cover}" alt="{title_esc} illustration">' if cover else ""
         audio_note = "" if mp3_exists else f'\n            <p class="audio-note">Audio reading slot ready for <code>poetry/poems/{stem}.mp3</code>.</p>'
@@ -158,6 +167,7 @@ def write_poem_pages() -> list[tuple[str, str]]:
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@300;400;500;600&family=Lora:ital,wght@0,400;0,500;1,400&display=swap" media="print" onload="this.media='all'">
   <link rel="stylesheet" href="../css/styles.css">
+  <script type="application/ld+json">{ld_json}</script>
 </head>
 <body>
   <header class="site-header">

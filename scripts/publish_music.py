@@ -228,6 +228,16 @@ def write_track_pages() -> list[str]:
             lyrics_html = f"Lyrics not added yet.\n\nTo add lyrics, place a {stem}.txt file in music/tracks/ or music/inbox/ and run publish-music.bat."
             lyrics_cls = "poem-stanza muted"
 
+        ld_json = json.dumps({
+            "@context": "https://schema.org",
+            "@type": "MusicRecording",
+            "name": title,
+            "url": f"https://osmoticpoet.com/music/{stem}.html",
+            "image": og_img,
+            "description": html.unescape(desc_esc),
+            "byArtist": {"@type": "Person", "name": "Marvin Snell", "alternateName": "OsmoticPoet"},
+        }, ensure_ascii=False)
+
         if has_video and mp4_src:
             poster = f' poster="{cover}"' if cover else ""
             visual_html = f"""          <video class="piece-video" controls controlsList="nodownload" oncontextmenu="return false;" preload="metadata"{poster}>
@@ -265,6 +275,7 @@ def write_track_pages() -> list[str]:
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@300;400;500;600&family=Lora:ital,wght@0,400;0,500;1,400&display=swap" media="print" onload="this.media='all'">
   <link rel="stylesheet" href="../css/styles.css">
+  <script type="application/ld+json">{ld_json}</script>
 </head>
 <body>
   <header class="site-header">
