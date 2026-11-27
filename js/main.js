@@ -224,3 +224,24 @@ document.addEventListener('DOMContentLoaded', () => {
   upBtn.addEventListener('click', () => castVote('up'));
   downBtn.addEventListener('click', () => castVote('down'));
 });
+
+// Casual Copy & Right-Click Deterrents
+document.addEventListener('contextmenu', (e) => {
+  if (e.target.closest('.piece-cover, .media-card-img, .bio-photo, .piece-video, .poem-stanza, .piece-title')) {
+    e.preventDefault();
+  }
+});
+
+document.addEventListener('dragstart', (e) => {
+  if (e.target instanceof HTMLImageElement) {
+    e.preventDefault();
+  }
+});
+
+['copy', 'cut'].forEach((evt) => {
+  document.addEventListener(evt, (e) => {
+    if (!e.target.closest('input, textarea')) {
+      e.preventDefault();
+    }
+  });
+});

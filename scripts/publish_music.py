@@ -353,7 +353,7 @@ def write_track_pages() -> list[str]:
       <div>
         <p class="footer-brand">OsmoticPoet</p>
         <p class="footer-tagline">Words written for quiet hours, paired with sound.</p>
-        <span class="footer-copy">&copy; 2026 OsmoticPoet</span>
+        <span class="footer-copy">&copy; 2026 Marvin Snell (OsmoticPoet). All rights reserved.</span>
       </div>
       <div>
         <p class="footer-heading">Explore</p>

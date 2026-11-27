@@ -902,3 +902,20 @@ a {
   opacity: 0.7;
   cursor: default;
 }
+
+/* Casual Copy & Right-Click Deterrents */
+.poem-stanza,
+.piece-title {
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.piece-cover,
+.media-card-img,
+.bio-photo {
+  -webkit-user-drag: none;
+  user-drag: none;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
