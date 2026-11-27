@@ -88,7 +88,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Pages (for 'all' and 'pages' modes)
   const pages = [];
-  if (mode !== 'notes') {
+  if (mode === 'all' || mode === 'pages') {
     const makePageTexture = () => {
       const c = document.createElement('canvas');
       c.width = 256;
@@ -226,6 +226,26 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
+  // Rotating Aged-Brass Seal (for 'privacy' mode)
+  let sealGroup = null;
+  if (mode === 'privacy') {
+    sealGroup = new THREE.Group();
+    const outerRing = new THREE.Mesh(
+      new THREE.TorusGeometry(1.45, 0.035, 16, 64),
+      brassMat
+    );
+    const innerRing = new THREE.Mesh(
+      new THREE.TorusGeometry(1.05, 0.018, 12, 64),
+      new THREE.MeshBasicMaterial({ color: 0xede8df, transparent: true, opacity: 0.45 })
+    );
+    const core = new THREE.Mesh(
+      new THREE.OctahedronGeometry(0.45, 0),
+      brassMat
+    );
+    sealGroup.add(outerRing, innerRing, core);
+    scene.add(sealGroup);
+  }
+
   // Subtle warm motes
   const moteCount = 60;
   const motePos = new Float32Array(moteCount * 3);
@@ -292,6 +312,11 @@ document.addEventListener('DOMContentLoaded', () => {
       const s = 0.75 * Math.sin(life * Math.PI);
       n.scale.setScalar(Math.max(0.001, s));
     });
+
+    if (sealGroup) {
+      sealGroup.rotation.y = t * 0.45;
+      sealGroup.rotation.x = Math.sin(t * 0.35) * 0.25;
+    }
 
     motes.rotation.y = t * 0.03;
 

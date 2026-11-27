@@ -27,10 +27,17 @@
   </header>
 
   <main class="container">
-    <section class="page-header">
-      <span class="eyebrow">Site Information</span>
-      <h1>Privacy Policy</h1>
-      <p>Plain-language summary of how this site handles your information.</p>
+    <section class="hero">
+      <div class="hero-grid">
+        <div>
+          <span class="eyebrow">Site Information</span>
+          <h1>Privacy Policy</h1>
+          <p class="hero-lead">Plain-language summary of how this site handles your information.</p>
+        </div>
+        <div class="hero-visual" aria-hidden="true">
+          <canvas id="hero-canvas" data-mode="privacy"></canvas>
+        </div>
+      </div>
     </section>
 
     <section class="section">
@@ -79,6 +86,8 @@ If you prefer not to use the "Leave a Note" form, you can email <a href="mailto:
     </footer>
   </main>
 
+  <script src="https://unpkg.com/three@0.160.0/build/three.min.js" defer></script>
+  <script src="js/hero-scene.js" defer></script>
   <script src="js/main.js" defer></script>
 </body>
 </html>
