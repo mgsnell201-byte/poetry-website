@@ -116,7 +116,7 @@ def write_poem_pages() -> list[tuple[str, str]]:
         audio_note = "" if mp3_exists else f'\n            <p class="audio-note">Audio reading slot ready for <code>poetry/poems/{stem}.mp3</code>.</p>'
         audio_html = f"""          <div class="audio-box">
             <div class="audio-box-label">Listen to Poem (MP3)</div>
-            <audio controls preload="metadata">
+            <audio controls controlsList="nodownload" oncontextmenu="return false;" preload="metadata">
               <source src="poems/{stem}.mp3" type="audio/mpeg">
             </audio>{audio_note}
           </div>"""

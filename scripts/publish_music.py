@@ -189,7 +189,7 @@ def write_track_pages() -> list[str]:
 
         if has_video and mp4_src:
             poster = f' poster="{cover}"' if cover else ""
-            visual_html = f"""          <video class="piece-video" controls preload="metadata"{poster}>
+            visual_html = f"""          <video class="piece-video" controls controlsList="nodownload" oncontextmenu="return false;" preload="metadata"{poster}>
             <source src="{mp4_src}" type="video/mp4">
           </video>"""
             audio_html = ""
@@ -198,7 +198,7 @@ def write_track_pages() -> list[str]:
             audio_src = mp3_src or mp4_src
             audio_html = f"""          <div class="audio-box">
             <div class="audio-box-label">Listen to Track (MP3)</div>
-            <audio controls preload="metadata">
+            <audio controls controlsList="nodownload" oncontextmenu="return false;" preload="metadata">
               <source src="{audio_src}" type="audio/mpeg">
             </audio>
           </div>""" if audio_src else ""
