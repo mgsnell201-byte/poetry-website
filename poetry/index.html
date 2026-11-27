@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Poetry — Verse &amp; Vinyl</title>
+  <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="nav-inner">
+      <a class="brand" href="../index.html">
+        <span class="brand-dot" aria-hidden="true"></span>
+        <span>Verse &amp; Vinyl</span>
+      </a>
+      <button class="menu-toggle" type="button" aria-label="Toggle navigation">Menu</button>
+      <ul class="nav-links">
+        <li><a href="../index.html">Home</a></li>
+        <li><a href="../poetry/index.html" class="active">Poetry</a></li>
+        <li><a href="../music/index.html">Music</a></li>
+        <li><a href="../about/index.html">About</a></li>
+      </ul>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="hero">
+      <div class="hero-grid">
+        <div>
+          <span class="eyebrow">Poetry Archive</span>
+          <h1>Poetry</h1>
+          <p class="hero-lead">Select a poem to read the full text, listen when audio is available, or leave a note.</p>
+        </div>
+        <div class="hero-visual" aria-hidden="true">
+          <canvas id="hero-canvas" data-mode="pages"></canvas>
+          <span class="hero-caption">Poetry from the heart, for the heart</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="media-grid media-grid--compact" data-page-size="12">
+        <!-- POEMS_START -->
+                                        <a class="media-card" href="secondhand-radio.html">
+          <img class="media-card-img" src="../assets/images/secondhand-radio.png" alt="Secondhand Radio cover">
+          <div class="media-card-body">
+            <div class="card-meta">Poem &middot; No. 01</div>
+            <h3 class="media-card-title">Secondhand Radio</h3>
+          </div>
+        </a>
+        <a class="media-card" href="lantern-on-the-porch.html">
+          <img class="media-card-img" src="../assets/images/lantern-on-the-porch.png" alt="Lantern on the Porch cover">
+          <div class="media-card-body">
+            <div class="card-meta">Poem &middot; No. 02</div>
+            <h3 class="media-card-title">Lantern on the Porch</h3>
+          </div>
+        </a>
+        <a class="media-card" href="after-the-rain.html">
+          <img class="media-card-img" src="../assets/images/after-the-rain.png" alt="After the Rain cover">
+          <div class="media-card-body">
+            <div class="card-meta">Poem &middot; No. 03</div>
+            <h3 class="media-card-title">After the Rain</h3>
+          </div>
+        </a>
+        <a class="media-card" href="cousin-schnoz.html">
+          <img class="media-card-img" src="../assets/images/cousin-schnoz.jpg" alt="Cousin Schnoz cover">
+          <div class="media-card-body">
+            <div class="card-meta">Poem &middot; No. 04</div>
+            <h3 class="media-card-title">Cousin Schnoz</h3>
+          </div>
+        </a>
+        <!-- POEMS_END -->
+      </div>
+      <nav class="pagination" id="archive-pagination" aria-label="Archive pages" hidden>
+        <button class="page-btn" id="page-prev" type="button">&larr; Previous</button>
+        <span class="page-status" id="page-status">Page 1 of 1</span>
+        <button class="page-btn" id="page-next" type="button">Next &rarr;</button>
+      </nav>
+    </section>
+
+    <footer class="site-footer">
+      <div>
+        <p class="footer-brand">Verse &amp; Vinyl</p>
+        <p class="footer-tagline">Words written for quiet hours, paired with sound.</p>
+        <span class="footer-copy">&copy; 2026 Verse &amp; Vinyl</span>
+      </div>
+      <div>
+        <p class="footer-heading">Explore</p>
+        <ul class="footer-links">
+          <li><a href="../index.html">Home</a></li>
+          <li><a href="../poetry/index.html">Poetry</a></li>
+          <li><a href="../music/index.html">Music</a></li>
+          <li><a href="../about/index.html">About</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="footer-heading">Follow</p>
+        <ul class="footer-links">
+          <li><a href="https://www.youtube.com/" target="_blank" rel="noopener">YouTube</a></li>
+          <li><a href="https://www.facebook.com/" target="_blank" rel="noopener">Facebook</a></li>
+        </ul>
+      </div>
+    </footer>
+  </main>
+
+  <script src="https://unpkg.com/three@0.160.0/build/three.min.js"></script>
+  <script src="../js/hero-scene.js"></script>
+  <script src="../js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,305 @@
+document.addEventListener('DOMContentLoaded', () => {
+  const canvas = document.getElementById('hero-canvas');
+  const container = canvas?.parentElement;
+  if (!canvas || !container || typeof THREE === 'undefined') return;
+  const mode = canvas.dataset.mode || 'all';
+
+  const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+  const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(42, 1, 0.1, 100);
+  camera.position.set(0, 0, 8.5);
+
+  const syncVisualWidth = () => {
+    const navLinks = document.querySelector('.nav-links');
+    if (window.innerWidth > 768 && navLinks && navLinks.offsetWidth > 0) {
+      container.style.width = `${navLinks.offsetWidth}px`;
+    } else {
+      container.style.width = '';
+    }
+  };
+
+  const resize = () => {
+    syncVisualWidth();
+    const w = container.clientWidth;
+    const h = container.clientHeight;
+    if (!w || !h) return;
+    renderer.setSize(w, h, false);
+    camera.aspect = w / h;
+    camera.updateProjectionMatrix();
+  };
+  resize();
+  window.addEventListener('load', resize);
+  document.fonts?.ready.then(resize);
+  window.addEventListener('resize', resize);
+  const navEl = document.querySelector('.nav-links');
+  if (navEl && typeof ResizeObserver !== 'undefined') new ResizeObserver(resize).observe(navEl);
+
+  // Lighting
+  scene.add(new THREE.AmbientLight(0xede8df, 0.95));
+  const keyLight = new THREE.DirectionalLight(0xc59b5f, 1.5);
+  keyLight.position.set(4, 6, 5);
+  scene.add(keyLight);
+
+  const brassMat = new THREE.MeshStandardMaterial({
+    color: 0xc59b5f,
+    metalness: 0.55,
+    roughness: 0.35,
+  });
+
+  const createNote = (beamed) => {
+    const group = new THREE.Group();
+    const headGeo = new THREE.SphereGeometry(0.11, 16, 12);
+    headGeo.scale(1.25, 0.9, 0.7);
+    const stemGeo = new THREE.CylinderGeometry(0.02, 0.02, 0.52, 8);
+
+    const head1 = new THREE.Mesh(headGeo, brassMat);
+    head1.rotation.z = 0.35;
+    group.add(head1);
+
+    const stem1 = new THREE.Mesh(stemGeo, brassMat);
+    stem1.position.set(0.09, 0.25, 0);
+    group.add(stem1);
+
+    if (beamed) {
+      const head2 = new THREE.Mesh(headGeo, brassMat);
+      head2.position.set(0.32, -0.05, 0);
+      head2.rotation.z = 0.35;
+      group.add(head2);
+
+      const stem2 = new THREE.Mesh(stemGeo, brassMat);
+      stem2.position.set(0.41, 0.2, 0);
+      group.add(stem2);
+
+      const beam = new THREE.Mesh(new THREE.BoxGeometry(0.34, 0.055, 0.03), brassMat);
+      beam.position.set(0.25, 0.48, 0);
+      beam.rotation.z = -0.14;
+      group.add(beam);
+    } else {
+      const flag = new THREE.Mesh(new THREE.BoxGeometry(0.18, 0.045, 0.025), brassMat);
+      flag.position.set(0.17, 0.46, 0);
+      flag.rotation.z = -0.55;
+      group.add(flag);
+    }
+
+    return group;
+  };
+
+  // Pages (for 'all' and 'pages' modes)
+  const pages = [];
+  if (mode !== 'notes') {
+    const makePageTexture = () => {
+      const c = document.createElement('canvas');
+      c.width = 256;
+      c.height = 320;
+      const ctx = c.getContext('2d');
+      ctx.fillStyle = '#ede8df';
+      ctx.fillRect(0, 0, c.width, c.height);
+      ctx.strokeStyle = 'rgba(18, 17, 16, 0.18)';
+      ctx.lineWidth = 2;
+      for (let y = 44; y < 285; y += 22) {
+        ctx.beginPath();
+        ctx.moveTo(28, y);
+        ctx.lineTo(228 - ((y * 13) % 55), y);
+        ctx.stroke();
+      }
+      ctx.strokeStyle = 'rgba(197, 155, 95, 0.55)';
+      ctx.strokeRect(8, 8, c.width - 16, c.height - 16);
+      const tex = new THREE.CanvasTexture(c);
+      tex.colorSpace = THREE.SRGBColorSpace;
+      return tex;
+    };
+
+    const pageMat = new THREE.MeshStandardMaterial({
+      map: makePageTexture(),
+      side: THREE.DoubleSide,
+      transparent: true,
+      opacity: 0.78,
+      roughness: 0.85,
+    });
+
+    const pageGeo = new THREE.PlaneGeometry(1.15, 1.45, 10, 12);
+    const pos = pageGeo.attributes.position;
+    for (let i = 0; i < pos.count; i++) {
+      const x = pos.getX(i);
+      const y = pos.getY(i);
+      pos.setZ(i, Math.sin(x * 2.1) * 0.1 + Math.cos(y * 1.4) * 0.06);
+    }
+    pageGeo.computeVertexNormals();
+
+    for (let i = 0; i < 6; i++) {
+      const mesh = new THREE.Mesh(pageGeo, pageMat);
+      const base = {
+        x: (Math.random() - 0.5) * 5.2,
+        y: (Math.random() - 0.5) * 3.0,
+        z: mode === 'all' ? (-1.1 - Math.random() * 1.1) : ((Math.random() - 0.5) * 2.4 - 0.4),
+        rx: (Math.random() - 0.5) * 0.7,
+        ry: (Math.random() - 0.5) * 0.9,
+        rz: (Math.random() - 0.5) * 0.5,
+        speed: 0.35 + Math.random() * 0.35,
+        phase: Math.random() * Math.PI * 2,
+      };
+      mesh.position.set(base.x, base.y, base.z);
+      mesh.rotation.set(base.rx, base.ry, base.rz);
+      mesh.userData = base;
+      scene.add(mesh);
+      pages.push(mesh);
+    }
+  }
+
+  // Orbiting notes (for 'all' mode)
+  const notes = [];
+  if (mode === 'all') {
+    for (let i = 0; i < 8; i++) {
+      const note = createNote(i % 2 === 0);
+      const base = {
+        x: (Math.random() - 0.5) * 4.4,
+        y: (Math.random() - 0.5) * 2.1,
+        z: (Math.random() - 0.5) * 2.2 + 0.4,
+        speed: 0.5 + Math.random() * 0.45,
+        phase: Math.random() * Math.PI * 2,
+      };
+      note.position.set(base.x, base.y, base.z);
+      note.scale.setScalar(0.85 + Math.random() * 0.35);
+      note.userData = base;
+      scene.add(note);
+      notes.push(note);
+    }
+  }
+
+  // Spinning Vinyl + Rising Notes (for 'notes' mode on Music page)
+  let vinylSpinner = null;
+  const risingNotes = [];
+  if (mode === 'notes' || mode === 'all') {
+    const vinylTilt = new THREE.Group();
+    vinylTilt.position.set(0, mode === 'all' ? 0.0 : -0.55, 0);
+    vinylTilt.rotation.x = 0.95;
+    vinylTilt.rotation.z = -0.15;
+    scene.add(vinylTilt);
+
+    vinylSpinner = new THREE.Group();
+    vinylTilt.add(vinylSpinner);
+
+    const discMat = new THREE.MeshStandardMaterial({
+      color: 0x1b1917,
+      metalness: 0.35,
+      roughness: 0.45,
+    });
+    const disc = new THREE.Mesh(new THREE.CylinderGeometry(2.05, 2.05, 0.06, 64), discMat);
+    vinylSpinner.add(disc);
+
+    // Subtle brass groove rings
+    [1.85, 1.55, 1.25, 0.95].forEach((r, idx) => {
+      const ring = new THREE.Mesh(
+        new THREE.TorusGeometry(r, 0.012, 8, 64),
+        new THREE.MeshBasicMaterial({ color: 0xc59b5f, transparent: true, opacity: 0.25 + idx * 0.06 })
+      );
+      ring.rotation.x = Math.PI / 2;
+      ring.position.y = 0.034;
+      vinylSpinner.add(ring);
+    });
+
+    // Center brass label + spindle
+    const label = new THREE.Mesh(new THREE.CylinderGeometry(0.62, 0.62, 0.07, 48), brassMat);
+    vinylSpinner.add(label);
+    const spindle = new THREE.Mesh(
+      new THREE.CylinderGeometry(0.06, 0.06, 0.14, 16),
+      new THREE.MeshStandardMaterial({ color: 0xede8df, metalness: 0.6, roughness: 0.3 })
+    );
+    vinylSpinner.add(spindle);
+
+    // Notes rising smoothly from the spinning record (on Music page)
+    if (mode === 'notes') {
+      for (let i = 0; i < 6; i++) {
+      const note = createNote(i % 2 === 0);
+      note.scale.setScalar(0.7 + (i % 3) * 0.12);
+      note.userData = {
+        offset: i / 6,
+        radius: 0.55 + (i % 3) * 0.45,
+        angle: (i / 6) * Math.PI * 2,
+        speed: 0.24 + (i % 2) * 0.06,
+      };
+        scene.add(note);
+        risingNotes.push(note);
+      }
+    }
+  }
+
+  // Subtle warm motes
+  const moteCount = 60;
+  const motePos = new Float32Array(moteCount * 3);
+  for (let i = 0; i < moteCount; i++) {
+    motePos[i * 3] = (Math.random() - 0.5) * 8;
+    motePos[i * 3 + 1] = (Math.random() - 0.5) * 5;
+    motePos[i * 3 + 2] = (Math.random() - 0.5) * 4;
+  }
+  const moteGeo = new THREE.BufferGeometry();
+  moteGeo.setAttribute('position', new THREE.BufferAttribute(motePos, 3));
+  const moteMat = new THREE.PointsMaterial({
+    color: 0xc59b5f,
+    size: 0.045,
+    transparent: true,
+    opacity: 0.55,
+  });
+  const motes = new THREE.Points(moteGeo, moteMat);
+  scene.add(motes);
+
+  // Subtle mouse parallax
+  let targetX = 0;
+  let targetY = 0;
+  container.addEventListener('pointermove', (e) => {
+    const rect = container.getBoundingClientRect();
+    targetX = ((e.clientX - rect.left) / rect.width - 0.5) * 0.9;
+    targetY = -((e.clientY - rect.top) / rect.height - 0.5) * 0.6;
+  });
+  container.addEventListener('pointerleave', () => {
+    targetX = 0;
+    targetY = 0;
+  });
+
+  const clock = new THREE.Clock();
+  const animate = () => {
+    requestAnimationFrame(animate);
+    const t = clock.getElapsedTime();
+
+    pages.forEach((p) => {
+      const d = p.userData;
+      p.position.y = d.y + Math.sin(t * d.speed + d.phase) * 0.22;
+      p.rotation.x = d.rx + Math.sin(t * d.speed * 0.7 + d.phase) * 0.14;
+      p.rotation.y = d.ry + Math.cos(t * d.speed * 0.6 + d.phase) * 0.18;
+    });
+
+    notes.forEach((n) => {
+      const d = n.userData;
+      n.position.y = d.y + Math.sin(t * d.speed + d.phase) * 0.28;
+      n.rotation.y = Math.sin(t * 0.4 + d.phase) * 0.45;
+      n.rotation.z = Math.cos(t * 0.35 + d.phase) * 0.12;
+    });
+
+    if (vinylSpinner) {
+      vinylSpinner.rotation.y = -t * 0.65;
+    }
+
+    risingNotes.forEach((n) => {
+      const d = n.userData;
+      const life = (t * d.speed + d.offset) % 1;
+      const a = d.angle + t * 0.4;
+      n.position.x = Math.cos(a) * d.radius;
+      n.position.y = -0.3 + life * 2.1;
+      n.position.z = Math.sin(a) * 0.6 + 0.3;
+      n.rotation.y = Math.sin(t * 0.6 + d.offset * 6) * 0.35;
+      const s = 0.75 * Math.sin(life * Math.PI);
+      n.scale.setScalar(Math.max(0.001, s));
+    });
+
+    motes.rotation.y = t * 0.03;
+
+    camera.position.x += (targetX - camera.position.x) * 0.05;
+    camera.position.y += (targetY - camera.position.y) * 0.05;
+    camera.lookAt(0, 0, 0);
+
+    renderer.render(scene, camera);
+  };
+  animate();
+});
