@@ -33,11 +33,11 @@ Use **lowercase filenames with hyphens** (no spaces) and give matching files the
 
 ---
 
-## 3. How to Add an Image or Audio to an Existing Poem
-1. Find the poem's filename in `F:\Poetry Website\poetry\poems\` (for example, `spin.txt`).
+## 3. How to Add or Replace an Image or Audio on an Existing Poem
+1. Find the poem's exact **lowercase-with-hyphens** filename in `F:\Poetry Website\poetry\poems\` (for example, `spin.txt` or `what-the-morning-gives.txt`).
 2. Drop the matching file into the right folder:
-   - **Cover image (`896 × 1120` `.png` or `.jpg`):** put `spin.png` into `F:\Poetry Website\assets\images\`
-   - **Audio reading (`.mp3`):** put `spin.mp3` into `F:\Poetry Website\poetry\poems\`
+   - **Cover image (`896 × 1120` `.png` or `.jpg`):** put `what-the-morning-gives.png` into `F:\Poetry Website\assets\images\` *(if replacing an existing `.jpg` with a `.png`—or vice versa—delete the old one so only one image remains)*
+   - **Audio reading (`.mp3`):** put `what-the-morning-gives.mp3` into `F:\Poetry Website\poetry\poems\`
 3. Double-click **`publish-poetry.bat`**.
 
 ---
