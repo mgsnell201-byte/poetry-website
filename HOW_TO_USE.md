@@ -1,4 +1,4 @@
-# Verse & Vinyl — How to Add Poems & Music
+# OsmoticPoet — How to Add Poems & Music
 
 Use **lowercase filenames with hyphens** (no spaces) and give matching files the **same name** before the extension.
 

@@ -126,7 +126,7 @@ def write_poem_pages() -> list[tuple[str, str]]:
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>{title_esc} — Verse &amp; Vinyl</title>
+  <title>{title_esc} — OsmoticPoet</title>
   <link rel="stylesheet" href="../css/styles.css">
 </head>
 <body>
@@ -134,7 +134,7 @@ def write_poem_pages() -> list[tuple[str, str]]:
     <div class="nav-inner">
       <a class="brand" href="../index.html">
         <span class="brand-dot" aria-hidden="true"></span>
-        <span>Verse &amp; Vinyl</span>
+        <span>OsmoticPoet</span>
       </a>
       <button class="menu-toggle" type="button" aria-label="Toggle navigation">Menu</button>
       <ul class="nav-links">
@@ -199,9 +199,9 @@ def write_poem_pages() -> list[tuple[str, str]]:
 
     <footer class="site-footer">
       <div>
-        <p class="footer-brand">Verse &amp; Vinyl</p>
+        <p class="footer-brand">OsmoticPoet</p>
         <p class="footer-tagline">Words written for quiet hours, paired with sound.</p>
-        <span class="footer-copy">&copy; 2026 Verse &amp; Vinyl</span>
+        <span class="footer-copy">&copy; 2026 OsmoticPoet</span>
       </div>
       <div>
         <p class="footer-heading">Explore</p>
@@ -275,6 +275,7 @@ def git_push_if_configured() -> None:
     status = subprocess.run(["git", "-C", str(ROOT), "status", "--porcelain"], capture_output=True, text=True)
     if status.stdout.strip():
         subprocess.run(["git", "-C", str(ROOT), "commit", "-m", "Update poems"], check=True)
+        subprocess.run(["git", "-C", str(ROOT), "pull", "--rebase"], check=True)
         subprocess.run(["git", "-C", str(ROOT), "push"], check=True)
         print("Uploaded changes to remote website.")
     else:
