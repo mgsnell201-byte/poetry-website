@@ -430,12 +430,14 @@ const initHeroScene = () => {
   animate();
 };
 
-document.addEventListener('DOMContentLoaded', () => {
-  requestAnimationFrame(() => {
-    if ('requestIdleCallback' in window) {
-      requestIdleCallback(initHeroScene, { timeout: 1200 });
-    } else {
-      setTimeout(initHeroScene, 200);
-    }
-  });
+window.addEventListener('load', () => {
+  let started = false;
+  const start = () => {
+    if (started) return;
+    started = true;
+    initHeroScene();
+  };
+  setTimeout(start, 2600);
+  window.addEventListener('pointermove', start, { once: true, passive: true });
+  window.addEventListener('scroll', start, { once: true, passive: true });
 });
