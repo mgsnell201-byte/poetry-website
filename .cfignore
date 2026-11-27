@@ -1,0 +1,13 @@
+.git/
+.wrangler/
+HOW_TO_USE.md
+*.bat
+scripts/
+mailer-worker/
+music/inbox/
+poetry/inbox/
+assets/images/originals/
+poetry/poems/*.txt
+poetry/poems/*.json
+music/tracks/*.txt
+music/tracks/*.json

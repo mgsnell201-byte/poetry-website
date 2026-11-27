@@ -324,36 +324,11 @@ def replace_section(path: Path, start_marker: str, end_marker: str, new_body: st
 
 
 def deploy_cloudflare() -> None:
-    import tempfile
     if not shutil.which("wrangler.cmd") and not shutil.which("wrangler"):
         return
     cmd_bin = "wrangler.cmd" if shutil.which("wrangler.cmd") else "wrangler"
-    with tempfile.TemporaryDirectory() as tmp:
-        dist = Path(tmp)
-        for name in ("index.html", "privacy.html", "robots.txt", "sitemap.xml"):
-            if (ROOT / name).exists():
-                shutil.copy2(ROOT / name, dist / name)
-        for folder in ("css", "js", "about", "functions"):
-            if (ROOT / folder).exists():
-                shutil.copytree(ROOT / folder, dist / folder)
-        img_dst = dist / "assets" / "images"
-        img_dst.mkdir(parents=True, exist_ok=True)
-        for f in (ROOT / "assets" / "images").iterdir():
-            if f.is_file():
-                shutil.copy2(f, img_dst / f.name)
-        (dist / "poetry" / "poems").mkdir(parents=True, exist_ok=True)
-        for f in (ROOT / "poetry").glob("*.html"):
-            shutil.copy2(f, dist / "poetry" / f.name)
-        for f in (ROOT / "poetry" / "poems").glob("*.mp3"):
-            shutil.copy2(f, dist / "poetry" / "poems" / f.name)
-        (dist / "music" / "tracks").mkdir(parents=True, exist_ok=True)
-        for f in (ROOT / "music").glob("*.html"):
-            shutil.copy2(f, dist / "music" / f.name)
-        for ext in ("*.mp3", "*.mp4"):
-            for f in (ROOT / "music" / "tracks").glob(ext):
-                shutil.copy2(f, dist / "music" / "tracks" / f.name)
-        print("Deploying to https://osmoticpoet.com ...")
-        subprocess.run([cmd_bin, "pages", "deploy", str(dist), "--project-name", "osmoticpoet", "--branch", "main"], check=True)
+    print("Deploying to https://osmoticpoet.com ...")
+    subprocess.run([cmd_bin, "pages", "deploy", str(ROOT), "--project-name", "osmoticpoet", "--branch", "main"], check=True)
 
 
 def git_push_if_configured() -> None:
@@ -384,3 +359,4 @@ if __name__ == "__main__":
     write_sitemap()
     print(f"Done. Processed {created} new poem(s), generated {len(items)} poem page(s), and updated index.html + poetry/index.html.")
     git_push_if_configured()
+    deploy_cloudflare()
