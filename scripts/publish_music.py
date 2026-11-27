@@ -249,7 +249,6 @@ def write_track_pages() -> list[str]:
 {audio_html}
         </div>
         <div>
-          <div class="card-meta">Music &middot; Track {idx:02d}</div>
           <h1 class="piece-title">{title_esc}</h1>
           <p class="{lyrics_cls}">{lyrics_html}</p>
         </div>
@@ -338,8 +337,7 @@ def build_track_cards(stems: list[str], prefix: str, href_prefix: str) -> str:
         cards.append(
             f"""        <a class="media-card" href="{href_prefix}{stem}.html">{img_html}
           <div class="media-card-body">
-            <div class="card-meta">Music &middot; Track {idx:02d}</div>
-            <h3 class="media-card-title">{title}</h3>
+              <h3 class="media-card-title">{title}</h3>
           </div>
         </a>"""
         )
