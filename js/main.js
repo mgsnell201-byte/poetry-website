@@ -126,3 +126,86 @@ document.addEventListener('DOMContentLoaded', () => {
 
   renderPage(1);
 });
+
+// Thumbs Up / Down Counter
+document.addEventListener('DOMContentLoaded', () => {
+  const bar = document.querySelector('.vote-bar[data-vote-id]');
+  if (!bar) return;
+
+  const id = bar.dataset.voteId;
+  const upBtn = bar.querySelector('[data-vote="up"]');
+  const downBtn = bar.querySelector('[data-vote="down"]');
+  const upCount = upBtn?.querySelector('.vote-count');
+  const downCount = downBtn?.querySelector('.vote-count');
+  if (!id || !upBtn || !downBtn || !upCount || !downCount) return;
+
+  const storageKey = `op_vote:${id}`;
+  let currentVote = '';
+  try {
+    currentVote = localStorage.getItem(storageKey) || '';
+  } catch (_) {}
+
+  const renderState = (up, down) => {
+    upCount.textContent = String(up);
+    downCount.textContent = String(down);
+    upBtn.classList.toggle('is-active', currentVote === 'up');
+    downBtn.classList.toggle('is-active', currentVote === 'down');
+    upBtn.setAttribute('aria-pressed', currentVote === 'up' ? 'true' : 'false');
+    downBtn.setAttribute('aria-pressed', currentVote === 'down' ? 'true' : 'false');
+  };
+
+  renderState(0, 0);
+
+  fetch(`/api/votes?id=${encodeURIComponent(id)}`)
+    .then((r) => (r.ok ? r.json() : null))
+    .then((data) => {
+      if (data && typeof data.up === 'number' && typeof data.down === 'number') {
+        renderState(data.up, data.down);
+      }
+    })
+    .catch(() => {});
+
+  let busy = false;
+  const castVote = async (choice) => {
+    if (busy) return;
+    busy = true;
+    const prev = currentVote;
+    const next = prev === choice ? '' : choice;
+    const curUp = parseInt(upCount.textContent || '0', 10) || 0;
+    const curDown = parseInt(downCount.textContent || '0', 10) || 0;
+    const optUp = Math.max(0, curUp + (next === 'up' ? 1 : 0) - (prev === 'up' ? 1 : 0));
+    const optDown = Math.max(0, curDown + (next === 'down' ? 1 : 0) - (prev === 'down' ? 1 : 0));
+
+    currentVote = next;
+    renderState(optUp, optDown);
+
+    try {
+      const res = await fetch('/api/votes', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id, prev, next }),
+      });
+      if (res.ok) {
+        const data = await res.json();
+        try {
+          if (next) localStorage.setItem(storageKey, next);
+          else localStorage.removeItem(storageKey);
+        } catch (_) {}
+        if (typeof data.up === 'number' && typeof data.down === 'number') {
+          renderState(data.up, data.down);
+        }
+      } else {
+        currentVote = prev;
+        renderState(curUp, curDown);
+      }
+    } catch (_) {
+      currentVote = prev;
+      renderState(curUp, curDown);
+    } finally {
+      busy = false;
+    }
+  };
+
+  upBtn.addEventListener('click', () => castVote('up'));
+  downBtn.addEventListener('click', () => castVote('down'));
+});

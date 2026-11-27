@@ -4,9 +4,16 @@ compatibility_date = "2026-11-27"
 
 routes = [
   { pattern = "osmoticpoet.com/api/note", zone_id = "40100a3c948951bb1008930b79262082" },
-  { pattern = "www.osmoticpoet.com/api/note", zone_id = "40100a3c948951bb1008930b79262082" }
+  { pattern = "www.osmoticpoet.com/api/note", zone_id = "40100a3c948951bb1008930b79262082" },
+  { pattern = "osmoticpoet.com/api/votes", zone_id = "40100a3c948951bb1008930b79262082" },
+  { pattern = "www.osmoticpoet.com/api/votes", zone_id = "40100a3c948951bb1008930b79262082" }
 ]
 
 [[send_email]]
 name = "EMAIL"
 destination_address = "mgsnell201@gmail.com"
+
+[[d1_databases]]
+binding = "VOTES_DB"
+database_name = "osmoticpoet-votes"
+database_id = "c3fa894d-d218-4594-95ae-671fd8f7270e"

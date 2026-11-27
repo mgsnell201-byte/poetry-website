@@ -1,63 +1,137 @@
+const JSON_HEADERS = {
+  "Content-Type": "application/json",
+  "Cache-Control": "no-store",
+};
+
+const VALID_VOTE_ID = /^[a-z0-9][a-z0-9/_-]{0,159}$/;
+const VALID_CHOICES = new Set(["", "up", "down"]);
+
+function isAllowedOrigin(request) {
+  const origin = request.headers.get("Origin") || "";
+  return (
+    !origin ||
+    origin.includes("osmoticpoet.com") ||
+    origin.includes("osmoticpoet.pages.dev")
+  );
+}
+
+function jsonResponse(body, status = 200) {
+  return new Response(JSON.stringify(body), { status, headers: JSON_HEADERS });
+}
+
+async function handleVotes(request, env) {
+  if (request.method === "GET") {
+    const id = (new URL(request.url).searchParams.get("id") || "").trim();
+    if (!VALID_VOTE_ID.test(id)) {
+      return jsonResponse({ error: "Invalid id" }, 400);
+    }
+    const row = await env.VOTES_DB
+      .prepare("SELECT up, down FROM votes WHERE id = ?")
+      .bind(id)
+      .first();
+    return jsonResponse({ up: row?.up ?? 0, down: row?.down ?? 0 });
+  }
+
+  if (request.method !== "POST") {
+    return jsonResponse({ error: "Method not allowed" }, 405);
+  }
+  if (!isAllowedOrigin(request)) {
+    return jsonResponse({ error: "Forbidden origin" }, 403);
+  }
+
+  let payload;
+  try {
+    payload = await request.json();
+  } catch {
+    return jsonResponse({ error: "Invalid JSON" }, 400);
+  }
+
+  const id = String(payload?.id || "").trim();
+  const prev = String(payload?.prev || "");
+  const next = String(payload?.next || "");
+  if (!VALID_VOTE_ID.test(id) || !VALID_CHOICES.has(prev) || !VALID_CHOICES.has(next)) {
+    return jsonResponse({ error: "Invalid vote payload" }, 400);
+  }
+
+  const dUp = (next === "up" ? 1 : 0) - (prev === "up" ? 1 : 0);
+  const dDown = (next === "down" ? 1 : 0) - (prev === "down" ? 1 : 0);
+
+  if (dUp !== 0 || dDown !== 0) {
+    await env.VOTES_DB.prepare(
+      `INSERT INTO votes (id, up, down)
+       VALUES (?, MAX(0, ?), MAX(0, ?))
+       ON CONFLICT(id) DO UPDATE SET
+         up = MAX(0, up + ?),
+         down = MAX(0, down + ?)`
+    )
+      .bind(id, dUp, dDown, dUp, dDown)
+      .run();
+  }
+
+  const row = await env.VOTES_DB
+    .prepare("SELECT up, down FROM votes WHERE id = ?")
+    .bind(id)
+    .first();
+  return jsonResponse({ up: row?.up ?? 0, down: row?.down ?? 0 });
+}
+
+async function handleNote(request, env) {
+  if (request.method !== "POST") {
+    return jsonResponse({ success: false, message: "Method not allowed" }, 405);
+  }
+  if (!isAllowedOrigin(request)) {
+    return jsonResponse({ success: false, message: "Forbidden origin." }, 403);
+  }
+
+  const formData = await request.formData();
+  if (formData.get("botcheck")) {
+    return jsonResponse({ success: true });
+  }
+
+  const name = String(formData.get("name") || "").trim().slice(0, 120);
+  const email = String(formData.get("email") || "").trim().slice(0, 160);
+  const message = String(formData.get("message") || "").trim().slice(0, 4000);
+  const rawSubject = String(formData.get("subject") || "New Note from OsmoticPoet");
+  const subject = rawSubject.replace(/[\r\n]+/g, " ").trim().slice(0, 180);
+
+  if (!name || !message) {
+    return jsonResponse({ success: false, message: "Please enter both your name and a comment." }, 400);
+  }
+  if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    return jsonResponse(
+      { success: false, message: "Please enter a valid email address or leave it blank." },
+      400
+    );
+  }
+
+  const escapeHtml = (s) =>
+    s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+
+  const payload = {
+    to: "mgsnell201@gmail.com",
+    from: "OsmoticPoet Notes <notes@osmoticpoet.com>",
+    subject,
+    text: `Name: ${name}\nEmail: ${email || "(not provided)"}\n\nMessage:\n${message}`,
+    html: `<div style="font-family: Georgia, serif; max-width: 600px; line-height: 1.6; color: #222;"><h2 style="margin: 0 0 12px;">${escapeHtml(subject)}</h2><p><strong>Name:</strong> ${escapeHtml(name)}<br><strong>Email:</strong> ${escapeHtml(email || "(not provided)")}</p><hr style="border: 0; border-top: 1px solid #ddd; margin: 16px 0;"><p style="white-space: pre-wrap;">${escapeHtml(message)}</p></div>`,
+  };
+  if (email) payload.replyTo = email;
+
+  await env.EMAIL.send(payload);
+  return jsonResponse({ success: true });
+}
+
 export default {
   async fetch(request, env) {
-    const headers = { "Content-Type": "application/json" };
-    if (request.method !== "POST") {
-      return new Response(JSON.stringify({ success: false, message: "Method not allowed" }), { status: 405, headers });
-    }
-
     try {
-      const origin = request.headers.get("Origin") || "";
-      if (
-        origin &&
-        !origin.includes("osmoticpoet.com") &&
-        !origin.includes("osmoticpoet.pages.dev")
-      ) {
-        return new Response(JSON.stringify({ success: false, message: "Forbidden origin." }), { status: 403, headers });
+      const { pathname } = new URL(request.url);
+      if (pathname === "/api/votes") {
+        return await handleVotes(request, env);
       }
-
-      const formData = await request.formData();
-      if (formData.get("botcheck")) {
-        return new Response(JSON.stringify({ success: true }), { status: 200, headers });
-      }
-
-      const name = String(formData.get("name") || "").trim().slice(0, 120);
-      const email = String(formData.get("email") || "").trim().slice(0, 160);
-      const message = String(formData.get("message") || "").trim().slice(0, 4000);
-      const rawSubject = String(formData.get("subject") || "New Note from OsmoticPoet");
-      const subject = rawSubject.replace(/[\r\n]+/g, " ").trim().slice(0, 180);
-
-      if (!name || !message) {
-        return new Response(
-          JSON.stringify({ success: false, message: "Please enter both your name and a comment." }),
-          { status: 400, headers }
-        );
-      }
-
-      if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-        return new Response(
-          JSON.stringify({ success: false, message: "Please enter a valid email address or leave it blank." }),
-          { status: 400, headers }
-        );
-      }
-
-      const escapeHtml = (s) =>
-        s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
-
-      const payload = {
-        to: "mgsnell201@gmail.com",
-        from: "OsmoticPoet Notes <notes@osmoticpoet.com>",
-        subject,
-        text: `Name: ${name}\nEmail: ${email || "(not provided)"}\n\nMessage:\n${message}`,
-        html: `<div style="font-family: Georgia, serif; max-width: 600px; line-height: 1.6; color: #222;"><h2 style="margin: 0 0 12px;">${escapeHtml(subject)}</h2><p><strong>Name:</strong> ${escapeHtml(name)}<br><strong>Email:</strong> ${escapeHtml(email || "(not provided)")}</p><hr style="border: 0; border-top: 1px solid #ddd; margin: 16px 0;"><p style="white-space: pre-wrap;">${escapeHtml(message)}</p></div>`,
-      };
-      if (email) payload.replyTo = email;
-
-      await env.EMAIL.send(payload);
-      return new Response(JSON.stringify({ success: true }), { status: 200, headers });
-    } catch (err) {
-      return new Response(
-        JSON.stringify({ success: false, message: "Could not send note right now. Please email marvin@osmoticpoet.com." }),
-        { status: 500, headers }
+      return await handleNote(request, env);
+    } catch {
+      return jsonResponse(
+        { success: false, message: "Could not complete request right now." },
+        500
       );
     }
   },
