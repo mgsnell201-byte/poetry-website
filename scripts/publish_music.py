@@ -19,8 +19,15 @@ IMAGE_EXTS = {".png", ".jpg", ".jpeg", ".webp"}
 VIDEO_EXTS = {".mp4", ".mov", ".webm"}
 
 
+SMALL_WORDS = {"a", "an", "and", "as", "at", "but", "by", "for", "in", "nor", "of", "on", "or", "the", "to", "with"}
+
+
 def title_from_stem(stem: str) -> str:
-    return " ".join(w.capitalize() for w in re.split(r"[-_]+", stem) if w)
+    words = [w for w in re.split(r"[-_]+", stem) if w]
+    return " ".join(
+        w.capitalize() if (i == 0 or i == len(words) - 1 or w.lower() not in SMALL_WORDS) else w.lower()
+        for i, w in enumerate(words)
+    )
 
 
 def run_ffmpeg(args: list[str]) -> None:
