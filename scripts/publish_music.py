@@ -215,7 +215,7 @@ def write_track_pages() -> list[str]:
         title_esc = html.escape(title)
         desc_esc = html.escape(f"Listen to {title} by Marvin Snell (OsmoticPoet).")
         cover = find_cover(stem, "../")
-        og_img = f"https://osmoticpoet.com/{cover.lstrip('../')}" if cover else "https://osmoticpoet.com/assets/images/the-rooms-we-leave.jpg"
+        og_img = f"https://osmoticpoet.com/{cover.removeprefix('../')}" if cover else "https://osmoticpoet.com/assets/images/the-rooms-we-leave.jpg"
         mp4_src = f"tracks/{stem}.mp4" if stem in mp4s else ""
         mp3_src = f"tracks/{stem}.mp3" if stem in mp3s else ""
         has_video = track_has_video(stem, bool(mp4_src), bool(cover))
@@ -362,13 +362,7 @@ def write_track_pages() -> list[str]:
           <li><a href="../poetry/index.html">Poetry</a></li>
           <li><a href="../music/index.html">Music</a></li>
           <li><a href="../about/index.html">About</a></li>
-        </ul>
-      </div>
-      <div>
-        <p class="footer-heading">Follow</p>
-        <ul class="footer-links">
-          <li><a href="https://www.youtube.com/" target="_blank" rel="noopener">YouTube</a></li>
-          <li><a href="https://www.facebook.com/" target="_blank" rel="noopener">Facebook</a></li>
+          <li><a href="../privacy.html">Privacy</a></li>
         </ul>
       </div>
     </footer>
@@ -492,4 +486,3 @@ if __name__ == "__main__":
     write_sitemap()
     print(f"Done. Processed {created} new track(s), generated {len(stems)} track page(s), and updated index.html + music/index.html.")
     git_push_if_configured()
-    deploy_cloudflare()

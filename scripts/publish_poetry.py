@@ -125,7 +125,7 @@ def write_poem_pages() -> list[tuple[str, str]]:
         snippet = " ".join(ln.strip() for ln in body.splitlines() if ln.strip())[:155]
         desc_esc = html.escape(f"{title} — {snippet}" if snippet else f"{title} by OsmoticPoet")
         cover = find_cover(stem, "../")
-        og_img = f"https://osmoticpoet.com/{cover.lstrip('../')}" if cover else "https://osmoticpoet.com/assets/images/_poem-default.png" 
+        og_img = f"https://osmoticpoet.com/{cover.removeprefix('../')}" if cover else "https://osmoticpoet.com/assets/images/_poem-default.png" 
         mp3_exists = (POEMS_DATA / f"{stem}.mp3").exists()
         ld_json = json.dumps({
             "@context": "https://schema.org",
@@ -138,12 +138,17 @@ def write_poem_pages() -> list[tuple[str, str]]:
         }, ensure_ascii=False)
 
         img_html = f'          <img class="piece-cover" src="{cover}" alt="{title_esc} illustration">' if cover else ""
-        audio_note = "" if mp3_exists else f'\n            <p class="audio-note">Audio reading slot ready for <code>poetry/poems/{stem}.mp3</code>.</p>'
-        audio_html = f"""          <div class="audio-box">
+        if mp3_exists:
+            audio_html = f"""          <div class="audio-box">
             <div class="audio-box-label">Listen to Poem (MP3)</div>
             <audio controls controlsList="nodownload" oncontextmenu="return false;" preload="metadata">
               <source src="poems/{stem}.mp3" type="audio/mpeg">
-            </audio>{audio_note}
+            </audio>
+          </div>"""
+        else:
+            audio_html = f"""          <div class="audio-box">
+            <div class="audio-box-label">Listen to Poem (MP3)</div>
+            <p class="audio-note">Audio reading slot ready for <code>poetry/poems/{stem}.mp3</code>.</p>
           </div>"""
 
         page = f"""<!DOCTYPE html>
@@ -254,13 +259,7 @@ def write_poem_pages() -> list[tuple[str, str]]:
           <li><a href="../poetry/index.html">Poetry</a></li>
           <li><a href="../music/index.html">Music</a></li>
           <li><a href="../about/index.html">About</a></li>
-        </ul>
-      </div>
-      <div>
-        <p class="footer-heading">Follow</p>
-        <ul class="footer-links">
-          <li><a href="https://www.youtube.com/" target="_blank" rel="noopener">YouTube</a></li>
-          <li><a href="https://www.facebook.com/" target="_blank" rel="noopener">Facebook</a></li>
+          <li><a href="../privacy.html">Privacy</a></li>
         </ul>
       </div>
     </footer>
@@ -385,4 +384,3 @@ if __name__ == "__main__":
     write_sitemap()
     print(f"Done. Processed {created} new poem(s), generated {len(items)} poem page(s), and updated index.html + poetry/index.html.")
     git_push_if_configured()
-    deploy_cloudflare()

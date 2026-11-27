@@ -6,13 +6,36 @@ const JSON_HEADERS = {
 const VALID_VOTE_ID = /^[a-z0-9][a-z0-9/_-]{0,159}$/;
 const VALID_CHOICES = new Set(["", "up", "down"]);
 
+const ALLOWED_ORIGINS = new Set([
+  "https://osmoticpoet.com",
+  "https://www.osmoticpoet.com",
+  "https://osmoticpoet.pages.dev",
+]);
+
+const RATE_BUCKETS = new Map();
+
 function isAllowedOrigin(request) {
-  const origin = request.headers.get("Origin") || "";
-  return (
-    !origin ||
-    origin.includes("osmoticpoet.com") ||
-    origin.includes("osmoticpoet.pages.dev")
-  );
+  const origin = request.headers.get("Origin");
+  if (!origin) return false;
+  return ALLOWED_ORIGINS.has(origin);
+}
+
+function isRateLimited(request, keyPrefix, maxRequests, windowMs) {
+  const ip = request.headers.get("CF-Connecting-IP") || "unknown";
+  const key = `${keyPrefix}:${ip}`;
+  const now = Date.now();
+  if (RATE_BUCKETS.size > 2000) {
+    for (const [k, v] of RATE_BUCKETS) {
+      if (now >= v.resetAt) RATE_BUCKETS.delete(k);
+    }
+  }
+  const entry = RATE_BUCKETS.get(key);
+  if (!entry || now >= entry.resetAt) {
+    RATE_BUCKETS.set(key, { count: 1, resetAt: now + windowMs });
+    return false;
+  }
+  entry.count += 1;
+  return entry.count > maxRequests;
 }
 
 function jsonResponse(body, status = 200) {
@@ -37,6 +60,9 @@ async function handleVotes(request, env) {
   }
   if (!isAllowedOrigin(request)) {
     return jsonResponse({ error: "Forbidden origin" }, 403);
+  }
+  if (isRateLimited(request, "votes", 30, 60_000)) {
+    return jsonResponse({ error: "Too many requests" }, 429);
   }
 
   let payload;
@@ -81,6 +107,9 @@ async function handleNote(request, env) {
   }
   if (!isAllowedOrigin(request)) {
     return jsonResponse({ success: false, message: "Forbidden origin." }, 403);
+  }
+  if (isRateLimited(request, "note", 5, 600_000)) {
+    return jsonResponse({ success: false, message: "Too many notes sent recently. Please wait a few minutes." }, 429);
   }
 
   const formData = await request.formData();

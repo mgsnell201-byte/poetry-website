@@ -49,6 +49,6 @@ Use **lowercase filenames with hyphens** (no spaces) and give matching files the
 
 ---
 
-## 5. Comments (Web3Forms)
-- Every poem and song page has a **Leave a Note** form wired to your Web3Forms key (`38932bab-2025-40ac-b84e-f2ff021cd68f`).
-- Comments are emailed straight to the email address you used on Web3Forms, with the poem or song title in the email subject.
+## 5. Comments (Cloudflare Worker)
+- Every poem and song page has a **Leave a Note** form that posts to `/api/note`, handled by the `osmoticpoet-mailer` Cloudflare Worker (`mailer-worker/`).
+- Comments are emailed straight to `mgsnell201@gmail.com` via Cloudflare Email Sending (`notes@osmoticpoet.com`), with the poem or song title in the email subject.

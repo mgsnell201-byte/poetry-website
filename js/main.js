@@ -3,8 +3,10 @@ document.addEventListener('DOMContentLoaded', () => {
   const menuBtn = document.querySelector('.menu-toggle');
   const navLinks = document.querySelector('.nav-links');
   if (menuBtn && navLinks) {
+    menuBtn.setAttribute('aria-expanded', 'false');
     menuBtn.addEventListener('click', () => {
-      navLinks.classList.toggle('open');
+      const open = navLinks.classList.toggle('open');
+      menuBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
     });
   }
 
@@ -46,7 +48,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   audio.addEventListener('ended', stopPlayback);
 
-  // Web3Forms Comment Submission
+  // Cloudflare Worker Comment Submission (/api/note)
   const form = document.getElementById('comment-form');
   const status = document.getElementById('comment-status');
   if (!form || !status) return;
@@ -86,35 +88,48 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 
-// Archive Grid Pagination (12 items per page)
+// Archive Grid Pagination & Search (12 items per page)
 document.addEventListener('DOMContentLoaded', () => {
   const grid = document.querySelector('.media-grid[data-page-size]');
   const nav = document.getElementById('archive-pagination');
   if (!grid || !nav) return;
 
   const pageSize = parseInt(grid.dataset.pageSize || '12', 10);
-  const cards = Array.from(grid.querySelectorAll('.media-card'));
-  const totalPages = Math.ceil(cards.length / pageSize);
-  if (totalPages <= 1) return;
-
+  const allCards = Array.from(grid.querySelectorAll('.media-card'));
+  const searchInput = document.getElementById('archive-search');
   const prevBtn = document.getElementById('page-prev');
   const nextBtn = document.getElementById('page-next');
   const statusEl = document.getElementById('page-status');
+  let filteredCards = allCards;
   let currentPage = 1;
 
   const renderPage = (page) => {
+    const totalPages = Math.max(1, Math.ceil(filteredCards.length / pageSize));
     currentPage = Math.max(1, Math.min(totalPages, page));
     const start = (currentPage - 1) * pageSize;
     const end = start + pageSize;
-    cards.forEach((card, i) => {
-      card.style.display = i >= start && i < end ? '' : 'none';
+    const visibleSet = new Set(filteredCards.slice(start, end));
+
+    allCards.forEach((card) => {
+      card.style.display = visibleSet.has(card) ? '' : 'none';
     });
+
+    nav.hidden = filteredCards.length <= pageSize;
     statusEl.textContent = `Page ${currentPage} of ${totalPages}`;
     prevBtn.disabled = currentPage === 1;
     nextBtn.disabled = currentPage === totalPages;
   };
 
-  nav.hidden = false;
+  if (searchInput) {
+    searchInput.addEventListener('input', () => {
+      const q = searchInput.value.trim().toLowerCase();
+      filteredCards = q
+        ? allCards.filter((c) => (c.textContent || '').toLowerCase().includes(q))
+        : allCards;
+      renderPage(1);
+    });
+  }
+
   prevBtn.addEventListener('click', () => {
     renderPage(currentPage - 1);
     grid.scrollIntoView({ behavior: 'smooth', block: 'start' });
