@@ -3,3 +3,4 @@ test-image.png
 music/inbox/
 poetry/inbox/
 assets/images/originals/
+mailer-worker/.wrangler/
