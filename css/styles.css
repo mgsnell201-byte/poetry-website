@@ -383,6 +383,8 @@ a {
 }
 
 .piece-media {
+  position: sticky;
+  top: 88px;
   display: flex;
   flex-direction: column;
   gap: 16px;
@@ -632,6 +634,10 @@ a {
 @media (max-width: 768px) {
   .piece-layout {
     grid-template-columns: 1fr;
+  }
+
+  .piece-media {
+    position: static;
   }
 
   .form-row {
