@@ -1,0 +1,12 @@
+name = "osmoticpoet-mailer"
+main = "src/index.js"
+compatibility_date = "2026-11-27"
+
+routes = [
+  { pattern = "osmoticpoet.com/api/note", zone_id = "40100a3c948951bb1008930b79262082" },
+  { pattern = "www.osmoticpoet.com/api/note", zone_id = "40100a3c948951bb1008930b79262082" }
+]
+
+[[send_email]]
+name = "EMAIL"
+destination_address = "mgsnell201@gmail.com"

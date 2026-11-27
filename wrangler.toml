@@ -1,7 +1,0 @@
-name = "osmoticpoet"
-pages_build_output_dir = "."
-compatibility_date = "2026-11-27"
-
-[[send_email]]
-name = "EMAIL"
-destination_address = "mgsnell201@gmail.com"

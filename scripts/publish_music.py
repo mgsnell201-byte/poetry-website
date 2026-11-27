@@ -441,7 +441,7 @@ def deploy_cloudflare() -> None:
             for f in (ROOT / "music" / "tracks").glob(ext):
                 shutil.copy2(f, dist / "music" / "tracks" / f.name)
         print("Deploying to https://osmoticpoet.com ...")
-        subprocess.run([cmd_bin, "pages", "deploy", str(dist), "--project-name", "osmoticpoet", "--branch", "main"], cwd=str(ROOT), check=True)
+        subprocess.run([cmd_bin, "pages", "deploy", str(dist), "--project-name", "osmoticpoet", "--branch", "main"], check=True)
 
 
 def git_push_if_configured() -> None:
