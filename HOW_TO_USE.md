@@ -15,6 +15,7 @@ Use **lowercase filenames with hyphens** (no spaces) and give matching files the
    - `music/index.html` and the **4 newest** cards on `index.html` update automatically.
    - Your inbox files are moved to `music/inbox/processed/`.
    - Once you connect a live host via Git, it also auto-uploads (`git push`).
+4. **To add or update lyrics on an existing song:** save `<song-name>.txt` (for example, `never-built-for-clouds.txt`) directly in `F:\Poetry Website\music\tracks\` and double-click **`publish-music.bat`**.
 
 ---
 
