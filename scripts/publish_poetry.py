@@ -144,6 +144,7 @@ def write_poem_pages() -> list[tuple[str, str]]:
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{title_esc} — OsmoticPoet</title>
   <meta name="description" content="{desc_esc}">
+  <link rel="canonical" href="https://osmoticpoet.com/poetry/{stem}.html">
   <meta property="og:type" content="article">
   <meta property="og:title" content="{title_esc} — OsmoticPoet">
   <meta property="og:description" content="{desc_esc}">
