@@ -226,23 +226,64 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // Rotating Aged-Brass Seal (for 'privacy' mode)
+  // 3D Extruded Shield with Checkmark (for 'privacy' mode)
   let sealGroup = null;
   if (mode === 'privacy') {
     sealGroup = new THREE.Group();
-    const outerRing = new THREE.Mesh(
-      new THREE.TorusGeometry(1.45, 0.035, 16, 64),
-      brassMat
-    );
-    const innerRing = new THREE.Mesh(
-      new THREE.TorusGeometry(1.05, 0.018, 12, 64),
-      new THREE.MeshBasicMaterial({ color: 0xede8df, transparent: true, opacity: 0.45 })
-    );
-    const core = new THREE.Mesh(
-      new THREE.OctahedronGeometry(0.45, 0),
-      brassMat
-    );
-    sealGroup.add(outerRing, innerRing, core);
+
+    const makeShieldShape = (s) => {
+      const sh = new THREE.Shape();
+      sh.moveTo(0, 1.35 * s);
+      sh.quadraticCurveTo(0.48 * s, 1.05 * s, 1.05 * s, 1.02 * s);
+      sh.bezierCurveTo(1.12 * s, 0.15 * s, 0.82 * s, -0.78 * s, 0, -1.35 * s);
+      sh.bezierCurveTo(-0.82 * s, -0.78 * s, -1.12 * s, 0.15 * s, -1.05 * s, 1.02 * s);
+      sh.quadraticCurveTo(-0.48 * s, 1.05 * s, 0, 1.35 * s);
+      return sh;
+    };
+
+    const rimMat = new THREE.MeshStandardMaterial({
+      color: 0xede8df,
+      metalness: 0.25,
+      roughness: 0.45,
+    });
+    const outerGeo = new THREE.ExtrudeGeometry(makeShieldShape(1.0), {
+      depth: 0.12,
+      bevelEnabled: true,
+      bevelThickness: 0.03,
+      bevelSize: 0.03,
+      bevelSegments: 2,
+    });
+    outerGeo.center();
+    const outerShield = new THREE.Mesh(outerGeo, rimMat);
+
+    const innerGeo = new THREE.ExtrudeGeometry(makeShieldShape(0.84), {
+      depth: 0.18,
+      bevelEnabled: true,
+      bevelThickness: 0.02,
+      bevelSize: 0.02,
+      bevelSegments: 2,
+    });
+    innerGeo.center();
+    const innerShield = new THREE.Mesh(innerGeo, brassMat);
+
+    const checkShape = new THREE.Shape();
+    checkShape.moveTo(-0.42, 0.02);
+    checkShape.lineTo(-0.28, 0.16);
+    checkShape.lineTo(-0.08, -0.04);
+    checkShape.lineTo(0.32, 0.36);
+    checkShape.lineTo(0.46, 0.22);
+    checkShape.lineTo(-0.08, -0.32);
+    checkShape.closePath();
+
+    const checkGeo = new THREE.ExtrudeGeometry(checkShape, {
+      depth: 0.24,
+      bevelEnabled: false,
+    });
+    checkGeo.center();
+    const checkMesh = new THREE.Mesh(checkGeo, rimMat);
+
+    sealGroup.add(outerShield, innerShield, checkMesh);
+    sealGroup.scale.setScalar(1.05);
     scene.add(sealGroup);
   }
 
@@ -314,8 +355,8 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     if (sealGroup) {
-      sealGroup.rotation.y = t * 0.45;
-      sealGroup.rotation.x = Math.sin(t * 0.35) * 0.25;
+      sealGroup.rotation.y = Math.sin(t * 0.75) * 0.48;
+      sealGroup.rotation.x = Math.sin(t * 0.45) * 0.12;
     }
 
     motes.rotation.y = t * 0.03;
