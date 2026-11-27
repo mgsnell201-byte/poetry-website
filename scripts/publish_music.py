@@ -213,7 +213,9 @@ def write_track_pages() -> list[str]:
     for idx, stem in enumerate(stems, start=1):
         title = title_from_stem(stem)
         title_esc = html.escape(title)
+        desc_esc = html.escape(f"Listen to {title} by Marvin Snell (OsmoticPoet).")
         cover = find_cover(stem, "../")
+        og_img = f"https://osmoticpoet.com/{cover.lstrip('../')}" if cover else "https://osmoticpoet.com/assets/images/the-rooms-we-leave.jpg"
         mp4_src = f"tracks/{stem}.mp4" if stem in mp4s else ""
         mp3_src = f"tracks/{stem}.mp3" if stem in mp3s else ""
         has_video = track_has_video(stem, bool(mp4_src), bool(cover))
@@ -248,6 +250,12 @@ def write_track_pages() -> list[str]:
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{title_esc} — OsmoticPoet</title>
+  <meta name="description" content="{desc_esc}">
+  <meta property="og:type" content="music.song">
+  <meta property="og:title" content="{title_esc} — OsmoticPoet">
+  <meta property="og:description" content="{desc_esc}">
+  <meta property="og:url" content="https://osmoticpoet.com/music/{stem}.html">
+  <meta property="og:image" content="{og_img}">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@300;400;500;600&family=Lora:ital,wght@0,400;0,500;1,400&display=swap" media="print" onload="this.media='all'">
@@ -375,6 +383,24 @@ def build_track_cards(stems: list[str], prefix: str, href_prefix: str) -> str:
     return "\n".join(cards)
 
 
+def write_sitemap() -> None:
+    base = "https://osmoticpoet.com"
+    urls = [
+        f"{base}/",
+        f"{base}/poetry/",
+        f"{base}/music/",
+        f"{base}/about/",
+        f"{base}/privacy.html",
+    ]
+    for folder in ("poetry", "music"):
+        for p in sorted((ROOT / folder).glob("*.html")):
+            if p.name != "index.html":
+                urls.append(f"{base}/{folder}/{p.name}")
+    entries = "\n".join(f"  <url><loc>{html.escape(u)}</loc></url>" for u in urls)
+    xml = f'<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n{entries}\n</urlset>\n'
+    (ROOT / "sitemap.xml").write_text(xml, encoding="utf-8")
+
+
 def replace_section(path: Path, start_marker: str, end_marker: str, new_body: str) -> None:
     text = path.read_text(encoding="utf-8")
     pattern = re.compile(
@@ -411,5 +437,6 @@ if __name__ == "__main__":
     stems = write_track_pages()
     replace_section(MUSIC_DIR / "index.html", "<!-- TRACKS_START -->", "<!-- TRACKS_END -->", build_track_cards(stems, "../", ""))
     replace_section(ROOT / "index.html", "<!-- HOME_TRACKS_START -->", "<!-- HOME_TRACKS_END -->", build_track_cards(stems[:4], "", "music/"))
+    write_sitemap()
     print(f"Done. Processed {created} new track(s), generated {len(stems)} track page(s), and updated index.html + music/index.html.")
     git_push_if_configured()

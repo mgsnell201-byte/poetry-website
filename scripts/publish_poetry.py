@@ -122,6 +122,9 @@ def write_poem_pages() -> list[tuple[str, str]]:
         body = "\n".join(lines[1:]).strip() if len(lines) > 1 else ""
         title_esc = html.escape(title)
         body_esc = html.escape(body)
+        snippet = " ".join(ln.strip() for ln in body.splitlines() if ln.strip())[:155]
+        desc_esc = html.escape(f"{title} — {snippet}" if snippet else f"{title} by OsmoticPoet")
+        og_img = f"https://osmoticpoet.com/{cover.lstrip('../')}" if cover else "https://osmoticpoet.com/assets/images/_poem-default.png"
         cover = find_cover(stem, "../")
         mp3_exists = (POEMS_DATA / f"{stem}.mp3").exists()
 
@@ -140,6 +143,12 @@ def write_poem_pages() -> list[tuple[str, str]]:
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{title_esc} — OsmoticPoet</title>
+  <meta name="description" content="{desc_esc}">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="{title_esc} — OsmoticPoet">
+  <meta property="og:description" content="{desc_esc}">
+  <meta property="og:url" content="https://osmoticpoet.com/poetry/{stem}.html">
+  <meta property="og:image" content="{og_img}">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@300;400;500;600&family=Lora:ital,wght@0,400;0,500;1,400&display=swap" media="print" onload="this.media='all'">
@@ -268,6 +277,24 @@ def build_poem_cards(items: list[tuple[str, str]], prefix: str, href_prefix: str
     return "\n".join(cards)
 
 
+def write_sitemap() -> None:
+    base = "https://osmoticpoet.com"
+    urls = [
+        f"{base}/",
+        f"{base}/poetry/",
+        f"{base}/music/",
+        f"{base}/about/",
+        f"{base}/privacy.html",
+    ]
+    for folder in ("poetry", "music"):
+        for p in sorted((ROOT / folder).glob("*.html")):
+            if p.name != "index.html":
+                urls.append(f"{base}/{folder}/{p.name}")
+    entries = "\n".join(f"  <url><loc>{html.escape(u)}</loc></url>" for u in urls)
+    xml = f'<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n{entries}\n</urlset>\n'
+    (ROOT / "sitemap.xml").write_text(xml, encoding="utf-8")
+
+
 def replace_section(path: Path, start_marker: str, end_marker: str, new_body: str) -> None:
     text = path.read_text(encoding="utf-8")
     pattern = re.compile(
@@ -304,5 +331,6 @@ if __name__ == "__main__":
     items = write_poem_pages()
     replace_section(POEMS_DIR / "index.html", "<!-- POEMS_START -->", "<!-- POEMS_END -->", build_poem_cards(items, "../", ""))
     replace_section(ROOT / "index.html", "<!-- HOME_POEMS_START -->", "<!-- HOME_POEMS_END -->", build_poem_cards(items[:4], "", "poetry/"))
+    write_sitemap()
     print(f"Done. Processed {created} new poem(s), generated {len(items)} poem page(s), and updated index.html + poetry/index.html.")
     git_push_if_configured()
