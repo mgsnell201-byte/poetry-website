@@ -22,6 +22,10 @@ VIDEO_EXTS = {".mp4", ".mov", ".webm"}
 SMALL_WORDS = {"a", "an", "and", "as", "at", "but", "by", "for", "in", "nor", "of", "on", "or", "the", "to", "with"}
 
 
+def slugify(stem: str) -> str:
+    return re.sub(r"[^a-z0-9]+", "-", stem.lower()).strip("-") or "untitled"
+
+
 def title_from_stem(stem: str) -> str:
     words = [w for w in re.split(r"[-_]+", stem) if w]
     return " ".join(
@@ -46,7 +50,7 @@ def process_inbox() -> int:
         if not p.is_file():
             continue
         ext = p.suffix.lower()
-        entry = by_stem.setdefault(p.stem, {})
+        entry = by_stem.setdefault(slugify(p.stem), {})
         if ext in AUDIO_EXTS:
             entry["audio"] = p
         elif ext in IMAGE_EXTS:
@@ -75,7 +79,7 @@ def process_inbox() -> int:
                 run_ffmpeg(["-i", str(video), "-c:v", "libx264", "-c:a", "aac", "-b:a", "192k", str(out_mp4)])
             run_ffmpeg(["-i", str(video), "-vn", "-c:a", "libmp3lame", "-b:a", "192k", str(out_mp3)])
             if image:
-                shutil.copy2(image, IMAGES / image.name)
+                shutil.copy2(image, IMAGES / f"{stem}{image.suffix.lower()}")
                 shutil.move(str(image), str(PROCESSED / image.name))
             else:
                 run_ffmpeg(["-i", str(video), "-ss", "00:00:01", "-vframes", "1", str(IMAGES / f"{stem}.jpg")])
@@ -98,7 +102,7 @@ def process_inbox() -> int:
                     "-shortest",
                     str(out_mp4),
                 ])
-                shutil.copy2(visual, IMAGES / visual.name)
+                shutil.copy2(visual, IMAGES / f"{stem}{visual.suffix.lower()}")
             else:
                 run_ffmpeg([
                     "-stream_loop", "-1",
@@ -115,7 +119,7 @@ def process_inbox() -> int:
                     str(out_mp4),
                 ])
                 if image:
-                    shutil.copy2(image, IMAGES / image.name)
+                    shutil.copy2(image, IMAGES / f"{stem}{image.suffix.lower()}")
                     shutil.move(str(image), str(PROCESSED / image.name))
                 else:
                     run_ffmpeg(["-i", str(visual), "-ss", "00:00:01", "-vframes", "1", str(IMAGES / f"{stem}.jpg")])
