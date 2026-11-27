@@ -124,8 +124,8 @@ def write_poem_pages() -> list[tuple[str, str]]:
         body_esc = html.escape(body)
         snippet = " ".join(ln.strip() for ln in body.splitlines() if ln.strip())[:155]
         desc_esc = html.escape(f"{title} — {snippet}" if snippet else f"{title} by OsmoticPoet")
-        og_img = f"https://osmoticpoet.com/{cover.lstrip('../')}" if cover else "https://osmoticpoet.com/assets/images/_poem-default.png"
         cover = find_cover(stem, "../")
+        og_img = f"https://osmoticpoet.com/{cover.lstrip('../')}" if cover else "https://osmoticpoet.com/assets/images/_poem-default.png" 
         mp3_exists = (POEMS_DATA / f"{stem}.mp3").exists()
 
         img_html = f'          <img class="piece-cover" src="{cover}" alt="{title_esc} illustration">' if cover else ""
