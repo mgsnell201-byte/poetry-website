@@ -297,7 +297,7 @@ def write_track_pages() -> list[str]:
 
   <main class="container">
     <section class="section">
-      <a class="breadcrumb" href="index.html">&larr; All Music</a>
+      <a class="breadcrumb" href="index.html">&larr; Previous</a>
       <div class="card piece-layout">
         <div class="piece-media">
 {visual_html}

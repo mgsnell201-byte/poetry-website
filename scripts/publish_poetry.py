@@ -194,7 +194,7 @@ def write_poem_pages() -> list[tuple[str, str]]:
 
   <main class="container">
     <section class="section">
-      <a class="breadcrumb" href="index.html">&larr; All Poems</a>
+      <a class="breadcrumb" href="index.html">&larr; Previous</a>
       <div class="card piece-layout">
         <div class="piece-media">
 {img_html}

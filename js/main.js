@@ -92,54 +92,111 @@ document.addEventListener('DOMContentLoaded', () => {
 document.addEventListener('DOMContentLoaded', () => {
   const grid = document.querySelector('.media-grid[data-page-size]');
   const nav = document.getElementById('archive-pagination');
-  if (!grid || !nav) return;
+  if (grid && nav) {
+    const pageSize = parseInt(grid.dataset.pageSize || '12', 10);
+    const allCards = Array.from(grid.querySelectorAll('.media-card'));
+    const searchInput = document.getElementById('archive-search');
+    const prevBtn = document.getElementById('page-prev');
+    const nextBtn = document.getElementById('page-next');
+    const statusEl = document.getElementById('page-status');
 
-  const pageSize = parseInt(grid.dataset.pageSize || '12', 10);
-  const allCards = Array.from(grid.querySelectorAll('.media-card'));
-  const searchInput = document.getElementById('archive-search');
-  const prevBtn = document.getElementById('page-prev');
-  const nextBtn = document.getElementById('page-next');
-  const statusEl = document.getElementById('page-status');
-  let filteredCards = allCards;
-  let currentPage = 1;
+    const params = new URLSearchParams(window.location.search);
+    const initialQ = params.get('q') || '';
+    const initialPage = parseInt(params.get('page') || '1', 10) || 1;
 
-  const renderPage = (page) => {
-    const totalPages = Math.max(1, Math.ceil(filteredCards.length / pageSize));
-    currentPage = Math.max(1, Math.min(totalPages, page));
-    const start = (currentPage - 1) * pageSize;
-    const end = start + pageSize;
-    const visibleSet = new Set(filteredCards.slice(start, end));
-
-    allCards.forEach((card) => {
-      card.style.display = visibleSet.has(card) ? '' : 'none';
-    });
-
-    nav.hidden = filteredCards.length <= pageSize;
-    statusEl.textContent = `Page ${currentPage} of ${totalPages}`;
-    prevBtn.disabled = currentPage === 1;
-    nextBtn.disabled = currentPage === totalPages;
-  };
-
-  if (searchInput) {
-    searchInput.addEventListener('input', () => {
-      const q = searchInput.value.trim().toLowerCase();
-      filteredCards = q
-        ? allCards.filter((c) => (c.textContent || '').toLowerCase().includes(q))
+    let filteredCards = allCards;
+    if (searchInput && initialQ) {
+      searchInput.value = initialQ;
+      const qLower = initialQ.trim().toLowerCase();
+      filteredCards = qLower
+        ? allCards.filter((c) => (c.textContent || '').toLowerCase().includes(qLower))
         : allCards;
-      renderPage(1);
+    }
+
+    let currentPage = initialPage;
+
+    const sectionKey = window.location.pathname.startsWith('/music') ? 'music' : 'poetry';
+
+    const syncUrl = () => {
+      const url = new URL(window.location.href);
+      const q = searchInput ? searchInput.value.trim() : '';
+      if (currentPage > 1) url.searchParams.set('page', String(currentPage));
+      else url.searchParams.delete('page');
+      if (q) url.searchParams.set('q', q);
+      else url.searchParams.delete('q');
+      const nextUrl = url.pathname + url.search + url.hash;
+      history.replaceState(null, '', nextUrl);
+      try {
+        sessionStorage.setItem(`op_last_archive:${sectionKey}`, nextUrl);
+      } catch (_) {}
+    };
+
+    const renderPage = (page) => {
+      const totalPages = Math.max(1, Math.ceil(filteredCards.length / pageSize));
+      currentPage = Math.max(1, Math.min(totalPages, page));
+      const start = (currentPage - 1) * pageSize;
+      const end = start + pageSize;
+      const visibleSet = new Set(filteredCards.slice(start, end));
+
+      allCards.forEach((card) => {
+        card.style.display = visibleSet.has(card) ? '' : 'none';
+      });
+
+      nav.hidden = filteredCards.length <= pageSize;
+      statusEl.textContent = `Page ${currentPage} of ${totalPages}`;
+      prevBtn.disabled = currentPage === 1;
+      nextBtn.disabled = currentPage === totalPages;
+      syncUrl();
+    };
+
+    if (searchInput) {
+      searchInput.addEventListener('input', () => {
+        const q = searchInput.value.trim().toLowerCase();
+        filteredCards = q
+          ? allCards.filter((c) => (c.textContent || '').toLowerCase().includes(q))
+          : allCards;
+        renderPage(1);
+      });
+    }
+
+    prevBtn.addEventListener('click', () => {
+      renderPage(currentPage - 1);
+      grid.scrollIntoView({ behavior: 'smooth', block: 'start' });
     });
+    nextBtn.addEventListener('click', () => {
+      renderPage(currentPage + 1);
+      grid.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+
+    renderPage(initialPage);
   }
 
-  prevBtn.addEventListener('click', () => {
-    renderPage(currentPage - 1);
-    grid.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  });
-  nextBtn.addEventListener('click', () => {
-    renderPage(currentPage + 1);
-    grid.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  });
-
-  renderPage(1);
+  // Smart "Previous" breadcrumb on poem/music detail pages
+  const breadcrumb = document.querySelector('a.breadcrumb');
+  if (breadcrumb) {
+    const sectionKey = window.location.pathname.startsWith('/music') ? 'music' : 'poetry';
+    let backUrl = '';
+    try {
+      if (document.referrer) {
+        const ref = new URL(document.referrer);
+        if (
+          ref.origin === window.location.origin &&
+          (ref.pathname === `/${sectionKey}` ||
+            ref.pathname === `/${sectionKey}/` ||
+            ref.pathname === `/${sectionKey}/index.html`)
+        ) {
+          backUrl = ref.pathname + ref.search + ref.hash;
+        }
+      }
+      if (!backUrl) {
+        const saved = sessionStorage.getItem(`op_last_archive:${sectionKey}`);
+        if (saved) backUrl = saved;
+      }
+    } catch (_) {}
+    if (backUrl) {
+      breadcrumb.setAttribute('href', backUrl);
+    }
+  }
 });
 
 // Thumbs Up / Down Counter
