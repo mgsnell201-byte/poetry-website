@@ -83,6 +83,41 @@
       </article>
     </section>
 
+    <section class="section" id="contact">
+      <div class="section-head">
+        <h2 class="section-title">Get in Touch</h2>
+        <span class="section-link">Sent directly via email</span>
+      </div>
+      <div class="card">
+        <form class="comment-form" id="comment-form" action="/api/note" method="POST">
+          <input type="hidden" name="subject" value="General Inquiry from OsmoticPoet About Page">
+          <input type="checkbox" name="botcheck" style="display: none;" tabindex="-1" autocomplete="off">
+
+          <div class="form-row">
+            <div class="form-field">
+              <label for="comment-name">Name</label>
+              <input id="comment-name" name="name" type="text" placeholder="Your name" required>
+            </div>
+            <div class="form-field">
+              <label for="comment-email">Email (optional)</label>
+              <input id="comment-email" name="email" type="email" placeholder="you@example.com">
+            </div>
+          </div>
+
+          <div class="form-field">
+            <label for="comment-message">Message</label>
+            <textarea id="comment-message" name="message" placeholder="What's on your mind?" required></textarea>
+          </div>
+
+          <div class="form-actions">
+            <button class="btn btn-primary" type="submit">Send Message</button>
+            <span class="form-status" id="comment-status" aria-live="polite"></span>
+          </div>
+          <p class="form-disclaimer">Your email is optional, used only to reply to your note, and never shared or added to any mailing list. Prefer not to use the form? Email <a href="mailto:marvin@osmoticpoet.com">marvin@osmoticpoet.com</a> directly. &middot; <a href="../privacy.html">Privacy Policy</a></p>
+        </form>
+      </div>
+    </section>
+
     <footer class="site-footer">
       <div>
         <p class="footer-brand">OsmoticPoet</p>
