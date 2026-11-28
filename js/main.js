@@ -88,42 +88,28 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 
-// Archive Grid Pagination & Search (12 items per page)
+// Archive Grid Pagination (12 items per page)
 document.addEventListener('DOMContentLoaded', () => {
   const grid = document.querySelector('.media-grid[data-page-size]');
   const nav = document.getElementById('archive-pagination');
   if (grid && nav) {
     const pageSize = parseInt(grid.dataset.pageSize || '12', 10);
-    const allCards = Array.from(grid.querySelectorAll('.media-card'));
-    const searchInput = document.getElementById('archive-search');
+    const cards = Array.from(grid.querySelectorAll('.media-card'));
     const prevBtn = document.getElementById('page-prev');
     const nextBtn = document.getElementById('page-next');
     const statusEl = document.getElementById('page-status');
 
     const params = new URLSearchParams(window.location.search);
-    const initialQ = params.get('q') || '';
     const initialPage = parseInt(params.get('page') || '1', 10) || 1;
-
-    let filteredCards = allCards;
-    if (searchInput && initialQ) {
-      searchInput.value = initialQ;
-      const qLower = initialQ.trim().toLowerCase();
-      filteredCards = qLower
-        ? allCards.filter((c) => (c.textContent || '').toLowerCase().includes(qLower))
-        : allCards;
-    }
-
     let currentPage = initialPage;
 
     const sectionKey = window.location.pathname.startsWith('/music') ? 'music' : 'poetry';
 
     const syncUrl = () => {
       const url = new URL(window.location.href);
-      const q = searchInput ? searchInput.value.trim() : '';
       if (currentPage > 1) url.searchParams.set('page', String(currentPage));
       else url.searchParams.delete('page');
-      if (q) url.searchParams.set('q', q);
-      else url.searchParams.delete('q');
+      url.searchParams.delete('q');
       const nextUrl = url.pathname + url.search + url.hash;
       history.replaceState(null, '', nextUrl);
       try {
@@ -132,32 +118,21 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     const renderPage = (page) => {
-      const totalPages = Math.max(1, Math.ceil(filteredCards.length / pageSize));
+      const totalPages = Math.max(1, Math.ceil(cards.length / pageSize));
       currentPage = Math.max(1, Math.min(totalPages, page));
       const start = (currentPage - 1) * pageSize;
       const end = start + pageSize;
-      const visibleSet = new Set(filteredCards.slice(start, end));
 
-      allCards.forEach((card) => {
-        card.style.display = visibleSet.has(card) ? '' : 'none';
+      cards.forEach((card, i) => {
+        card.style.display = i >= start && i < end ? '' : 'none';
       });
 
-      nav.hidden = filteredCards.length <= pageSize;
+      nav.hidden = cards.length <= pageSize;
       statusEl.textContent = `Page ${currentPage} of ${totalPages}`;
       prevBtn.disabled = currentPage === 1;
       nextBtn.disabled = currentPage === totalPages;
       syncUrl();
     };
-
-    if (searchInput) {
-      searchInput.addEventListener('input', () => {
-        const q = searchInput.value.trim().toLowerCase();
-        filteredCards = q
-          ? allCards.filter((c) => (c.textContent || '').toLowerCase().includes(q))
-          : allCards;
-        renderPage(1);
-      });
-    }
 
     prevBtn.addEventListener('click', () => {
       renderPage(currentPage - 1);

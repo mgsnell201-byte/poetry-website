@@ -210,9 +210,21 @@ def write_track_pages() -> list[str]:
 
     stems = sorted(set(mp4s) | set(mp3s), key=sort_key, reverse=True)
 
-    for idx, stem in enumerate(stems, start=1):
+    for idx, stem in enumerate(stems):
         title = title_from_stem(stem)
         title_esc = html.escape(title)
+        prev_stem = stems[idx - 1] if idx > 0 else None
+        next_stem = stems[idx + 1] if idx + 1 < len(stems) else None
+        prev_nav = (
+            f'<a class="piece-nav-btn" href="{prev_stem}.html" title="{html.escape(title_from_stem(prev_stem))}">&larr; Previous Track</a>'
+            if prev_stem
+            else '<span class="piece-nav-btn is-disabled" aria-disabled="true">&larr; Previous Track</span>'
+        )
+        next_nav = (
+            f'<a class="piece-nav-btn" href="{next_stem}.html" title="{html.escape(title_from_stem(next_stem))}">Next Track &rarr;</a>'
+            if next_stem
+            else '<span class="piece-nav-btn is-disabled" aria-disabled="true">Next Track &rarr;</span>'
+        )
         desc_esc = html.escape(f"Listen to {title} by Marvin Snell (OsmoticPoet).")
         cover = find_cover(stem, "../")
         og_img = f"https://osmoticpoet.com/{cover.removeprefix('../')}" if cover else "https://osmoticpoet.com/assets/images/the-rooms-we-leave.jpg"
@@ -297,7 +309,7 @@ def write_track_pages() -> list[str]:
 
   <main class="container">
     <section class="section">
-      <a class="breadcrumb" href="index.html">&larr; Previous</a>
+      <a class="breadcrumb" href="index.html">&larr; Previous page</a>
       <div class="card piece-layout">
         <div class="piece-media">
 {visual_html}
@@ -307,8 +319,14 @@ def write_track_pages() -> list[str]:
           <h1 class="piece-title">{title_esc}</h1>
           <p class="{lyrics_cls}">{lyrics_html}</p>
           <div class="vote-bar" data-vote-id="music/{stem}">
-            <button class="vote-btn" type="button" data-vote="up" aria-label="Like"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 10v12"/><path d="M15 5.88 14 10h5.83a2 2 0 0 1 1.92 2.56l-2.33 8A2 2 0 0 1 17.5 22H4a2 2 0 0 1-2-2v-8a2 2 0 0 1 2-2h2.76a2 2 0 0 0 1.79-1.11L12 2a3.13 3.13 0 0 1 3 3.88Z"/></svg><span class="vote-count">0</span></button>
-            <button class="vote-btn" type="button" data-vote="down" aria-label="Dislike"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 14V2"/><path d="M9 18.12 10 14H4.17a2 2 0 0 1-1.92-2.56l2.33-8A2 2 0 0 1 6.5 2H20a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-2.76a2 2 0 0 0-1.79 1.11L12 22a3.13 3.13 0 0 1-3-3.88Z"/></svg><span class="vote-count">0</span></button>
+            <div class="vote-actions">
+              <button class="vote-btn" type="button" data-vote="up" aria-label="Like"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 10v12"/><path d="M15 5.88 14 10h5.83a2 2 0 0 1 1.92 2.56l-2.33 8A2 2 0 0 1 17.5 22H4a2 2 0 0 1-2-2v-8a2 2 0 0 1 2-2h2.76a2 2 0 0 0 1.79-1.11L12 2a3.13 3.13 0 0 1 3 3.88Z"/></svg><span class="vote-count">0</span></button>
+              <button class="vote-btn" type="button" data-vote="down" aria-label="Dislike"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 14V2"/><path d="M9 18.12 10 14H4.17a2 2 0 0 1-1.92-2.56l2.33-8A2 2 0 0 1 6.5 2H20a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-2.76a2 2 0 0 0-1.79 1.11L12 22a3.13 3.13 0 0 1-3-3.88Z"/></svg><span class="vote-count">0</span></button>
+            </div>
+            <nav class="piece-nav" aria-label="Track navigation">
+              {prev_nav}
+              {next_nav}
+            </nav>
           </div>
         </div>
       </div>
@@ -368,7 +386,7 @@ def write_track_pages() -> list[str]:
     </footer>
   </main>
 
-  <script src="../js/main.js?v=2" defer></script>
+  <script src="../js/main.js?v=3" defer></script>
 </body>
 </html>
 """

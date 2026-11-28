@@ -113,15 +113,31 @@ def write_poem_pages() -> list[tuple[str, str]]:
         return txt_files[stem].stat().st_mtime
 
     stems = sorted(txt_files.keys(), key=sort_key, reverse=True)
-    results: list[tuple[str, str]] = []
-
-    for num, stem in enumerate(stems, start=1):
+    parsed: list[tuple[str, str, str]] = []
+    for stem in stems:
         raw = txt_files[stem].read_text(encoding="utf-8").strip()
         lines = raw.splitlines()
         title = lines[0].strip() if lines else title_from_stem(stem)
         body = "\n".join(lines[1:]).strip() if len(lines) > 1 else ""
+        parsed.append((stem, title, body))
+
+    results: list[tuple[str, str]] = []
+
+    for idx, (stem, title, body) in enumerate(parsed):
         title_esc = html.escape(title)
         body_esc = html.escape(body)
+        prev_poem = parsed[idx - 1] if idx > 0 else None
+        next_poem = parsed[idx + 1] if idx + 1 < len(parsed) else None
+        prev_nav = (
+            f'<a class="piece-nav-btn" href="{prev_poem[0]}.html" title="{html.escape(prev_poem[1])}">&larr; Previous Poem</a>'
+            if prev_poem
+            else '<span class="piece-nav-btn is-disabled" aria-disabled="true">&larr; Previous Poem</span>'
+        )
+        next_nav = (
+            f'<a class="piece-nav-btn" href="{next_poem[0]}.html" title="{html.escape(next_poem[1])}">Next Poem &rarr;</a>'
+            if next_poem
+            else '<span class="piece-nav-btn is-disabled" aria-disabled="true">Next Poem &rarr;</span>'
+        )
         snippet = " ".join(ln.strip() for ln in body.splitlines() if ln.strip())[:155]
         desc_esc = html.escape(f"{title} — {snippet}" if snippet else f"{title} by OsmoticPoet")
         cover = find_cover(stem, "../")
@@ -194,7 +210,7 @@ def write_poem_pages() -> list[tuple[str, str]]:
 
   <main class="container">
     <section class="section">
-      <a class="breadcrumb" href="index.html">&larr; Previous</a>
+      <a class="breadcrumb" href="index.html">&larr; Previous page</a>
       <div class="card piece-layout">
         <div class="piece-media">
 {img_html}
@@ -204,8 +220,14 @@ def write_poem_pages() -> list[tuple[str, str]]:
           <h1 class="piece-title">{title_esc}</h1>
           <p class="poem-stanza">{body_esc}</p>
           <div class="vote-bar" data-vote-id="poetry/{stem}">
-            <button class="vote-btn" type="button" data-vote="up" aria-label="Like"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 10v12"/><path d="M15 5.88 14 10h5.83a2 2 0 0 1 1.92 2.56l-2.33 8A2 2 0 0 1 17.5 22H4a2 2 0 0 1-2-2v-8a2 2 0 0 1 2-2h2.76a2 2 0 0 0 1.79-1.11L12 2a3.13 3.13 0 0 1 3 3.88Z"/></svg><span class="vote-count">0</span></button>
-            <button class="vote-btn" type="button" data-vote="down" aria-label="Dislike"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 14V2"/><path d="M9 18.12 10 14H4.17a2 2 0 0 1-1.92-2.56l2.33-8A2 2 0 0 1 6.5 2H20a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-2.76a2 2 0 0 0-1.79 1.11L12 22a3.13 3.13 0 0 1-3-3.88Z"/></svg><span class="vote-count">0</span></button>
+            <div class="vote-actions">
+              <button class="vote-btn" type="button" data-vote="up" aria-label="Like"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 10v12"/><path d="M15 5.88 14 10h5.83a2 2 0 0 1 1.92 2.56l-2.33 8A2 2 0 0 1 17.5 22H4a2 2 0 0 1-2-2v-8a2 2 0 0 1 2-2h2.76a2 2 0 0 0 1.79-1.11L12 2a3.13 3.13 0 0 1 3 3.88Z"/></svg><span class="vote-count">0</span></button>
+              <button class="vote-btn" type="button" data-vote="down" aria-label="Dislike"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 14V2"/><path d="M9 18.12 10 14H4.17a2 2 0 0 1-1.92-2.56l2.33-8A2 2 0 0 1 6.5 2H20a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-2.76a2 2 0 0 0-1.79 1.11L12 22a3.13 3.13 0 0 1-3-3.88Z"/></svg><span class="vote-count">0</span></button>
+            </div>
+            <nav class="piece-nav" aria-label="Poem navigation">
+              {prev_nav}
+              {next_nav}
+            </nav>
           </div>
         </div>
       </div>
@@ -265,7 +287,7 @@ def write_poem_pages() -> list[tuple[str, str]]:
     </footer>
   </main>
 
-  <script src="../js/main.js?v=2" defer></script>
+  <script src="../js/main.js?v=3" defer></script>
 </body>
 </html>
 """
