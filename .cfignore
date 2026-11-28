@@ -7,6 +7,7 @@ mailer-worker/
 music/inbox/
 poetry/inbox/
 assets/images/originals/
+assets/images/_IMAGE-SIZES.txt
 poetry/poems/*.txt
 poetry/poems/*.json
 music/tracks/*.txt

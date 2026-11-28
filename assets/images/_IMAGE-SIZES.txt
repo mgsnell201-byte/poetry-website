@@ -1,0 +1,17 @@
+OsmoticPoet — Cover Image Size Cheat Sheet
+============================================
+
+POEMS:
+  Size:   896 x 1120 px  (4:5 portrait)
+  Format: .jpg (or .png — publish-poetry.bat auto-converts .png to .jpg)
+
+MUSIC (YouTube):
+  Size:   1280 x 720 px  (16:9 landscape)
+  Format: .jpg (or .png — publish-music.bat auto-converts .png to .jpg)
+
+Naming Rule:
+  - Lowercase with hyphens, no spaces (e.g. first-sip, winter-s-first-lesson, tribal-beat)
+  - Must match the poem/song filename before the extension.
+  - Drop replacement images for existing poems/songs right here in assets\images\
+    (if replacing a .jpg with a .png or vice versa, delete the old one),
+    then run publish-poetry.bat or publish-music.bat.

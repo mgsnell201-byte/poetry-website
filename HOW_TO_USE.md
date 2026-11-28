@@ -2,6 +2,10 @@
 
 Use **lowercase filenames with hyphens** (no spaces) and give matching files the **same name** before the extension.
 
+### Cover Image Sizes (Cheat Sheet — also saved in `assets\images\_IMAGE-SIZES.txt`)
+- **Poems:** **`896 × 1120`** (4:5 portrait, `.jpg` or `.png`)
+- **Music (YouTube):** **`1280 × 720`** (16:9 landscape, `.jpg` or `.png`)
+
 ---
 
 ## 1. How to Add a New Song
