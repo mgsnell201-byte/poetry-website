@@ -95,14 +95,18 @@ document.addEventListener('DOMContentLoaded', () => {
   if (grid && nav) {
     const pageSize = parseInt(grid.dataset.pageSize || '12', 10);
     const allCards = Array.from(grid.querySelectorAll('.media-card'));
-    const filterBar = document.getElementById('poetry-filters');
+    const filterBar = document.getElementById('poetry-filters') || document.getElementById('music-filters');
     const clearSavedBtn = document.getElementById('clear-saved');
     const prevBtn = document.getElementById('page-prev');
     const nextBtn = document.getElementById('page-next');
     const statusEl = document.getElementById('page-status');
 
     const sectionKey = window.location.pathname.startsWith('/music') ? 'music' : 'poetry';
-    const savedKey = 'op_reading_list';
+    const savedKey = sectionKey === 'music' ? 'op_listening_list' : 'op_reading_list';
+    const filteredListKey = sectionKey === 'music' ? 'op_filtered_tracks' : 'op_filtered_poems';
+    const listLabel = sectionKey === 'music' ? 'Listening List' : 'Reading List';
+    const itemNoun = sectionKey === 'music' ? 'tracks' : 'poems';
+    const singularNoun = sectionKey === 'music' ? 'track' : 'poem';
     let savedSet = new Set();
     try {
       const rawSaved = JSON.parse(localStorage.getItem(savedKey) || '[]');
@@ -177,16 +181,14 @@ document.addEventListener('DOMContentLoaded', () => {
       history.replaceState(null, '', nextUrl);
       try {
         sessionStorage.setItem(`op_last_archive:${sectionKey}`, nextUrl);
-        if (sectionKey === 'poetry') {
-          if (activeFilter === '__all__') {
-            sessionStorage.removeItem('op_filtered_poems');
-          } else {
-            const list = filtered.map((c) => ({
-              stem: c.dataset.stem || '',
-              title: c.querySelector('.media-card-title')?.textContent?.trim() || '',
-            })).filter((item) => item.stem);
-            sessionStorage.setItem('op_filtered_poems', JSON.stringify(list));
-          }
+        if (activeFilter === '__all__') {
+          sessionStorage.removeItem(filteredListKey);
+        } else {
+          const list = filtered.map((c) => ({
+            stem: c.dataset.stem || '',
+            title: c.querySelector('.media-card-title')?.textContent?.trim() || '',
+          })).filter((item) => item.stem);
+          sessionStorage.setItem(filteredListKey, JSON.stringify(list));
         }
       } catch (_) {}
     };
@@ -212,8 +214,8 @@ document.addEventListener('DOMContentLoaded', () => {
           grid.after(emptyMsg);
         }
         emptyMsg.textContent = activeFilter === '__saved__'
-          ? 'Your Reading List is empty. Click the checkmark on any poem cover to add it.'
-          : 'No poems found in this category.';
+          ? `Your ${listLabel} is empty. Click the checkmark on any ${singularNoun} cover to add it.`
+          : `No ${itemNoun} found in this category.`;
         emptyMsg.hidden = false;
       } else if (emptyMsg) {
         emptyMsg.hidden = true;
@@ -322,36 +324,38 @@ document.addEventListener('DOMContentLoaded', () => {
       breadcrumb.setAttribute('href', backUrl);
     }
 
-    if (sectionKey === 'poetry') {
-      try {
-        const rawList = sessionStorage.getItem('op_filtered_poems');
-        const pieceNav = document.querySelector('.piece-nav');
-        if (rawList && pieceNav) {
-          const list = JSON.parse(rawList);
-          const currentSlug = window.location.pathname.replace(/^\/poetry\//, '').replace(/\.html$/, '');
-          const idx = Array.isArray(list) ? list.findIndex((p) => p.stem === currentSlug) : -1;
-          if (idx !== -1) {
-            const prev = idx > 0 ? list[idx - 1] : null;
-            const next = idx + 1 < list.length ? list[idx + 1] : null;
-            pieceNav.innerHTML = '';
-            const makeBtn = (item, label, isNext) => {
-              const el = document.createElement(item ? 'a' : 'span');
-              el.className = item ? 'piece-nav-btn' : 'piece-nav-btn is-disabled';
-              el.textContent = isNext ? `${label} \u2192` : `\u2190 ${label}`;
-              if (item) {
-                el.href = `${item.stem}.html`;
-                if (item.title) el.title = item.title;
-              } else {
-                el.setAttribute('aria-disabled', 'true');
-              }
-              return el;
-            };
-            pieceNav.appendChild(makeBtn(prev, 'Previous Poem', false));
-            pieceNav.appendChild(makeBtn(next, 'Next Poem', true));
-          }
+    const filteredListKey = sectionKey === 'music' ? 'op_filtered_tracks' : 'op_filtered_poems';
+    const pieceLabel = sectionKey === 'music' ? 'Track' : 'Poem';
+    try {
+      const rawList = sessionStorage.getItem(filteredListKey);
+      const pieceNav = document.querySelector('.piece-nav');
+      if (rawList && pieceNav) {
+        const list = JSON.parse(rawList);
+        const currentSlug = window.location.pathname
+          .replace(new RegExp(`^/${sectionKey}/`), '')
+          .replace(/\.html$/, '');
+        const idx = Array.isArray(list) ? list.findIndex((p) => p.stem === currentSlug) : -1;
+        if (idx !== -1) {
+          const prev = idx > 0 ? list[idx - 1] : null;
+          const next = idx + 1 < list.length ? list[idx + 1] : null;
+          pieceNav.innerHTML = '';
+          const makeBtn = (item, label, isNext) => {
+            const el = document.createElement(item ? 'a' : 'span');
+            el.className = item ? 'piece-nav-btn' : 'piece-nav-btn is-disabled';
+            el.textContent = isNext ? `${label} \u2192` : `\u2190 ${label}`;
+            if (item) {
+              el.href = `${item.stem}.html`;
+              if (item.title) el.title = item.title;
+            } else {
+              el.setAttribute('aria-disabled', 'true');
+            }
+            return el;
+          };
+          pieceNav.appendChild(makeBtn(prev, `Previous ${pieceLabel}`, false));
+          pieceNav.appendChild(makeBtn(next, `Next ${pieceLabel}`, true));
         }
-      } catch (_) {}
-    }
+      }
+    } catch (_) {}
   }
 });
 

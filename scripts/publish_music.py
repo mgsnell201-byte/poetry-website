@@ -18,6 +18,117 @@ AUDIO_EXTS = {".wav", ".mp3", ".flac", ".m4a"}
 IMAGE_EXTS = {".png", ".jpg", ".jpeg", ".webp"}
 VIDEO_EXTS = {".mp4", ".mov", ".webm"}
 
+TAG_MAP = {
+    "vocal": "Vocal",
+    "vocals": "Vocal",
+    "instrumental": "Instrumental",
+    "calm": "Calm & Reflective",
+    "reflective": "Calm & Reflective",
+    "calm & reflective": "Calm & Reflective",
+    "upbeat": "Upbeat & Groove",
+    "groove": "Upbeat & Groove",
+    "upbeat & groove": "Upbeat & Groove",
+    "personal": "Personal & Romantic",
+    "romantic": "Personal & Romantic",
+    "personal & romantic": "Personal & Romantic",
+    "heart": "Heart & Humanity",
+    "humanity": "Heart & Humanity",
+    "heart & humanity": "Heart & Humanity",
+}
+
+
+def extract_youtube_id(raw: str) -> str:
+    val = raw.strip()
+    m = re.search(r"(?:youtu\.be/|youtube\.com/(?:watch\?v=|embed/|shorts/))([A-Za-z0-9_-]{11})", val)
+    if m:
+        return m.group(1)
+    if re.fullmatch(r"[A-Za-z0-9_-]{11}", val):
+        return val
+    return ""
+
+
+def parse_music_text(raw: str) -> tuple[str, str, list[str], bool, str]:
+    lines = raw.splitlines()
+    title = lines[0].strip() if lines else ""
+    yt_id = ""
+    tags: list[str] = []
+    instrumental = False
+    idx = 1
+    while idx < len(lines):
+        ln = lines[idx].strip()
+        if re.match(r"^youtube\s*:", ln, re.I):
+            yt_id = extract_youtube_id(re.sub(r"^youtube\s*:\s*", "", ln, flags=re.I))
+            idx += 1
+        elif re.match(r"^tags\s*:", ln, re.I):
+            tag_str = re.sub(r"^tags\s*:\s*", "", ln, flags=re.I)
+            for part in re.split(r"[,;|]+", tag_str):
+                key = part.strip().lower()
+                if key in TAG_MAP and TAG_MAP[key] not in tags:
+                    tags.append(TAG_MAP[key])
+            idx += 1
+        elif re.match(r"^instrumental\s*:", ln, re.I):
+            val = re.sub(r"^instrumental\s*:\s*", "", ln, flags=re.I).strip().lower()
+            instrumental = val in ("true", "yes", "1")
+            idx += 1
+        elif ln == "" and idx == 1:
+            break
+        elif ln == "":
+            idx += 1
+            break
+        else:
+            break
+    lyrics = "\n".join(lines[idx:]).strip()
+    if instrumental or "Instrumental" in tags:
+        instrumental = True
+        if "Instrumental" not in tags:
+            tags.insert(0, "Instrumental")
+    elif lyrics and "Vocal" not in tags:
+        tags.insert(0, "Vocal")
+    return title, yt_id, tags, instrumental, lyrics
+
+
+def fetch_youtube_thumbnail(yt_id: str, dest: Path) -> bool:
+    import urllib.request
+    tmp = dest.with_name(f"_tmp_{dest.name}")
+    downloaded = False
+    for res in ("maxresdefault", "hqdefault"):
+        try:
+            data = urllib.request.urlopen(f"https://i.ytimg.com/vi/{yt_id}/{res}.jpg", timeout=15).read()
+            if len(data) > 5000:
+                tmp.write_bytes(data)
+                downloaded = True
+                break
+        except Exception:
+            continue
+    if not downloaded:
+        return False
+    try:
+        proc = subprocess.run(
+            [FFMPEG, "-loop", "1", "-t", "0.5", "-i", str(tmp), "-vf", "cropdetect=24:2:0", "-f", "null", "-"],
+            capture_output=True, text=True, timeout=20,
+        )
+        crops = re.findall(r"crop=(\d+:\d+:\d+:\d+)", proc.stderr)
+        if crops:
+            run_ffmpeg(["-i", str(tmp), "-vf", f"crop={crops[-1]}", "-q:v", "2", str(dest)])
+            tmp.unlink(missing_ok=True)
+            return True
+    except Exception:
+        pass
+    tmp.replace(dest)
+    return True
+
+
+def get_track_tags(stem: str) -> list[str]:
+    meta_path = TRACKS / f"{stem}.json"
+    if meta_path.exists():
+        try:
+            tags = json.loads(meta_path.read_text(encoding="utf-8")).get("tags", [])
+            if isinstance(tags, list):
+                return [str(t) for t in tags if t]
+        except Exception:
+            pass
+    return []
+
 
 SMALL_WORDS = {"a", "an", "and", "as", "at", "but", "by", "for", "in", "nor", "of", "on", "or", "the", "to", "with"}
 
@@ -64,7 +175,7 @@ def process_inbox() -> int:
 
     by_stem: dict[str, dict[str, Path]] = {}
     for p in INBOX.iterdir():
-        if not p.is_file():
+        if not p.is_file() or p.name.startswith("_"):
             continue
         ext = p.suffix.lower()
         entry = by_stem.setdefault(slugify(p.stem), {})
@@ -82,9 +193,41 @@ def process_inbox() -> int:
         audio = files.get("audio")
         video = files.get("video")
         image = files.get("image")
+        lyrics_file = files.get("lyrics")
+
+        yt_id = ""
+        parsed_title = ""
+        parsed_tags: list[str] = []
+        instrumental = False
+        cleaned_lyrics = ""
+        if lyrics_file:
+            raw_txt = lyrics_file.read_text(encoding="utf-8", errors="ignore")
+            parsed_title, yt_id, parsed_tags, instrumental, cleaned_lyrics = parse_music_text(raw_txt)
 
         out_mp4 = TRACKS / f"{stem}.mp4"
         out_mp3 = TRACKS / f"{stem}.mp3"
+
+        if yt_id and not audio and not video:
+            print(f"Importing YouTube track {stem} ({yt_id})...")
+            if image:
+                shutil.copy2(image, IMAGES / f"{stem}{image.suffix.lower()}")
+                shutil.move(str(image), str(PROCESSED / image.name))
+            else:
+                fetch_youtube_thumbnail(yt_id, IMAGES / f"{stem}.jpg")
+            meta_obj: dict[str, object] = {"youtube_id": yt_id, "added_at": time.time()}
+            if parsed_title:
+                meta_obj["title"] = parsed_title
+            if parsed_tags:
+                meta_obj["tags"] = parsed_tags
+            if instrumental:
+                meta_obj["instrumental"] = True
+            (TRACKS / f"{stem}.json").write_text(json.dumps(meta_obj, indent=2), encoding="utf-8")
+            if cleaned_lyrics:
+                (TRACKS / f"{stem}.txt").write_text(cleaned_lyrics + "\n", encoding="utf-8")
+            if lyrics_file:
+                shutil.move(str(lyrics_file), str(PROCESSED / lyrics_file.name))
+            count += 1
+            continue
 
         if video and not audio:
             # Standalone MP4/video: auto-detect whether it has real motion or is a still image
@@ -151,12 +294,18 @@ def process_inbox() -> int:
         else:
             continue
 
+        meta_obj = {"has_video": has_video, "added_at": time.time()}
+        if parsed_tags:
+            meta_obj["tags"] = parsed_tags
+        if instrumental:
+            meta_obj["instrumental"] = True
         (TRACKS / f"{stem}.json").write_text(
-            json.dumps({"has_video": has_video, "added_at": time.time()}, indent=2), encoding="utf-8"
+            json.dumps(meta_obj, indent=2), encoding="utf-8"
         )
 
         if "lyrics" in files:
-            shutil.copy2(files["lyrics"], TRACKS / f"{stem}.txt")
+            if cleaned_lyrics:
+                (TRACKS / f"{stem}.txt").write_text(cleaned_lyrics + "\n", encoding="utf-8")
             shutil.move(str(files["lyrics"]), str(PROCESSED / files["lyrics"].name))
 
         count += 1
@@ -403,7 +552,7 @@ def write_track_pages() -> list[str]:
     </footer>
   </main>
 
-  <script src="../js/main.js?v=4" defer></script>
+  <script src="../js/main.js?v=5" defer></script>
 </body>
 </html>
 """
@@ -412,7 +561,7 @@ def write_track_pages() -> list[str]:
     return stems
 
 
-def build_track_cards(stems: list[str], prefix: str, href_prefix: str) -> str:
+def build_track_cards(stems: list[str], prefix: str, href_prefix: str, include_controls: bool = False) -> str:
     if not stems:
         return '        <p class="poem-stanza muted">No tracks yet.</p>'
 
@@ -421,8 +570,15 @@ def build_track_cards(stems: list[str], prefix: str, href_prefix: str) -> str:
         title = html.escape(title_from_stem(stem))
         cover = find_cover(stem, prefix)
         img_html = f'\n          <img class="media-card-img" loading="lazy" decoding="async" src="{cover}" alt="{title} cover">' if cover else ""
+        if include_controls:
+            tags_attr = html.escape("|".join(get_track_tags(stem)))
+            attrs = f' data-stem="{stem}" data-tags="{tags_attr}"'
+            select_html = f'\n          <span class="card-select" role="checkbox" tabindex="0" aria-checked="false" aria-label="Save {title} to listening list" title="Save to Listening List">&#10003;</span>'
+        else:
+            attrs = ""
+            select_html = ""
         cards.append(
-            f"""        <a class="media-card" href="{href_prefix}{stem}.html">{img_html}
+            f"""        <a class="media-card" href="{href_prefix}{stem}.html"{attrs}>{select_html}{img_html}
           <div class="media-card-body">
               <h3 class="media-card-title">{title}</h3>
           </div>
@@ -491,7 +647,7 @@ if __name__ == "__main__":
     created = process_inbox()
     optimize_existing_pngs()
     stems = write_track_pages()
-    replace_section(MUSIC_DIR / "index.html", "<!-- TRACKS_START -->", "<!-- TRACKS_END -->", build_track_cards(stems, "../", ""))
+    replace_section(MUSIC_DIR / "index.html", "<!-- TRACKS_START -->", "<!-- TRACKS_END -->", build_track_cards(stems, "../", "", include_controls=True))
     replace_section(ROOT / "index.html", "<!-- HOME_TRACKS_START -->", "<!-- HOME_TRACKS_END -->", build_track_cards(stems[:4], "", "music/"))
     write_sitemap()
     print(f"Done. Processed {created} new track(s), generated {len(stems)} track page(s), and updated index.html + music/index.html.")

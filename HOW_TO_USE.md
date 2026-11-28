@@ -6,7 +6,8 @@ Use **lowercase filenames with hyphens** (no spaces) and give matching files the
 
 ## 1. How to Add a New Song
 1. Put your files into `F:\Poetry Website\music\inbox\`:
-   - **Already an `.mp4` (e.g. YouTube download):** Just drop `my-song.mp4` (no video re-encoding needed; optional `my-song.png`/`.jpg` cover and `my-song.txt` lyrics)
+   - **YouTube track (recommended, saves storage):** Drop `my-song.txt` with the **title on line 1**, **`YouTube: <url>` on line 2**, and **`Tags: ...` on line 3** (see `_music-template.txt` in `music\inbox\`), plus optional lyrics and optional `my-song.jpg` cover (if omitted, the YouTube thumbnail is fetched automatically).
+   - **OR Already an `.mp4` (e.g. YouTube download):** Drop `my-song.mp4` (optional `my-song.png`/`.jpg` cover and `my-song.txt` lyrics)
    - **OR Audio + Image/Video:** `my-song.wav` (or `.mp3`) + `my-song.png` (or `.jpg`, `.mp4`), plus optional `my-song.txt` lyrics
 2. Double-click **`publish-music.bat`** in `F:\Poetry Website\`.
 3. What happens automatically:

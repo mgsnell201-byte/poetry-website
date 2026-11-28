@@ -355,7 +355,7 @@ def write_poem_pages() -> list[tuple[str, str]]:
     </footer>
   </main>
 
-  <script src="../js/main.js?v=4" defer></script>
+  <script src="../js/main.js?v=5" defer></script>
 </body>
 </html>
 """

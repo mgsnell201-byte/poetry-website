@@ -87,27 +87,42 @@
     </section>
 
     <section class="section">
+      <div class="filter-bar" id="music-filters" role="group" aria-label="Filter music by category">
+        <button class="filter-pill is-active" type="button" data-filter="__all__">All <span class="filter-count"></span></button>
+        <button class="filter-pill" type="button" data-filter="Vocal">Vocal <span class="filter-count"></span></button>
+        <button class="filter-pill" type="button" data-filter="Instrumental">Instrumental <span class="filter-count"></span></button>
+        <button class="filter-pill" type="button" data-filter="Calm &amp; Reflective">Calm &amp; Reflective <span class="filter-count"></span></button>
+        <button class="filter-pill" type="button" data-filter="Upbeat &amp; Groove">Upbeat &amp; Groove <span class="filter-count"></span></button>
+        <button class="filter-pill" type="button" data-filter="Personal &amp; Romantic">Personal &amp; Romantic <span class="filter-count"></span></button>
+        <button class="filter-pill" type="button" data-filter="Heart &amp; Humanity">Heart &amp; Humanity <span class="filter-count"></span></button>
+        <button class="filter-pill filter-pill--saved" type="button" data-filter="__saved__">My Listening List (<span class="saved-count">0</span>)</button>
+        <button class="filter-clear" id="clear-saved" type="button" hidden>Clear</button>
+      </div>
       <div class="media-grid media-grid--compact" data-page-size="12">
         <!-- TRACKS_START -->
-                                                                                                                                                                                                                                                                                                <a class="media-card" href="the-room-we-leave.html">
+                                                                                                                                                                                                                                                                                                        <a class="media-card" href="the-room-we-leave.html" data-stem="the-room-we-leave" data-tags="Vocal|Personal &amp; Romantic|Calm &amp; Reflective">
+          <span class="card-select" role="checkbox" tabindex="0" aria-checked="false" aria-label="Save The Room We Leave to listening list" title="Save to Listening List">&#10003;</span>
           <img class="media-card-img" loading="lazy" decoding="async" src="../assets/images/the-room-we-leave.jpg" alt="The Room We Leave cover">
           <div class="media-card-body">
               <h3 class="media-card-title">The Room We Leave</h3>
           </div>
         </a>
-        <a class="media-card" href="tribal-beat.html">
+        <a class="media-card" href="tribal-beat.html" data-stem="tribal-beat" data-tags="Instrumental|Upbeat &amp; Groove">
+          <span class="card-select" role="checkbox" tabindex="0" aria-checked="false" aria-label="Save Tribal Beat to listening list" title="Save to Listening List">&#10003;</span>
           <img class="media-card-img" loading="lazy" decoding="async" src="../assets/images/tribal-beat.jpg" alt="Tribal Beat cover">
           <div class="media-card-body">
               <h3 class="media-card-title">Tribal Beat</h3>
           </div>
         </a>
-        <a class="media-card" href="never-built-for-clouds.html">
+        <a class="media-card" href="never-built-for-clouds.html" data-stem="never-built-for-clouds" data-tags="Vocal|Calm &amp; Reflective">
+          <span class="card-select" role="checkbox" tabindex="0" aria-checked="false" aria-label="Save Never Built for Clouds to listening list" title="Save to Listening List">&#10003;</span>
           <img class="media-card-img" loading="lazy" decoding="async" src="../assets/images/never-built-for-clouds.jpg" alt="Never Built for Clouds cover">
           <div class="media-card-body">
               <h3 class="media-card-title">Never Built for Clouds</h3>
           </div>
         </a>
-        <a class="media-card" href="the-rooms-we-leave.html">
+        <a class="media-card" href="the-rooms-we-leave.html" data-stem="the-rooms-we-leave" data-tags="Vocal|Personal &amp; Romantic|Calm &amp; Reflective">
+          <span class="card-select" role="checkbox" tabindex="0" aria-checked="false" aria-label="Save The Rooms We Leave to listening list" title="Save to Listening List">&#10003;</span>
           <img class="media-card-img" loading="lazy" decoding="async" src="../assets/images/the-rooms-we-leave.jpg" alt="The Rooms We Leave cover">
           <div class="media-card-body">
               <h3 class="media-card-title">The Rooms We Leave</h3>
@@ -119,6 +134,12 @@
         <span class="page-status" id="page-status">Page 1 of 1</span>
         <button class="page-btn" id="page-next" type="button">Next &rarr;</button>
       </nav>
+      <div class="card archive-guide">
+        <div class="card-meta">How to Use This Archive</div>
+        <p class="poem-stanza muted">Use the <strong>category pills</strong> above to browse by style or mood, or click the <strong>checkmark (&#10003;)</strong> in the top-right corner of any cover to save tracks to <strong>My Listening List</strong>.
+
+Your Listening List is saved in your browser so your picks stay ready whenever you return. Click <strong>My Listening List</strong> to view only your selected tracks, then use <strong>&larr; Previous Track</strong> and <strong>Next Track &rarr;</strong> to listen straight through them.</p>
+      </div>
     </section>
 
     <footer class="site-footer">
@@ -140,6 +161,6 @@
     </footer>
   </main>
 
-  <script src="../js/main.js?v=4" defer></script>
+  <script src="../js/main.js?v=5" defer></script>
 </body>
 </html>
