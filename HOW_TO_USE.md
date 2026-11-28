@@ -52,3 +52,23 @@ Use **lowercase filenames with hyphens** (no spaces) and give matching files the
 ## 5. Comments (Cloudflare Worker)
 - Every poem and song page has a **Leave a Note** form that posts to `/api/note`, handled by the `osmoticpoet-mailer` Cloudflare Worker (`mailer-worker/`).
 - Comments are emailed straight to `mgsnell201@gmail.com` via Cloudflare Email Sending (`notes@osmoticpoet.com`), with the poem or song title in the email subject.
+
+---
+
+## 6. Future Ideas — Reader Discovery & Reading List (Brainstorm / Planned)
+How readers can narrow down ~500 poems and build their own reading session:
+
+1. **Cover Checkboxes → "My Reading List"**
+   - Each cover card on `/poetry/` (and `/music/`) has a subtle checkbox / bookmark icon in the corner.
+   - Selected poems are saved in `localStorage` so they persist across visits.
+   - A **`View Selected (N)`** + **`Clear`** bar lets readers filter the archive to only their checked poems.
+   - Inside that Reading List, **`← Previous Poem`** / **`Next Poem →`** steps through only their selected poems, and **`← Previous page`** returns to their Reading List.
+2. **Broad Category / Style Pills (Coarse Filter)**
+   - 6–10 broad buckets at the top of `/poetry/` (for example: `All`, `Nature & Seasons`, `Holidays & Celebrations`, `Love & Longing`, `Humor & Wit`, `Faith & Reflection`, `Life & Memory`, `Short Reads`) stored in each poem's `poetry/poems/<stem>.json` file.
+   - Shrinks ~500 poems down to ~30–60 in one click before readers check off favorites.
+3. **"Surprise Me" (Random Poem) Button**
+   - One-click button on `/poetry/` that opens a random poem for visitors who don't know where to start.
+4. **"Start Here / Poet's Picks" Collection**
+   - A small curated tab or shelf of 8–12 flagship poems so first-time visitors immediately experience your best work.
+5. **Optional 1–2 Line Opening Teaser**
+   - A brief preview of the poem's opening lines on hover or in a list view.

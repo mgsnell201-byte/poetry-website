@@ -88,51 +88,199 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 
-// Archive Grid Pagination (12 items per page)
+// Archive Grid Pagination, Category Filters & Reading List
 document.addEventListener('DOMContentLoaded', () => {
   const grid = document.querySelector('.media-grid[data-page-size]');
   const nav = document.getElementById('archive-pagination');
   if (grid && nav) {
     const pageSize = parseInt(grid.dataset.pageSize || '12', 10);
-    const cards = Array.from(grid.querySelectorAll('.media-card'));
+    const allCards = Array.from(grid.querySelectorAll('.media-card'));
+    const filterBar = document.getElementById('poetry-filters');
+    const clearSavedBtn = document.getElementById('clear-saved');
     const prevBtn = document.getElementById('page-prev');
     const nextBtn = document.getElementById('page-next');
     const statusEl = document.getElementById('page-status');
 
+    const sectionKey = window.location.pathname.startsWith('/music') ? 'music' : 'poetry';
+    const savedKey = 'op_reading_list';
+    let savedSet = new Set();
+    try {
+      const rawSaved = JSON.parse(localStorage.getItem(savedKey) || '[]');
+      if (Array.isArray(rawSaved)) savedSet = new Set(rawSaved);
+    } catch (_) {}
+
     const params = new URLSearchParams(window.location.search);
+    let activeFilter = params.get('saved') === '1'
+      ? '__saved__'
+      : (params.get('tag') || '__all__');
     const initialPage = parseInt(params.get('page') || '1', 10) || 1;
     let currentPage = initialPage;
 
-    const sectionKey = window.location.pathname.startsWith('/music') ? 'music' : 'poetry';
+    const getCardTags = (card) => (card.dataset.tags || '').split('|').filter(Boolean);
 
-    const syncUrl = () => {
+    const updateFilterCounts = () => {
+      if (!filterBar) return;
+      filterBar.querySelectorAll('.filter-pill[data-filter]').forEach((pill) => {
+        const key = pill.dataset.filter;
+        if (key === '__saved__') {
+          const span = pill.querySelector('.saved-count');
+          if (span) span.textContent = String(savedSet.size);
+          return;
+        }
+        const span = pill.querySelector('.filter-count');
+        if (!span) return;
+        const count = key === '__all__'
+          ? allCards.length
+          : allCards.filter((c) => getCardTags(c).includes(key)).length;
+        span.textContent = `(${count})`;
+      });
+      if (clearSavedBtn) {
+        clearSavedBtn.hidden = savedSet.size === 0;
+      }
+    };
+
+    const syncCardCheckboxes = () => {
+      allCards.forEach((card) => {
+        const box = card.querySelector('.card-select');
+        const stem = card.dataset.stem || '';
+        if (!box || !stem) return;
+        const isSaved = savedSet.has(stem);
+        box.classList.toggle('is-selected', isSaved);
+        box.setAttribute('aria-checked', isSaved ? 'true' : 'false');
+      });
+    };
+
+    const getFilteredCards = () => {
+      if (activeFilter === '__all__' || !filterBar) return allCards;
+      if (activeFilter === '__saved__') {
+        return allCards.filter((c) => savedSet.has(c.dataset.stem || ''));
+      }
+      return allCards.filter((c) => getCardTags(c).includes(activeFilter));
+    };
+
+    const syncUrlAndSession = (filtered) => {
       const url = new URL(window.location.href);
       if (currentPage > 1) url.searchParams.set('page', String(currentPage));
       else url.searchParams.delete('page');
       url.searchParams.delete('q');
+      if (activeFilter === '__saved__') {
+        url.searchParams.set('saved', '1');
+        url.searchParams.delete('tag');
+      } else if (activeFilter !== '__all__') {
+        url.searchParams.set('tag', activeFilter);
+        url.searchParams.delete('saved');
+      } else {
+        url.searchParams.delete('tag');
+        url.searchParams.delete('saved');
+      }
       const nextUrl = url.pathname + url.search + url.hash;
       history.replaceState(null, '', nextUrl);
       try {
         sessionStorage.setItem(`op_last_archive:${sectionKey}`, nextUrl);
+        if (sectionKey === 'poetry') {
+          if (activeFilter === '__all__') {
+            sessionStorage.removeItem('op_filtered_poems');
+          } else {
+            const list = filtered.map((c) => ({
+              stem: c.dataset.stem || '',
+              title: c.querySelector('.media-card-title')?.textContent?.trim() || '',
+            })).filter((item) => item.stem);
+            sessionStorage.setItem('op_filtered_poems', JSON.stringify(list));
+          }
+        }
       } catch (_) {}
     };
 
+    let emptyMsg = null;
+
     const renderPage = (page) => {
-      const totalPages = Math.max(1, Math.ceil(cards.length / pageSize));
+      const filtered = getFilteredCards();
+      const totalPages = Math.max(1, Math.ceil(filtered.length / pageSize));
       currentPage = Math.max(1, Math.min(totalPages, page));
       const start = (currentPage - 1) * pageSize;
       const end = start + pageSize;
+      const visibleSet = new Set(filtered.slice(start, end));
 
-      cards.forEach((card, i) => {
-        card.style.display = i >= start && i < end ? '' : 'none';
+      allCards.forEach((card) => {
+        card.style.display = visibleSet.has(card) ? '' : 'none';
       });
 
-      nav.hidden = cards.length <= pageSize;
+      if (filtered.length === 0) {
+        if (!emptyMsg) {
+          emptyMsg = document.createElement('p');
+          emptyMsg.className = 'poem-stanza muted';
+          grid.after(emptyMsg);
+        }
+        emptyMsg.textContent = activeFilter === '__saved__'
+          ? 'Your Reading List is empty. Click the checkmark on any poem cover to add it.'
+          : 'No poems found in this category.';
+        emptyMsg.hidden = false;
+      } else if (emptyMsg) {
+        emptyMsg.hidden = true;
+      }
+
+      nav.hidden = filtered.length <= pageSize;
       statusEl.textContent = `Page ${currentPage} of ${totalPages}`;
       prevBtn.disabled = currentPage === 1;
       nextBtn.disabled = currentPage === totalPages;
-      syncUrl();
+
+      if (filterBar) {
+        filterBar.querySelectorAll('.filter-pill[data-filter]').forEach((pill) => {
+          pill.classList.toggle('is-active', pill.dataset.filter === activeFilter);
+        });
+      }
+
+      syncUrlAndSession(filtered);
     };
+
+    if (filterBar) {
+      filterBar.addEventListener('click', (e) => {
+        const pill = e.target.closest('.filter-pill[data-filter]');
+        if (!pill) return;
+        activeFilter = pill.dataset.filter || '__all__';
+        renderPage(1);
+      });
+    }
+
+    if (clearSavedBtn) {
+      clearSavedBtn.addEventListener('click', () => {
+        savedSet.clear();
+        try { localStorage.removeItem(savedKey); } catch (_) {}
+        syncCardCheckboxes();
+        updateFilterCounts();
+        if (activeFilter === '__saved__') {
+          activeFilter = '__all__';
+        }
+        renderPage(1);
+      });
+    }
+
+    grid.addEventListener('click', (e) => {
+      const box = e.target.closest('.card-select');
+      if (!box) return;
+      e.preventDefault();
+      e.stopPropagation();
+      const card = box.closest('.media-card');
+      const stem = card?.dataset.stem || '';
+      if (!stem) return;
+      if (savedSet.has(stem)) savedSet.delete(stem);
+      else savedSet.add(stem);
+      try { localStorage.setItem(savedKey, JSON.stringify(Array.from(savedSet))); } catch (_) {}
+      syncCardCheckboxes();
+      updateFilterCounts();
+      if (activeFilter === '__saved__') {
+        renderPage(currentPage);
+      }
+    });
+
+    grid.addEventListener('keydown', (e) => {
+      if (e.key !== ' ' && e.key !== 'Enter') return;
+      const box = e.target.closest('.card-select');
+      if (!box) return;
+      e.preventDefault();
+      e.stopPropagation();
+      box.click();
+    });
 
     prevBtn.addEventListener('click', () => {
       renderPage(currentPage - 1);
@@ -143,10 +291,12 @@ document.addEventListener('DOMContentLoaded', () => {
       grid.scrollIntoView({ behavior: 'smooth', block: 'start' });
     });
 
+    syncCardCheckboxes();
+    updateFilterCounts();
     renderPage(initialPage);
   }
 
-  // Smart "Previous" breadcrumb on poem/music detail pages
+  // Smart "Previous page" breadcrumb & filtered Previous/Next Poem nav
   const breadcrumb = document.querySelector('a.breadcrumb');
   if (breadcrumb) {
     const sectionKey = window.location.pathname.startsWith('/music') ? 'music' : 'poetry';
@@ -170,6 +320,37 @@ document.addEventListener('DOMContentLoaded', () => {
     } catch (_) {}
     if (backUrl) {
       breadcrumb.setAttribute('href', backUrl);
+    }
+
+    if (sectionKey === 'poetry') {
+      try {
+        const rawList = sessionStorage.getItem('op_filtered_poems');
+        const pieceNav = document.querySelector('.piece-nav');
+        if (rawList && pieceNav) {
+          const list = JSON.parse(rawList);
+          const currentSlug = window.location.pathname.replace(/^\/poetry\//, '').replace(/\.html$/, '');
+          const idx = Array.isArray(list) ? list.findIndex((p) => p.stem === currentSlug) : -1;
+          if (idx !== -1) {
+            const prev = idx > 0 ? list[idx - 1] : null;
+            const next = idx + 1 < list.length ? list[idx + 1] : null;
+            pieceNav.innerHTML = '';
+            const makeBtn = (item, label, isNext) => {
+              const el = document.createElement(item ? 'a' : 'span');
+              el.className = item ? 'piece-nav-btn' : 'piece-nav-btn is-disabled';
+              el.textContent = isNext ? `${label} \u2192` : `\u2190 ${label}`;
+              if (item) {
+                el.href = `${item.stem}.html`;
+                if (item.title) el.title = item.title;
+              } else {
+                el.setAttribute('aria-disabled', 'true');
+              }
+              return el;
+            };
+            pieceNav.appendChild(makeBtn(prev, 'Previous Poem', false));
+            pieceNav.appendChild(makeBtn(next, 'Next Poem', true));
+          }
+        }
+      } catch (_) {}
     }
   }
 });

@@ -89,6 +89,18 @@ def optimize_existing_pngs() -> None:
         shutil.move(str(png), str(originals / png.name))
 
 
+def get_poem_tags(stem: str) -> list[str]:
+    meta_path = POEMS_DATA / f"{stem}.json"
+    if meta_path.exists():
+        try:
+            tags = json.loads(meta_path.read_text(encoding="utf-8")).get("tags", [])
+            if isinstance(tags, list):
+                return [str(t) for t in tags if t]
+        except Exception:
+            pass
+    return []
+
+
 def find_cover(stem: str, prefix: str) -> str:
     for ext in (".jpg", ".jpeg", ".png", ".webp"):
         if (IMAGES / f"{stem}{ext}").exists():
@@ -287,7 +299,7 @@ def write_poem_pages() -> list[tuple[str, str]]:
     </footer>
   </main>
 
-  <script src="../js/main.js?v=3" defer></script>
+  <script src="../js/main.js?v=4" defer></script>
 </body>
 </html>
 """
@@ -297,7 +309,7 @@ def write_poem_pages() -> list[tuple[str, str]]:
     return results
 
 
-def build_poem_cards(items: list[tuple[str, str]], prefix: str, href_prefix: str) -> str:
+def build_poem_cards(items: list[tuple[str, str]], prefix: str, href_prefix: str, include_controls: bool = False) -> str:
     if not items:
         return '        <p class="poem-stanza muted">No poems yet.</p>'
 
@@ -306,8 +318,15 @@ def build_poem_cards(items: list[tuple[str, str]], prefix: str, href_prefix: str
         title_esc = html.escape(title)
         cover = find_cover(stem, prefix)
         img_html = f'\n          <img class="media-card-img" loading="lazy" decoding="async" src="{cover}" alt="{title_esc} cover">' if cover else ""
+        if include_controls:
+            tags_attr = html.escape("|".join(get_poem_tags(stem)))
+            attrs = f' data-stem="{stem}" data-tags="{tags_attr}"'
+            select_html = f'\n          <span class="card-select" role="checkbox" tabindex="0" aria-checked="false" aria-label="Save {title_esc} to reading list" title="Save to Reading List">&#10003;</span>'
+        else:
+            attrs = ""
+            select_html = ""
         cards.append(
-            f"""        <a class="media-card" href="{href_prefix}{stem}.html">{img_html}
+            f"""        <a class="media-card" href="{href_prefix}{stem}.html"{attrs}>{select_html}{img_html}
           <div class="media-card-body">
               <h3 class="media-card-title">{title_esc}</h3>
           </div>
@@ -376,7 +395,7 @@ if __name__ == "__main__":
     created = process_inbox()
     optimize_existing_pngs()
     items = write_poem_pages()
-    replace_section(POEMS_DIR / "index.html", "<!-- POEMS_START -->", "<!-- POEMS_END -->", build_poem_cards(items, "../", ""))
+    replace_section(POEMS_DIR / "index.html", "<!-- POEMS_START -->", "<!-- POEMS_END -->", build_poem_cards(items, "../", "", include_controls=True))
     replace_section(ROOT / "index.html", "<!-- HOME_POEMS_START -->", "<!-- HOME_POEMS_END -->", build_poem_cards(items[:4], "", "poetry/"))
     write_sitemap()
     print(f"Done. Processed {created} new poem(s), generated {len(items)} poem page(s), and updated index.html + poetry/index.html.")

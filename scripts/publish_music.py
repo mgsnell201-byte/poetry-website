@@ -386,7 +386,7 @@ def write_track_pages() -> list[str]:
     </footer>
   </main>
 
-  <script src="../js/main.js?v=3" defer></script>
+  <script src="../js/main.js?v=4" defer></script>
 </body>
 </html>
 """
