@@ -18,6 +18,47 @@ TEXT_EXTS = {".txt", ".md"}
 IMAGE_EXTS = {".png", ".jpg", ".jpeg", ".webp"}
 AUDIO_EXTS = {".mp3", ".wav", ".m4a", ".flac"}
 
+TAG_MAP = {
+    "nature": "Nature & Seasons",
+    "seasons": "Nature & Seasons",
+    "nature & seasons": "Nature & Seasons",
+    "holiday": "Holidays & Celebrations",
+    "holidays": "Holidays & Celebrations",
+    "celebrations": "Holidays & Celebrations",
+    "holidays & celebrations": "Holidays & Celebrations",
+    "love": "Love & Longing",
+    "longing": "Love & Longing",
+    "love & longing": "Love & Longing",
+    "humor": "Humor & Wit",
+    "wit": "Humor & Wit",
+    "humor & wit": "Humor & Wit",
+    "faith": "Faith & Reflection",
+    "reflection": "Faith & Reflection",
+    "faith & reflection": "Faith & Reflection",
+    "life": "Life & Memory",
+    "memory": "Life & Memory",
+    "life & memory": "Life & Memory",
+    "short": "Short Reads",
+    "short reads": "Short Reads",
+}
+
+
+def parse_poem_text_and_tags(raw: str) -> tuple[str, list[str]]:
+    lines = raw.splitlines()
+    tags: list[str] = []
+    if len(lines) >= 2 and re.match(r"^\s*tags\s*:", lines[1], re.I):
+        tag_str = re.sub(r"^\s*tags\s*:\s*", "", lines[1], flags=re.I)
+        for part in re.split(r"[,;|]+", tag_str):
+            key = part.strip().lower()
+            if key in TAG_MAP and TAG_MAP[key] not in tags:
+                tags.append(TAG_MAP[key])
+        lines = [lines[0], *lines[2:]]
+    body_lines = [ln for ln in lines[1:] if ln.strip()]
+    if len(body_lines) <= 14 and "Short Reads" not in tags:
+        tags.append("Short Reads")
+    cleaned = "\n".join(lines).strip() + "\n"
+    return cleaned, tags
+
 
 def title_from_stem(stem: str) -> str:
     return " ".join(w.capitalize() for w in re.split(r"[-_]+", stem) if w)
@@ -36,7 +77,7 @@ def process_inbox() -> int:
 
     by_stem: dict[str, dict[str, Path]] = {}
     for p in INBOX.iterdir():
-        if not p.is_file():
+        if not p.is_file() or p.name.startswith("_"):
             continue
         ext = p.suffix.lower()
         entry = by_stem.setdefault(p.stem, {})
@@ -53,7 +94,9 @@ def process_inbox() -> int:
         if not text_file:
             continue
 
-        shutil.copy2(text_file, POEMS_DATA / f"{stem}.txt")
+        raw_text = text_file.read_text(encoding="utf-8", errors="ignore")
+        cleaned_text, parsed_tags = parse_poem_text_and_tags(raw_text)
+        (POEMS_DATA / f"{stem}.txt").write_text(cleaned_text, encoding="utf-8")
         shutil.move(str(text_file), str(PROCESSED / text_file.name))
 
         if "image" in files:
@@ -70,8 +113,11 @@ def process_inbox() -> int:
                 run_ffmpeg(["-i", str(aud), "-c:a", "libmp3lame", "-b:a", "192k", str(out_mp3)])
             shutil.move(str(aud), str(PROCESSED / aud.name))
 
+        meta: dict[str, object] = {"added_at": time.time()}
+        if parsed_tags:
+            meta["tags"] = parsed_tags
         (POEMS_DATA / f"{stem}.json").write_text(
-            json.dumps({"added_at": time.time()}, indent=2), encoding="utf-8"
+            json.dumps(meta, indent=2), encoding="utf-8"
         )
         count += 1
 

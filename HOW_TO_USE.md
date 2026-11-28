@@ -21,7 +21,7 @@ Use **lowercase filenames with hyphens** (no spaces) and give matching files the
 
 ## 2. How to Add a New Poem
 1. Put these files into `F:\Poetry Website\poetry\inbox\`:
-   - **Poem text:** `my-poem.txt` (put the **title on line 1**, leave a blank line, then the poem)
+   - **Poem text:** `my-poem.txt` (put the **title on line 1**, optionally **`Tags: ...` on line 2**—see `_poem-template.txt` in `poetry\inbox\`—leave a blank line, then the poem)
    - **Cover image (recommended):** `my-poem.jpg` (or `.png`, `.webp`)
    - **Audio reading (optional, for listening):** `my-poem.mp3` (or `.wav`)
 2. Double-click **`publish-poetry.bat`** in `F:\Poetry Website\`.
