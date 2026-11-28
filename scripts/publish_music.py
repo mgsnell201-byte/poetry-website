@@ -327,7 +327,7 @@ def write_track_pages() -> list[str]:
   <main class="container">
     <section class="section">
       <a class="breadcrumb" href="index.html">&larr; Previous page</a>
-      <div class="card piece-layout">
+      <div class="card piece-layout{' piece-layout--video' if yt_id else ''}">
         <div class="piece-media">
 {visual_html}
 {audio_html}

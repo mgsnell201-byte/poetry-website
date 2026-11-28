@@ -482,6 +482,15 @@ a {
   align-items: start;
 }
 
+.piece-layout--video {
+  grid-template-columns: 1fr;
+  gap: 28px;
+}
+
+.piece-layout--video .piece-media {
+  position: static;
+}
+
 .piece-media {
   position: sticky;
   top: 88px;
