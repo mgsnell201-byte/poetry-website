@@ -400,7 +400,7 @@ def write_track_pages() -> list[str]:
             lyrics_html = "Instrumental track — no lyrics."
             lyrics_cls = "poem-stanza muted"
         else:
-            lyrics_html = f"Lyrics not added yet.\n\nTo add lyrics, place a {stem}.txt file in music/tracks/ or music/inbox/ and run publish-music.bat."
+            lyrics_html = "Lyrics not added yet."
             lyrics_cls = "poem-stanza muted"
 
         ld_json = json.dumps({
