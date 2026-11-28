@@ -809,6 +809,23 @@ a {
   font-size: 1.12rem;
 }
 
+.media-grid--landscape {
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  gap: 22px;
+}
+
+.media-grid--landscape .media-card-img {
+  aspect-ratio: 16 / 9;
+}
+
+.media-grid--landscape .media-card-body {
+  padding: 14px 16px 16px;
+}
+
+.media-grid--landscape .media-card-title {
+  font-size: 1.25rem;
+}
+
 /* Archive Pagination */
 .pagination {
   display: flex;

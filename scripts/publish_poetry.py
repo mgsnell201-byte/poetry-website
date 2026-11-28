@@ -255,7 +255,7 @@ def write_poem_pages() -> list[tuple[str, str]]:
   <link rel="icon" href="../assets/favicon-48x48.png" sizes="48x48" type="image/png">
   <link rel="icon" href="../favicon.ico" sizes="any">
   <link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
-  <link rel="stylesheet" href="../css/styles.css?v=2">
+  <link rel="stylesheet" href="../css/styles.css?v=3">
   <script type="application/ld+json">{ld_json}</script>
 </head>
 <body>
