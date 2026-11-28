@@ -21,6 +21,7 @@ Use **lowercase filenames with hyphens** (no spaces) and give matching files the
    - Your inbox files are moved to `music/inbox/processed/`.
    - Once you connect a live host via Git, it also auto-uploads (`git push`).
 4. **To add or update lyrics on an existing song:** save `<song-name>.txt` (for example, `never-built-for-clouds.txt`) directly in `F:\Poetry Website\music\tracks\` and double-click **`publish-music.bat`**.
+5. **To build a `1280 × 720` YouTube `.mp4` without DaVinci Resolve:** drop your `1280 × 720` image + `.mp4` (or `.mp3`/`.wav`) with matching names into `F:\Poetry Website\music\youtube-maker\` and double-click **`make-youtube-mp4.bat`**. The finished `<song-name>-youtube.mp4` is saved to **`Desktop\YouTube-Uploads\`**; verify it, then delete the two original files from `music\youtube-maker\`.
 
 ---
 
