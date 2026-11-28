@@ -195,6 +195,17 @@ def track_has_video(stem: str, has_mp4: bool, has_cover: bool) -> bool:
 def write_track_pages() -> list[str]:
     mp4s = {p.stem: p for p in sorted(TRACKS.glob("*.mp4"))}
     mp3s = {p.stem: p for p in sorted(TRACKS.glob("*.mp3"))}
+    yt_ids: dict[str, str] = {}
+    instrumentals: set[str] = set()
+    for jp in sorted(TRACKS.glob("*.json")):
+        try:
+            meta = json.loads(jp.read_text(encoding="utf-8"))
+            if meta.get("youtube_id"):
+                yt_ids[jp.stem] = str(meta["youtube_id"])
+            if meta.get("instrumental"):
+                instrumentals.add(jp.stem)
+        except Exception:
+            pass
 
     def sort_key(stem: str) -> float:
         meta_path = TRACKS / f"{stem}.json"
@@ -208,7 +219,7 @@ def write_track_pages() -> list[str]:
         f = mp3s.get(stem) or mp4s.get(stem)
         return f.stat().st_mtime if f else 0.0
 
-    stems = sorted(set(mp4s) | set(mp3s), key=sort_key, reverse=True)
+    stems = sorted(set(mp4s) | set(mp3s) | set(yt_ids), key=sort_key, reverse=True)
 
     for idx, stem in enumerate(stems):
         title = title_from_stem(stem)
@@ -236,6 +247,9 @@ def write_track_pages() -> list[str]:
         if lyrics_path.exists():
             lyrics_html = html.escape(lyrics_path.read_text(encoding="utf-8").strip())
             lyrics_cls = "poem-stanza"
+        elif stem in instrumentals:
+            lyrics_html = "Instrumental track — no lyrics."
+            lyrics_cls = "poem-stanza muted"
         else:
             lyrics_html = f"Lyrics not added yet.\n\nTo add lyrics, place a {stem}.txt file in music/tracks/ or music/inbox/ and run publish-music.bat."
             lyrics_cls = "poem-stanza muted"
@@ -250,7 +264,13 @@ def write_track_pages() -> list[str]:
             "byArtist": {"@type": "Person", "name": "Marvin Snell", "alternateName": "OsmoticPoet"},
         }, ensure_ascii=False)
 
-        if has_video and mp4_src:
+        yt_id = yt_ids.get(stem, "")
+        if yt_id:
+            visual_html = f"""          <div class="video-embed">
+            <iframe src="https://www.youtube-nocookie.com/embed/{html.escape(yt_id)}" title="{title_esc}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen loading="lazy"></iframe>
+          </div>"""
+            audio_html = ""
+        elif has_video and mp4_src:
             poster = f' poster="{cover}"' if cover else ""
             visual_html = f"""          <video class="piece-video" controls controlsList="nodownload" oncontextmenu="return false;" preload="metadata"{poster}>
             <source src="{mp4_src}" type="video/mp4">
