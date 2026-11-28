@@ -995,6 +995,10 @@ a.piece-nav-btn:hover {
   margin-top: 32px;
 }
 
+.card--borderless {
+  border: none;
+}
+
 .vote-btn {
   display: inline-flex;
   align-items: center;
