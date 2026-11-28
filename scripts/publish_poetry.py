@@ -13,6 +13,8 @@ POEMS_DIR = ROOT / "poetry"
 POEMS_DATA = POEMS_DIR / "poems"
 IMAGES = ROOT / "assets" / "images"
 FFMPEG = r"C:\ffmpeg\bin\ffmpeg.exe"
+KOKORO_PYTHON = Path(r"F:\kokoro-tts\.venv\Scripts\python.exe")
+KOKORO_SCRIPT = Path(r"F:\kokoro-tts\narrate_all.py")
 
 TEXT_EXTS = {".txt", ".md"}
 IMAGE_EXTS = {".png", ".jpg", ".jpeg", ".webp"}
@@ -122,6 +124,17 @@ def process_inbox() -> int:
         count += 1
 
     return count
+
+
+def narrate_missing_poems() -> None:
+    missing = [p for p in sorted(POEMS_DATA.glob("*.txt")) if not (POEMS_DATA / f"{p.stem}.mp3").exists()]
+    if not missing:
+        return
+    if not KOKORO_PYTHON.exists() or not KOKORO_SCRIPT.exists():
+        print("Note: Kokoro TTS not found; skipping auto-narration.")
+        return
+    print(f"Narrating {len(missing)} poem(s) via Kokoro TTS...")
+    subprocess.run([str(KOKORO_PYTHON), str(KOKORO_SCRIPT)], check=True)
 
 
 def optimize_existing_pngs() -> None:
@@ -436,6 +449,7 @@ def git_push_if_configured() -> None:
 
 if __name__ == "__main__":
     created = process_inbox()
+    narrate_missing_poems()
     optimize_existing_pngs()
     items = write_poem_pages()
     replace_section(POEMS_DIR / "index.html", "<!-- POEMS_START -->", "<!-- POEMS_END -->", build_poem_cards(items, "../", "", include_controls=True))
